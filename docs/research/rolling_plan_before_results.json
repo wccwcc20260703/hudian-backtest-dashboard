@@ -1,0 +1,10 @@
+{
+  "recordedAt": "2026-10-09T15:31:10.568771+08:00",
+  "question": "Does the modest gain of the new financing rolling selector survive same-start paired execution and removal of individual changed decisions?",
+  "known": "New minus old full return: financing +8.08pp; cash -8.16pp. Q4 2025 switches none to gap filter; Q1 2026 switches open to gap filter(finance) or ret20filter(cash). History already seen; attribution only, no new blind test or trading rules.",
+  "comparisons": "Use previously saved schedules exactly. For every date whose schedule differs, fork BOTH old and new prior-close portfolios. Pair old/new instruction from identical seed; common old instructions thereafter. Include rest-day debt interest beforeseed, dividends, fees,5bp, T+1,1%volume,limits and debt<=50%equity. Compute close, next09:45 beforebar3 orders, nextclose. Negative cash collateral/path may alter results.",
+  "decomposition": "Four whole-period paths: old, Q4-only change, Q1-only change,new. Two-group Shapley for finalNAV contribution plus interaction. Daily removal: revert one changed date in newpath; single-day addition: apply one change to oldpath. Marginal effects not additive, no ex-post removal recommendation.",
+  "verification": "Reproduce old/new published full metrics. Seeded same-rule full-day reproduction and next-day closing NAV. Independent trade/interest/dividend ledger. No frozenforward/default changes.",
+  "freshness": "Reuses source checks at15:17 Oct9: requested Oct9 daily/minute5 andQ3growth returned0rows; historythroughOct8. Do not repeatedlypoll unavailabledata.",
+  "forwardSHA256": "5390318b686d5b5f514ec070b03013858b4577437156f4d66eb2055ef515e242"
+}
