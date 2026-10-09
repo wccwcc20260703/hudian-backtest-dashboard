@@ -1,0 +1,21 @@
+{
+  "name": "hudian-backtest-dashboard",
+  "version": "1.0.0",
+  "description": "沪电股份 002463 · 区间回测与逐日成交复盘",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node tests/parity.test.js",
+    "serve": "python3 -m http.server 8765 --directory docs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "echarts": "6.1.0"
+  },
+  "private": true,
+  "type": "module"
+}
