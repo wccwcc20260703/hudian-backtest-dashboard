@@ -15,6 +15,6 @@ export function parseQuote(text){
 }
 export function parseMinutes(json){
  const raw=json?.data?.sz002463?.data;if(!raw||!/^\d{8}$/.test(raw.date)||!Array.isArray(raw.data))throw Error('分时数据格式不完整');
- const points=raw.data.map(line=>{const v=line.split(' ');if(!/^\d{4}$/.test(v[0])||!(Number(v[1])>0))throw Error('分时价格校验失败');return {time:v[0].slice(0,2)+':'+v[0].slice(2),price:Number(v[1]),volume:Number(v[2])*100};});
+ const points=raw.data.map(line=>{const v=line.split(' ');if(!/^\d{4}$/.test(v[0])||!(Number(v[1])>0))throw Error('分时价格校验失败');return {time:v[0].slice(0,2)+':'+v[0].slice(2),price:Number(v[1]),volume:Number(v[2])*100,amount:v[3]===undefined?null:Number(v[3])};});
  return {date:`${raw.date.slice(0,4)}-${raw.date.slice(4,6)}-${raw.date.slice(6,8)}`,points};
 }
