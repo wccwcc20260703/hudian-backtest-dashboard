@@ -1,0 +1,13 @@
+{
+  "recordedAt": "2026-10-09T16:05:13.853774+08:00",
+  "question": "Why does the default D_trend150 lag cumulative buy-and-hold for277sessions? Can fixed trend-volume retention or morning persistent-volume reentry improve participation without abandoning risk goals?",
+  "known": "277sessions2024-02-06..2025-04-03 already located. All historical data already seen. Two hypothesis tests, no threshold search, no new blind test.",
+  "rules": {
+    "retain": "Priorclose>MA20,MA20>MA20shift5, previous3session averagevolume>=previous20sessions excluding those3, announcedprofitgrowth>0. Retain previous effective cash target capped100% when baseD reduces. Otherwise baseD. Finance retains original borrowing events only; replace existing scheduled nonnegative target, no changed original ordertime.",
+    "morning": "At10:00 previous completed6bars: close>open and cumulativeVWAP, at least4bars volume>=prior20sessions samebar mean, announcedprofitgrowth>0 and baseDtarget<50%. Target50% at10:00, preserve earlier orders. No extra leverage, no combinedrule."
+  },
+  "selection": "Train ends2024-12-31. Amongbase+2 rules, modified rules require>=10changedtrainingdays and maxDD<=base+2pp. Annual loggrowth minus1.5absDD. Apply selected frozenrule to2025..Jun26 andJul26..Oct8. Quarterly2025onward prior252sessions samecriteria; continuous account, dates selected only with pastdata.",
+  "acceptance": "Improve return vs same base in BOTH latersegments, DD<=base+2pp each, earlier not worse,>=2of3fixedyears better,10bp improvesboth. Cash originalgoal unchanged: preserveholdreturn,DD<=75%hold,>=2of3fixedyears,10bp,earlier,independentforward. Wealth1.20separate.",
+  "accounting": "Exact daily self-financing PnL: inherited overnight, inherited intraday, trade timing at rawbaropen, adversefill, fees, netdividend, financinginterest. Normalize by each accounts previousNAV and convert additively to logrelativewealth. Does not attribute news or infer alternate prices.",
+  "forwardSHA256": "5390318b686d5b5f514ec070b03013858b4577437156f4d66eb2055ef515e242"
+}

@@ -1,0 +1,14 @@
+{
+  "ledgerTrades": 7538,
+  "maxLedgerError": 0.0,
+  "maxDailyPnLError": 1.8917489796876907e-09,
+  "featurePrefixChecks": 1614,
+  "futureBarPoisonChecks": 1614,
+  "T1": true,
+  "debtCap": true,
+  "volumeCap": true,
+  "priceLimits": true,
+  "independentForward": false,
+  "forwardUnchanged": true,
+  "forwardSHA256": "5390318b686d5b5f514ec070b03013858b4577437156f4d66eb2055ef515e242"
+}

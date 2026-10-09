@@ -1,0 +1,98 @@
+[
+  {
+    "name": "D_base",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 0,
+    "stressBothBetter": false,
+    "wealth120Separate": false,
+    "independentEvidence": false,
+    "cashFullGoal": true,
+    "cashYearsPassed": 1,
+    "cashOlderGoal": false,
+    "cashStressGoal": true
+  },
+  {
+    "name": "D_retain",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": false,
+    "improvedYears": 1,
+    "stressBothBetter": false,
+    "wealth120Separate": false,
+    "independentEvidence": false,
+    "cashFullGoal": true,
+    "cashYearsPassed": 1,
+    "cashOlderGoal": false,
+    "cashStressGoal": true
+  },
+  {
+    "name": "D_morning",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 2,
+    "stressBothBetter": false,
+    "wealth120Separate": true,
+    "independentEvidence": false,
+    "cashFullGoal": true,
+    "cashYearsPassed": 1,
+    "cashOlderGoal": false,
+    "cashStressGoal": true
+  },
+  {
+    "name": "L_base",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 0,
+    "stressBothBetter": false,
+    "wealth120Separate": true,
+    "independentEvidence": false
+  },
+  {
+    "name": "L_retain",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": false,
+    "improvedYears": 1,
+    "stressBothBetter": false,
+    "wealth120Separate": true,
+    "independentEvidence": false
+  },
+  {
+    "name": "L_morning",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 2,
+    "stressBothBetter": false,
+    "wealth120Separate": true,
+    "independentEvidence": false
+  },
+  {
+    "name": "D_rolling",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 1,
+    "stressBothBetter": false,
+    "wealth120Separate": false,
+    "independentEvidence": false,
+    "cashFullGoal": true,
+    "cashYearsPassed": 1,
+    "cashOlderGoal": false,
+    "cashStressGoal": true
+  },
+  {
+    "name": "L_rolling",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 1,
+    "stressBothBetter": false,
+    "wealth120Separate": true,
+    "independentEvidence": false
+  }
+]
