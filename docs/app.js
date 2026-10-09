@@ -1,7 +1,10 @@
 import {backtest,barTime} from './engine.js';
+import {candleValues} from './market.js';
+import {startLive} from './live.js';
 const $=id=>document.getElementById(id), names={D:'D · 反转 + 业绩门槛',H:'H · 三状态自适应',B:'全仓持有基准'},colors={D:'#078685',H:'#9070cc',B:'#9da9ba'},modeNames=['防御空仓','反转交易','趋势参与'];
 const fmt=(v,n=2)=>Number(v).toLocaleString('zh-CN',{minimumFractionDigits:n,maximumFractionDigits:n}),pct=v=>(v>0?'+':'')+fmt(v*100)+'%',money=v=>fmt(v,2),pctAxis=v=>fmt(v,0)+'%';
 let data,results={},active='D',view='equity',start=0,end=727,day=0,zoom=[0,100];
+let liveMarket=null,liveController=null;
 const charts={}, axis={axisLine:{lineStyle:{color:'#e4eaf1'}},axisTick:{show:false},axisLabel:{color:'#93a0b2',fontSize:10},splitLine:{lineStyle:{color:'#eef2f7',type:'dashed'}}};
 const tooltip={trigger:'axis',backgroundColor:'#fff',borderColor:'#e2e9f1',textStyle:{color:'#294059',fontSize:12},extraCssText:'box-shadow:0 5px 20px #18334b18;border-radius:7px',confine:true};
 function showError(msg){$('error').textContent=msg;$('error').hidden=!msg;}
@@ -34,10 +37,13 @@ function tradeScatter(trades,side,intraday=false){
  return {name:side>0?'买入成交':'卖出成交',type:'scatter',symbol:'triangle',symbolRotate:side>0?0:180,symbolSize:intraday?15:9,z:10,itemStyle:{color:side>0?'#e25562':'#168d75',borderColor:'#fff',borderWidth:1,opacity:1},data:points,tooltip:{formatter:p=>`${p.value[0]} · ${side>0?'买入':'卖出'}<br>成交${intraday?'价格':'均价'} ¥ ${fmt(p.value[1])}<br>${fmt(p.value[2],0)} 股 · ${p.value[3]} 笔`}};
 }
 function stateAreas(){let runs=[],a=start;for(let i=start+1;i<=end;i++)if(i===end||data.state[i]!==data.state[a]){runs.push([{xAxis:data.dates[a],itemStyle:{color:['#9faebe14','#9671d511','#58ab8015'][data.state[a]]}},{xAxis:data.dates[i-1]}]);a=i;}return runs;}
-function candleTooltip(params){return params.map(p=>{if(p.seriesType==='candlestick'){const v=p.data;return `${p.axisValue}<br>开 ${fmt(v[0])}　收 ${fmt(v[1])}<br>低 ${fmt(v[2])}　高 ${fmt(v[3])}`;}if(p.seriesType==='scatter')return `${p.marker}${p.seriesName} ¥ ${fmt(p.value[1])} · ${fmt(p.value[2],0)} 股`;return '';}).filter(Boolean).join('<br>');}
+function candleTooltip(params){return params.map(p=>{if(p.seriesType==='candlestick'){const v=candleValues(p);return `${p.axisValue}<br>开 ${fmt(v[0])}　收 ${fmt(v[1])}<br>低 ${fmt(v[2])}　高 ${fmt(v[3])}`;}if(p.seriesType==='scatter')return `${p.marker}${p.seriesName} ¥ ${fmt(p.value[1])} · ${fmt(p.value[2],0)} 股`;return '';}).filter(Boolean).join('<br>');}
 function renderPrice(){
- const r=results[active],ds=data.dates.slice(start,end);
- charts.price.setOption({animation:false,grid:{left:68,right:35,top:28,bottom:62},tooltip:{...tooltip,formatter:candleTooltip},xAxis:{...axis,type:'category',data:ds,axisPointer:{type:'shadow'},axisLabel:{...axis.axisLabel,hideOverlap:true}},yAxis:{...axis,scale:true,name:'元',nameTextStyle:{color:'#9ca7b5'},axisLabel:{...axis.axisLabel,formatter:v=>fmt(v,1)}},dataZoom:[{type:'inside',start:zoom[0],end:zoom[1]},{type:'slider',start:zoom[0],end:zoom[1],bottom:13,height:22,borderColor:'#edf1f6',fillerColor:'#13898812',handleStyle:{color:'#799aab'},textStyle:{color:'#8b9bad',fontSize:10}}],series:[{name:'日线',type:'candlestick',data:data.daily.slice(start,end).map(v=>[v[0],v[3],v[2],v[1]]),itemStyle:{color:'#df6570',color0:'#4a9a8c',borderColor:'#df6570',borderColor0:'#4a9a8c'},markArea:{silent:true,data:stateAreas()}},tradeScatter(r.trades,1),tradeScatter(r.trades,-1)]},true);
+ const r=results[active],ds=data.dates.slice(start,end), candles=data.daily.slice(start,end).map(v=>[v[0],v[3],v[2],v[1]]);
+ const quote=liveMarket?.quote, includeLive=quote&&end===data.dates.length&&quote.date>data.dates.at(-1)&&$('show-live').checked;
+ if(includeLive){ds.push(quote.date);candles.push([quote.open,quote.price,quote.low,quote.high]);}
+ $('live-candle-note').textContent=includeLive?`已附加 ${quote.date} 盘中 K 线（未纳入回测） · 不复权价格`: '历史日线为不复权价格 · 买卖标记为含滑点的模拟成交价';
+ charts.price.setOption({animation:false,grid:{left:68,right:35,top:28,bottom:62},tooltip:{...tooltip,formatter:candleTooltip},xAxis:{...axis,type:'category',data:ds,axisPointer:{type:'shadow'},axisLabel:{...axis.axisLabel,hideOverlap:true}},yAxis:{...axis,scale:true,name:'元',nameTextStyle:{color:'#9ca7b5'},axisLabel:{...axis.axisLabel,formatter:v=>fmt(v,1)}},dataZoom:[{type:'inside',start:zoom[0],end:zoom[1]},{type:'slider',start:zoom[0],end:zoom[1],bottom:13,height:22,borderColor:'#edf1f6',fillerColor:'#13898812',handleStyle:{color:'#799aab'},textStyle:{color:'#8b9bad',fontSize:10}}],series:[{name:'日线',type:'candlestick',data:candles,itemStyle:{color:'#df6570',color0:'#4a9a8c',borderColor:'#df6570',borderColor0:'#4a9a8c'},markArea:{silent:true,data:stateAreas()},markPoint:includeLive?{symbol:'pin',symbolSize:36,itemStyle:{color:'#d89b48'},label:{formatter:'盘中',fontSize:10},data:[{coord:[quote.date,quote.high]}]}:undefined},tradeScatter(r.trades,1),tradeScatter(r.trades,-1)]},true);
 }
 function renderDay(){
  const r=results[active],ds=data.dates[day],local=day-start,trades=r.trades.filter(t=>t[0]===day),close=r.daily[local];
@@ -59,14 +65,31 @@ $('next-trade').onclick=()=>{const next=results[active].trades.find(t=>t[0]>day)
 $('day').onchange=()=>{const i=indexAt($('day').value);if(i>=start&&i<end){day=i;renderDay();}else $('day').value=data.dates[day];};
 $('apply-zoom').onclick=()=>{const n=end-start-1;const a=start+Math.ceil(n*zoom[0]/100),z=start+Math.floor(n*zoom[1]/100);$('start').value=data.dates[a];$('end').value=data.dates[Math.max(a,z)];run();};
 $('export').onclick=()=>{const r=results[active],rows=[['日期','时间','方向','数量','成交价','交易费用','成交后现金','成交后持股','当日可卖','目标仓位'],...r.trades.map(t=>[data.dates[t[0]],barTime(t[1]),t[2]>0?'买入':'卖出',t[3],t[4],t[5].toFixed(4),t[6].toFixed(4),t[7],t[8],t[10]])];const blob=new Blob(['\ufeff'+rows.map(r=>r.join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`沪电股份_${active}_${data.dates[start]}_${data.dates[end-1]}_成交.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+function renderLive(market,cached){
+ liveMarket=market;const q=market.quote,minute=market.minutes,change=q.price/q.previous-1;
+ $('live-date').textContent=q.date;
+ $('live-values').innerHTML=[['最新价',`¥ ${fmt(q.price)}`,change>=0?'buy':'sell'],['涨跌幅',pct(change),change>=0?'buy':'sell'],['今日开盘',`¥ ${fmt(q.open)}`,''],['最高 / 最低',`${fmt(q.high)} / ${fmt(q.low)}`,''],['昨日收盘',`¥ ${fmt(q.previous)}`,'']].map(([label,value,color])=>`<div><span>${label}</span><b class="${color}">${value}</b></div>`).join('');
+ $('quote-time').textContent=`${cached?'缓存快照 · ':''}腾讯源时间 ${q.date} ${q.time}（北京时间）${minute?.points.length?' · 分时截至 '+minute.points.at(-1).time:''}`;
+ $('live-source-date').textContent=`历史回测截至 ${data.dates.at(-1)} · 最新报价 ${q.date}`;
+ if(!charts.live)charts.live=echarts.init($('live-chart'));
+ const points=minute?.points??[];
+ const times=[...Array.from({length:121},(_,i)=>{const m=570+i;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');}),...Array.from({length:121},(_,i)=>{const m=780+i;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');})];
+ const prices=new Map(points.map(p=>[p.time,p.price]));
+ charts.live.setOption({animation:false,grid:{left:68,right:35,top:20,bottom:30},tooltip:{...tooltip,valueFormatter:v=>v==null?'未发生':`¥ ${fmt(v)}`},xAxis:{...axis,type:'category',data:times,boundaryGap:false,axisLabel:{...axis.axisLabel,interval:29}},yAxis:{...axis,scale:true,axisLabel:{...axis.axisLabel,formatter:v=>fmt(v)}},series:[{name:'分钟最新价',type:'line',showSymbol:false,connectNulls:false,itemStyle:{color:'#147f9d'},lineStyle:{width:1.7},areaStyle:{color:'#1a92b310'},data:times.map(t=>prices.get(t)??null),markLine:{silent:true,symbol:'none',label:{formatter:'昨收',position:'insideEndTop'},lineStyle:{type:'dashed',color:'#acb7c5',width:1},data:[{yAxis:q.previous}]}}]},true);
+ $('live-empty').hidden=points.length>0;
+ renderPrice();
+}
 async function init(){try{
  const response=await fetch('./data.json');if(!response.ok)throw Error(`行情文件加载失败 (${response.status})`);data=await response.json();
  for(const id of ['performance','price','intraday'])charts[id]=echarts.init($(id),null,{renderer:'canvas'});
- charts.price.on('click',p=>{if(p.componentType!=='series')return;const date=p.seriesType==='candlestick'?p.name:p.value[0];const i=data.dates.indexOf(date);if(i>=start&&i<end){day=i;renderDay();}});
+ charts.price.on('click',p=>{if(p.componentType!=='series')return;const date=p.seriesType==='candlestick'?p.name:p.value[0];const i=data.dates.indexOf(date);if(i>=start&&i<end){day=i;renderDay();}else if(date===liveMarket?.quote.date){$('live-panel').scrollIntoView({behavior:'smooth',block:'start'});}});
  charts.price.on('datazoom',()=>{const o=charts.price.getOption().dataZoom[0];zoom=[o.start,o.end];});
  for(const id of ['start','end']){$(id).min=data.dates[0];$(id).max=data.dates.at(-1);}
  $('start').value=data.dates[0];$('end').value=data.dates.at(-1);$('run').disabled=false;$('run').textContent='重新回测 ↗';
  day=data.signals.D.findIndex(s=>s[1]>0);run();
+ liveController=startLive({onUpdate:renderLive,onStatus:text=>$('live-status').textContent=text});
+ $('refresh-live').onclick=()=>liveController.refresh();
+ $('show-live').onchange=()=>renderPrice();
  window.addEventListener('resize',()=>Object.values(charts).forEach(c=>c.resize()));
  }catch(e){showError('看板未能载入：'+e.message+'。请刷新页面重试。');$('run').textContent='载入失败';$('range-note').textContent='行情数据尚未就绪';}}
 init();
