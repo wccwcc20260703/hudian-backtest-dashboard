@@ -1,4 +1,4 @@
-import {parseQuote,parseMinutes} from './market.js';
+import {parseQuote,parseMinutes} from './market.js?v=3a58d356331d';
 const quoteURL='https://qt.gtimg.cn/q=sz002463',minuteURL='https://web.ifzq.gtimg.cn/appstock/app/minute/query?code=sz002463';
 const cacheKey='hudian-intraday-v1',minuteInterval=30000;
 function validMinutes(value){
