@@ -1,6 +1,21 @@
 // Scheduled target checks only: never turn a quote or a signal into a filled order.
-export function liveSignal({context,market,model,config,previousTarget,portfolio}){
+export function signalFreshness(market,cached=false,now=Date.now()){
+ if(cached)return '当前为缓存快照，暂停计划调仓提示；行情仍可查看。';
+ const today=new Date(now+8*3600000).toISOString().slice(0,10),q=market.quote;
+ if(q.date!==today)return '行情不是北京时间今日数据，暂停计划调仓提示。';
+ const stamp=Date.parse(`${q.date}T${q.time}+08:00`);
+ const start=Date.parse(`${today}T09:30:00+08:00`),lunch=Date.parse(`${today}T11:30:00+08:00`),afternoon=Date.parse(`${today}T13:00:00+08:00`),close=Date.parse(`${today}T15:00:00+08:00`);
+ // Lunch and post-close silence are expected; require data through the last open session.
+ const expected=now>=close?close:now>=lunch&&now<afternoon?lunch:now;
+ if(!Number.isFinite(stamp)||stamp>now+60000||expected-stamp>5*60000)return '报价源时间滞后超过 5 分钟或时间无效，暂停计划调仓提示。';
+ const last=market.minutes?.points.at(-1)?.time;
+ const minute=last?Date.parse(`${today}T${last}:00+08:00`):NaN;
+ if(now>=start&&(!Number.isFinite(minute)||minute>now+60000||expected-minute>5*60000))return '分时数据滞后或缺失，暂停计划调仓提示。';
+ return null;
+}
+export function liveSignal({context,market,model,config,previousTarget,portfolio,cached=false,now=Date.now()}){
  const empty=message=>({message,signals:[]});
+ const freshness=signalFreshness(market,cached,now);if(freshness)return empty(freshness);
  if(!context||context.date!==market.quote.date)return empty('指标尚未更新到该交易日，暂停生成信号；行情仍可查看。');
  if(model==='B')return empty('全仓持有基准不产生每日调仓信号。');
  const points=market.minutes?.date===context.date?market.minutes.points:[];

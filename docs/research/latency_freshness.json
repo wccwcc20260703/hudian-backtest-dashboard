@@ -1,0 +1,56 @@
+{
+  "checkedAt": "2026-10-09T13:42:13.254822+08:00",
+  "historicalThrough": "2026-10-08",
+  "incompleteSessionExcluded": "2026-10-09",
+  "quoteSourceTimestamp": "20261009133851",
+  "quotePrice": 110.69,
+  "historicalOHLCCrossChecks": [
+    {
+      "date": "2026-09-17",
+      "maxOHLCDifference": 0.0
+    },
+    {
+      "date": "2026-09-18",
+      "maxOHLCDifference": 0.0
+    },
+    {
+      "date": "2026-09-21",
+      "maxOHLCDifference": 0.0
+    },
+    {
+      "date": "2026-09-22",
+      "maxOHLCDifference": 0.0
+    },
+    {
+      "date": "2026-09-23",
+      "maxOHLCDifference": 0.0
+    },
+    {
+      "date": "2026-09-24",
+      "maxOHLCDifference": 0.0
+    },
+    {
+      "date": "2026-09-28",
+      "maxOHLCDifference": 0.0
+    },
+    {
+      "date": "2026-09-29",
+      "maxOHLCDifference": 0.0
+    },
+    {
+      "date": "2026-09-30",
+      "maxOHLCDifference": 0.0
+    },
+    {
+      "date": "2026-10-08",
+      "maxOHLCDifference": 0.0
+    }
+  ],
+  "financialPeriod": "2026-06-30",
+  "published": "2026-08-26",
+  "reportURL": "https://static.cninfo.com.cn/finalpage/2026-08-26/1225502252.PDF",
+  "consolidatedNetProfitGrowth": 0.7417234987209551,
+  "attributableNetProfitGrowth": 0.737220611637933,
+  "financeStatus": "Official interim report checked, figures reconcile with stored YOYNI/YOYPNI to 1e-6. Search did not locate a newer report; not an exhaustive disclosure guarantee.",
+  "liveContext": "2026-10-09 context uses complete2026-10-08 data. Cached/previous-date/delayed quote or minute data now suppress planned signals, allowing scheduled midday/after-close silence."
+}

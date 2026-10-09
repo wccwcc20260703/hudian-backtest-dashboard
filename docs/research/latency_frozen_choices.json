@@ -1,0 +1,84 @@
+{
+  "choices": {
+    "D": "D_previous_low",
+    "L": "L_previous_low"
+  },
+  "ranks": {
+    "D": [
+      {
+        "name": "D_original",
+        "score": 0.036370426131668576,
+        "eligible": true,
+        "delayedSessions": 0
+      },
+      {
+        "name": "D_vwap",
+        "score": 0.0351693265578526,
+        "eligible": true,
+        "delayedSessions": 32
+      },
+      {
+        "name": "D_deadline10",
+        "score": 0.044920539741771404,
+        "eligible": true,
+        "delayedSessions": 32
+      },
+      {
+        "name": "D_previous_low",
+        "score": 0.04780915489847881,
+        "eligible": true,
+        "delayedSessions": 32
+      },
+      {
+        "name": "D_two_low",
+        "score": 0.041489839858140865,
+        "eligible": true,
+        "delayedSessions": 32
+      },
+      {
+        "name": "D_atr_quarter",
+        "score": 0.028167394320711914,
+        "eligible": true,
+        "delayedSessions": 29
+      }
+    ],
+    "L": [
+      {
+        "name": "L_original",
+        "score": 0.06677702380289124,
+        "eligible": true,
+        "delayedSessions": 0
+      },
+      {
+        "name": "L_vwap",
+        "score": 0.07054172637103062,
+        "eligible": true,
+        "delayedSessions": 32
+      },
+      {
+        "name": "L_deadline10",
+        "score": 0.09024875238599261,
+        "eligible": true,
+        "delayedSessions": 32
+      },
+      {
+        "name": "L_previous_low",
+        "score": 0.10474813388408477,
+        "eligible": true,
+        "delayedSessions": 32
+      },
+      {
+        "name": "L_two_low",
+        "score": 0.10348580268374247,
+        "eligible": true,
+        "delayedSessions": 32
+      },
+      {
+        "name": "L_atr_quarter",
+        "score": 0.06322782576428798,
+        "eligible": true,
+        "delayedSessions": 29
+      }
+    ]
+  }
+}

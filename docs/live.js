@@ -11,7 +11,8 @@ export function startLive({onUpdate,onStatus}){
    latest={quote,minutes,fetchedAt:new Date().toISOString()};onUpdate(latest,false);
    onStatus(minutes?'已连接 · 每 30 秒刷新 · 行情可能有延迟':'报价已连接 · 分时暂不可用 · 每 30 秒重试');
   }catch(e){
-   if(!latest){try{const response=await fetch('./latest-quote.json',{cache:'no-store'});if(!response.ok)throw Error('无缓存');latest=await response.json();onUpdate(latest,true);}catch{}}
+   if(!latest){try{const response=await fetch('./latest-quote.json',{cache:'no-store'});if(!response.ok)throw Error('无缓存');latest=await response.json();}catch{}}
+   if(latest)onUpdate(latest,true);
    onStatus(latest?'实时连接失败 · 当前为最近快照，请以源时间为准':'行情暂不可用 · 30 秒后重试');
   }finally{busy=false;}
  }

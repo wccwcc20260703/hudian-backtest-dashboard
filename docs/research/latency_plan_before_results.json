@@ -1,0 +1,18 @@
+{
+  "question": "Can faster causal price confirmation reduce losses from delayed scheduled reductions without eliminating strong-day participation?",
+  "history": "All histories already seen; chronological tests below are retrospective, not independent unseen validation.",
+  "rules": {
+    "original": "Target decreases execute09:45; otherwise10:00.",
+    "vwap": "Target decreases: completed close below cumulative VWAP, next open, no later11:00.",
+    "deadline10": "Same VWAP rule, but deadline10:00.",
+    "previous_low": "VWAP OR completed close below preceding bar low; next open, deadline11:00.",
+    "two_low": "VWAP OR completed close below minimum low of two preceding bars; next open, deadline11:00.",
+    "atr_quarter": "VWAP OR completed close at least0.25 of prior-day known14-session ATR below highest completed session high; next open, deadline11:00."
+  },
+  "selection": "Freeze at2024-12-31; maximize annual log growth minus1.5*abs5minDD; require20 training delayed sessions and DD no worse than original+2pp. Original always eligible. Separate cash and financing.",
+  "rolling": "At each calendar-quarter start from2025 onward, select using only preceding252 sessions; same score/DD constraint and10 delayed sessions. Switch schedules, keep account cash/shares, target sizing/execution unchanged.",
+  "acceptance": "Incremental: beat original inJan2025-Jun2026 AND Jul-Oct8, DD<=original+2pp inboth, older return>=original, beat original>=2/3 anniversary years,10bp stress beats original inboth. Cash original goal separately: return>=hold AND DD<=0.75hold,>=2/3annual segments,10bp,older,forward evidence. Wealth1.20 standard separate. No new forward evidence available.",
+  "constraints": "T+1,100-sharelots,prior-barvolume1%,fees,tick rounding,limit prices,6%interest,after-buydebt<=0.5currentequity. Dfulltarget150% finance, not dashboard default Dtrend150%. No real orders.",
+  "periods": "All performance windows freshly funded. Continuous-prefix comparison and paired replays explicitly separate.",
+  "createdAt": "2026-10-09T13:40:31.098362+08:00"
+}

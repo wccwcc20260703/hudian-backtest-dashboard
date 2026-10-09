@@ -1,0 +1,9 @@
+{
+  "prefixChecks": 3635,
+  "controlSchedulesEqualPrior": true,
+  "ledgerTrades": 15506,
+  "maximumDailyLedgerError": 0.0,
+  "T1": true,
+  "buyDebtCap": true,
+  "planSHA256": "1c47aec365b47f05e4fea2c8b8fd06ac79477f80db8896bc2d7ca76996a00527"
+}

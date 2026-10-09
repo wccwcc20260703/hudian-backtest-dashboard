@@ -71,7 +71,7 @@ function renderDay(){
  $('day').value=ds;$('day-title').textContent=ds;$('prev').disabled=day===start;$('next').disabled=day===end-1;
  $('next-trade').disabled=!r.trades.some(t=>t[0]>day);
  const signal=active==='B'?null:(active==='L'?r.targets[local]:data.signals[active][day]);
- $('day-summary').innerHTML=`<span>H 事前状态<b>${modeNames[data.state[day]]}</b></span><span>前日 RSI(2)<b>${fmt(data.rsi[day],1)}</b></span><span>已披露利润同比<b>${data.growth[day]===null?'缺失':pct(data.growth[day])}</b></span><span>选中策略目标<b>${signal?fmt(signal[1]*100,0)+'% · '+barTime(signal[0]):'首次建仓后持有'}</b></span><span>收盘仓位<b>${fmt(r.exposure[local]*100,1)}%</b></span><span>收盘权益<b>¥ ${fmt(r.nav[local],0)}</b></span>${active==='L'?'<span>收盘融资欠款<b>¥ '+fmt(r.debt[local],0)+'</b></span><span>当天计提利息<b>¥ '+fmt(r.dailyInterest[local])+'</b></span>':''}`;
+ $('day-summary').innerHTML=`<span>H 事前状态<b>${modeNames[data.state[day]]}</b></span><span>前日 RSI(2)<b>${fmt(data.rsi[day],1)}</b></span><span>已披露合并净利润同比<b>${data.growth[day]===null?'缺失':pct(data.growth[day])}</b></span><span>选中策略目标<b>${signal?fmt(signal[1]*100,0)+'% · '+barTime(signal[0]):'首次建仓后持有'}</b></span><span>收盘仓位<b>${fmt(r.exposure[local]*100,1)}%</b></span><span>收盘权益<b>¥ ${fmt(r.nav[local],0)}</b></span>${active==='L'?'<span>收盘融资欠款<b>¥ '+fmt(r.debt[local],0)+'</b></span><span>当天计提利息<b>¥ '+fmt(r.dailyInterest[local])+'</b></span>':''}`;
  charts.intraday.setOption({animation:false,grid:{left:68,right:35,top:28,bottom:38},tooltip:{...tooltip,formatter:candleTooltip},xAxis:{...axis,type:'category',data:Array.from({length:48},(_,j)=>barTime(j)),axisLabel:{...axis.axisLabel,interval:5}},yAxis:{...axis,scale:true,name:'元',nameTextStyle:{color:'#9ca7b5'},axisLabel:{...axis.axisLabel,formatter:v=>fmt(v)}},series:[{name:'5 分钟',type:'candlestick',data:data.bars[day].map(v=>[v[0],v[3],v[2],v[1]]),itemStyle:{color:'#df6570',color0:'#4a9a8c',borderColor:'#df6570',borderColor0:'#4a9a8c'},markLine:{silent:true,symbol:'none',lineStyle:{color:'#b3bdc9',type:'dashed',width:1},label:{show:false},data:[{yAxis:data.reference[day]}]}},tradeScatter(trades,1,true),tradeScatter(trades,-1,true)]},true);
  $('daily-trade-date').textContent=ds;
  $('daily-trades').innerHTML=trades.length?trades.map(t=>`<tr><td>${barTime(t[1])}</td><td class="${t[2]>0?'buy':'sell'}">${t[2]>0?'买入':'卖出'}</td><td>¥ ${fmt(t[4])}</td><td>${fmt(t[3],0)}</td><td>${fmt(tradePosition(data,t).before*100)}%</td><td>${fmt(tradePosition(data,t).after*100)}%</td></tr>`).join(''):'<tr><td colspan="6" class="empty">当日无成交</td></tr>';
@@ -118,7 +118,7 @@ function renderLive(market,cached){
  const times=[...Array.from({length:121},(_,i)=>{const m=570+i;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');}),...Array.from({length:121},(_,i)=>{const m=780+i;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');})];
  const prices=new Map(points.map(p=>[p.time,p.price]));
  const liveResult=liveResults[active],base=active==='L'?results.L.config.base:active;
- const state=liveSignal({context:liveContext,market,model:active,config:results.L.config,
+ const state=liveSignal({context:liveContext,market,cached,model:active,config:results.L.config,
  previousTarget:data.signals[base]?.at(-1)?.[1]??1,portfolio:liveResult.daily.at(-1)});
  $('live-signal-title').textContent=`${names[active]} · 计划调仓提示${cached?'（缓存行情）':''}`;
  $('live-signal-status').textContent=state.message;
