@@ -1,13 +1,13 @@
 {
   "name": "hudian-backtest-dashboard",
   "version": "1.0.0",
-  "description": "\u6caa\u7535\u80a1\u4efd 002463 \u00b7 \u533a\u95f4\u56de\u6d4b\u4e0e\u9010\u65e5\u6210\u4ea4\u590d\u76d8",
+  "description": "沪电股份 002463 · 区间回测与逐日成交复盘",
   "directories": {
     "doc": "docs",
     "test": "tests"
   },
   "scripts": {
-    "test": "node tests/parity.test.js && node tests/market.test.js && node tests/live.test.js && node tests/finance.test.js && node tests/presentation.test.js && node tests/briefings.test.js && node tests/opportunities.test.js",
+    "test": "node tests/parity.test.js && node tests/market.test.js && node tests/live.test.js && node tests/finance.test.js && node tests/presentation.test.js && node tests/briefings.test.js && node tests/opportunities.test.js && node tests/live-presentation.test.js",
     "serve": "python3 -m http.server 8765 --directory docs",
     "version-assets": "node scripts/version-assets.mjs"
   },

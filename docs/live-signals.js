@@ -41,7 +41,7 @@ function scheduledSignal({context,market,model,config,previousTarget,portfolio})
  const equity=portfolio.cash+portfolio.shares*at.price;
  if(!(equity>0))return empty('模型账户净资产非正，暂停普通目标信号。');
  const before=portfolio.shares*at.price/equity;
- const tolerance=target===1?.004:.035;
+ const tolerance=target>=1?.004:.035;
  const passiveDrift=model==='L'&&(config.driftPolicy??'buy_cap_only')==='buy_cap_only'&&target>1&&before>target;
  const side=passiveDrift||Math.abs(target-before)<=tolerance?0:(target>before?1:-1);
  const signal={time:scheduled,price:at.price,before,target,side,gate,gateMissing,passiveDrift};

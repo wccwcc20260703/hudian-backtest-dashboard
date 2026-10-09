@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {orderEstimate,hoverStableUpdater,actionableSignals} from '../docs/live-presentation.js';
+const events={},calls=[];const chart={getZr:()=>({on:(name,fn)=>events[name]=fn}),setOption:(o)=>calls.push(o)};
+const update=hoverStableUpdater(chart);update({tick:0},'a');update({tick:0},'a');assert.equal(calls.length,1,'unchanged minute data must not redraw on quote ticks');
+events.mousemove();for(let tick=1;tick<=40;tick++)update({tick},String(tick));assert.equal(calls.length,1,'tooltip graphic stays alive through quote and minute refreshes');events.globalout();assert.deepEqual(calls.at(-1),{tick:40});assert.equal(calls.length,2,'pointer exit applies only the latest pending frame');
+assert.equal(actionableSignals([{side:0,passiveDrift:true},{side:0},{side:1},{side:-1}]).length,2);
+let e=orderEstimate({price:10,target:1.5,side:1,portfolio:{cash:1e6,shares:0},model:'L',config:{credit:null}});
+assert.equal(e.required,150000);assert.ok(e.qty>100000&&e.qty<150000);assert.ok(-e.cashAfter<=.5*(e.cashAfter+e.sharesAfter*10)+1e-8,'per-buy debt after fees respects50%equity');
+e=orderEstimate({price:100,target:1.5,side:1,portfolio:{cash:-600000,shares:15000},model:'L'});assert.equal(e.qty,0,'passive overexposure has no extra buying room');
+e=orderEstimate({price:10,target:1,side:1,portfolio:{cash:10000,shares:0}});assert.equal(e.qty,900);assert.ok(e.cashAfter>=0);
+e=orderEstimate({price:10,target:0,side:-1,portfolio:{cash:1000,shares:1050,available:550}});assert.equal(e.qty,550,'T+1 availability and complete odd-lot exit');
+e=orderEstimate({price:11,previous:10,target:1,side:1,portfolio:{cash:10000,shares:0}});assert.equal(e.qty,0);assert.match(e.reason,/涨跌停/);
+e=orderEstimate({price:0,target:1,side:1,portfolio:{cash:10000,shares:0}});assert.equal(e.valid,false);
+console.log('PASS:40 in-hover refreshes,latest-frame flush,unchanged-tick dedup,action-only markers,fee-aware sizing,debt cap,T+1 and limit constraints');
