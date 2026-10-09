@@ -1,6 +1,7 @@
 // Scheduled target checks only: never turn a quote or a signal into a filled order.
 export function signalFreshness(market,cached=false,now=Date.now()){
  if(cached)return '当前为缓存快照，暂停计划调仓提示；行情仍可查看。';
+ if(market.minutesCached)return '分时暂未更新，保留最近有效曲线；暂停计划调仓提示。';
  const today=new Date(now+8*3600000).toISOString().slice(0,10),q=market.quote;
  if(q.date!==today)return '行情不是北京时间今日数据，暂停计划调仓提示。';
  const stamp=Date.parse(`${q.date}T${q.time}+08:00`);
