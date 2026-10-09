@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-10-09T14:16:11.470484",
+  "sourceTimestamp": "20261009141609",
+  "price": 112.66,
+  "historicalThrough": "2026-10-08",
+  "completedSessionAdded": false,
+  "reason": "Current session not closed; no new full-session evidence",
+  "financialPreviouslyVerified": "2026-08-26 interim report in previous research"
+}

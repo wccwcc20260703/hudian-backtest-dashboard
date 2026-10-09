@@ -1,0 +1,261 @@
+[
+  {
+    "name": "D_none",
+    "selected": true,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": true,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "twoOfThreeYears": false,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": false
+    },
+    "promote": false
+  },
+  {
+    "name": "D_immediate",
+    "selected": false,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": false,
+      "older": true,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "twoOfThreeYears": false,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": true
+    },
+    "promote": false
+  },
+  {
+    "name": "D_wait1400",
+    "selected": false,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": true,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "twoOfThreeYears": false,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": true
+    },
+    "promote": false
+  },
+  {
+    "name": "D_wait1430",
+    "selected": false,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": true,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "twoOfThreeYears": false,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": true
+    },
+    "promote": false
+  },
+  {
+    "name": "D_wait1450",
+    "selected": false,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": true,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "twoOfThreeYears": false,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": true
+    },
+    "promote": false
+  },
+  {
+    "name": "D_recheck1430",
+    "selected": false,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "twoOfThreeYears": false,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": false
+    },
+    "promote": false
+  },
+  {
+    "name": "L_none",
+    "selected": true,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": true,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  },
+  {
+    "name": "L_immediate",
+    "selected": false,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": false,
+      "older": true,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  },
+  {
+    "name": "L_wait1400",
+    "selected": false,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": true,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  },
+  {
+    "name": "L_wait1430",
+    "selected": false,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": true,
+      "older": true,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  },
+  {
+    "name": "L_wait1450",
+    "selected": false,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": true,
+      "older": true,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  },
+  {
+    "name": "L_recheck1430",
+    "selected": false,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  },
+  {
+    "name": "D_rolling",
+    "selected": false,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": true,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "twoOfThreeYears": false,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": true
+    },
+    "promote": false
+  },
+  {
+    "name": "L_rolling",
+    "selected": false,
+    "incrementalVsImmediate": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": true,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  }
+]

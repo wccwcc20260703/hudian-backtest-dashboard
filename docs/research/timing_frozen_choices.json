@@ -1,0 +1,84 @@
+{
+  "choices": {
+    "D": "D_none",
+    "L": "L_none"
+  },
+  "ranking": {
+    "D": [
+      {
+        "name": "D_none",
+        "eligible": true,
+        "score": 0.036370426131668576,
+        "repurchaseDays": 0
+      },
+      {
+        "name": "D_immediate",
+        "eligible": true,
+        "score": -0.01884408393417522,
+        "repurchaseDays": 31
+      },
+      {
+        "name": "D_wait1400",
+        "eligible": true,
+        "score": -0.012162759433282155,
+        "repurchaseDays": 31
+      },
+      {
+        "name": "D_wait1430",
+        "eligible": true,
+        "score": 0.009197615642760393,
+        "repurchaseDays": 31
+      },
+      {
+        "name": "D_wait1450",
+        "eligible": true,
+        "score": -0.004566430531666055,
+        "repurchaseDays": 31
+      },
+      {
+        "name": "D_recheck1430",
+        "eligible": false,
+        "score": 0.027891316649021114,
+        "repurchaseDays": 6
+      }
+    ],
+    "L": [
+      {
+        "name": "L_none",
+        "eligible": true,
+        "score": 0.06677702380289124,
+        "repurchaseDays": 0
+      },
+      {
+        "name": "L_immediate",
+        "eligible": true,
+        "score": -0.001362858189328242,
+        "repurchaseDays": 30
+      },
+      {
+        "name": "L_wait1400",
+        "eligible": true,
+        "score": 0.008975428920551087,
+        "repurchaseDays": 30
+      },
+      {
+        "name": "L_wait1430",
+        "eligible": true,
+        "score": 0.024134924160504834,
+        "repurchaseDays": 30
+      },
+      {
+        "name": "L_wait1450",
+        "eligible": true,
+        "score": 0.03531038884584592,
+        "repurchaseDays": 30
+      },
+      {
+        "name": "L_recheck1430",
+        "eligible": false,
+        "score": 0.05162927338273332,
+        "repurchaseDays": 6
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "recordedAt": "2026-10-09T14:15:52.972718+08:00",
+  "question": "Can waiting after a causal afternoon recovery confirmation improve repurchase prices and reduce same-day loss without hurting later performance?",
+  "priorKnowledge": "Previous study recent5open-trigger repurchases all lost toclose; histories seen, this is retrospective diagnosis. Prior prospective manifest preserved unchanged.",
+  "rules": {
+    "none": "Original no repurchase.",
+    "immediate": "Previously registered D_open/L_open, first13:10..14:30 completed-data confirmation.",
+    "wait1400": "Retain prior confirmed intention, execute at max(originaltime,14:00).",
+    "wait1430": "Retain confirmed intention, execute14:30.",
+    "wait1450": "Retain confirmed intention, execute14:50; onlyone5minbar attempt because engine stops discretionary ordersafter14:50.",
+    "recheck1430": "Original confirmation must exist; at14:30 recheck two latest completedcloses>theirVWAP,lastclose>priorclose and>sessionopen; cancelifnotconfirmed."
+  },
+  "constraints": "Same actual morninginventory50%cap, prior-daytargetceiling,oneorder/day,T+1,fees,volume1%,limits,6%interest,currentequity50%debtcap. No newenginepolicy. Wait14:50capacitydiffersandmustbereported.",
+  "selection": "Freeze2024end; >=10actualtrainingrepurchasedays,DD<=original+2pp; maximize annual loggrowth-1.5absDD; originalalwayseligible. Eachquarter2025onward usesprior252sessions and>=5repurchasedays. Cash/finance separate.",
+  "acceptance": "Incrementalvsimmediate: beat validation2025..June AND July..Oct8,DD<=immediate+2ppboth,oldernotworse,beat>=2of3fixedyears,10bpbeatsboth. Cashoriginalgoal: return>=hold andDD<=75%hold,>=2of3years,older,10bp,newindependentevidence. Wealth1.20separate.",
+  "paired": "Replay day from same no-repurchase original account prior-closecash/shares includingholidayinterest. Independently verify no-repurchase endNAV matchesbaseline. PairedendNAV differences use same startingNAV; do not sum into portfolio return.",
+  "forward": "No change to existing60-session prospective D_open/L_open registration. New timing schedules research only.",
+  "priorForwardSHA256": "5390318b686d5b5f514ec070b03013858b4577437156f4d66eb2055ef515e242"
+}

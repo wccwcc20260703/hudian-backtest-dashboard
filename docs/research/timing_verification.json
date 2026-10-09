@@ -1,0 +1,17 @@
+{
+  "ledgerTrades": 16663,
+  "repurchaseFills": 1431,
+  "maximumLedgerError": 0.0,
+  "pairedStartStates": 128,
+  "maximumBaselineReplayError": 1.862645149230957e-09,
+  "immediateScheduleMatchesPrior": true,
+  "priorForwardUnchanged": true,
+  "priorForwardSHA256": "5390318b686d5b5f514ec070b03013858b4577437156f4d66eb2055ef515e242",
+  "T1": true,
+  "buyDebtCap": true,
+  "actualSoldHalfCap": true,
+  "independentSchedulesRebuilt": 19632,
+  "futureMutationChecks": 978,
+  "pairedLedgerTrades": 3124,
+  "maximumPairedLedgerError": 0.0
+}
