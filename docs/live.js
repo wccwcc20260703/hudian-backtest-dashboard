@@ -9,13 +9,13 @@ export function startLive({onUpdate,onStatus}){
    if(qr.status!=='fulfilled')throw qr.reason;
    const quote=qr.value,minutes=mr.status==='fulfilled'&&mr.value.date===quote.date?mr.value:null;
    latest={quote,minutes,fetchedAt:new Date().toISOString()};onUpdate(latest,false);
-   onStatus(minutes?'已连接 · 每 30 秒刷新 · 行情可能有延迟':'报价已连接 · 分时暂不可用 · 每 30 秒重试');
+   onStatus(minutes?'已连接 · 每 1 秒刷新 · 行情可能有延迟':'报价已连接 · 分时暂不可用 · 每 1 秒重试');
   }catch(e){
    if(!latest){try{const response=await fetch('./latest-quote.json',{cache:'no-store'});if(!response.ok)throw Error('无缓存');latest=await response.json();}catch{}}
    if(latest)onUpdate(latest,true);
-   onStatus(latest?'实时连接失败 · 当前为最近快照，请以源时间为准':'行情暂不可用 · 30 秒后重试');
+   onStatus(latest?'实时连接失败 · 当前为最近快照，请以源时间为准':'行情暂不可用 · 1 秒后重试');
   }finally{busy=false;}
  }
- const timer=setInterval(refresh,30000);const visible=()=>{if(!document.hidden)refresh();};document.addEventListener('visibilitychange',visible);refresh();
+ const timer=setInterval(refresh,1000);const visible=()=>{if(!document.hidden)refresh();};document.addEventListener('visibilitychange',visible);refresh();
  return {refresh,stop(){stopped=true;clearInterval(timer);document.removeEventListener('visibilitychange',visible);}};
 }
