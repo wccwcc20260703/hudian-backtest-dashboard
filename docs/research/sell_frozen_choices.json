@@ -1,0 +1,68 @@
+{
+  "choices": {
+    "D": "D_late_trend",
+    "L": "L_late_trend"
+  },
+  "ranking": {
+    "D_original": {
+      "score": 0.036370426131668576,
+      "qualifies": true,
+      "changedTrainingSessions": 0
+    },
+    "D_late_all": {
+      "score": 0.0351693265578526,
+      "qualifies": true,
+      "changedTrainingSessions": 32
+    },
+    "D_late_trend": {
+      "score": 0.041908846891687224,
+      "qualifies": true,
+      "changedTrainingSessions": 21
+    },
+    "D_late_relative": {
+      "score": 0.03702463096250641,
+      "qualifies": false,
+      "changedTrainingSessions": 10
+    },
+    "D_late_both": {
+      "score": 0.030344332722344325,
+      "qualifies": false,
+      "changedTrainingSessions": 8
+    },
+    "D_late_intraday": {
+      "score": 0.03057357609768302,
+      "qualifies": false,
+      "changedTrainingSessions": 9
+    },
+    "L_original": {
+      "score": 0.06677702380289124,
+      "qualifies": true,
+      "changedTrainingSessions": 0
+    },
+    "L_late_all": {
+      "score": 0.07054172637103062,
+      "qualifies": true,
+      "changedTrainingSessions": 32
+    },
+    "L_late_trend": {
+      "score": 0.08184618984586356,
+      "qualifies": true,
+      "changedTrainingSessions": 21
+    },
+    "L_late_relative": {
+      "score": 0.05178029477506546,
+      "qualifies": false,
+      "changedTrainingSessions": 10
+    },
+    "L_late_both": {
+      "score": 0.04946078408619681,
+      "qualifies": false,
+      "changedTrainingSessions": 8
+    },
+    "L_late_intraday": {
+      "score": 0.04933265268353343,
+      "qualifies": false,
+      "changedTrainingSessions": 9
+    }
+  }
+}

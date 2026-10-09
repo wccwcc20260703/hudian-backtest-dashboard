@@ -1,0 +1,11 @@
+{
+  "pairedSessions": 178,
+  "maximumBaselineReplayError": 1.862645149230957e-09,
+  "baselineSchedulesMatch": true,
+  "lateSchedulesMatch": true,
+  "independentLedgerTrades": 879,
+  "maximumLedgerError": 0.0,
+  "monthlyContributionsReconcile": true,
+  "buyDebtCapVerified": true,
+  "t1Verified": true
+}

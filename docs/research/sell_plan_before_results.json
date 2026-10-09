@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-09",
+  "question": "Can observed trend/relative strength decide when delaying a scheduled sell helps, without worsening later reversals?",
+  "known": "All previous histories were seen. Prior late-all benefit in2025..June and failure afterJuly is known before this study. These are exploratory chronological tests, never untouched validation.",
+  "variants": [
+    "original",
+    "late_all",
+    "late_trend",
+    "late_relative",
+    "late_both",
+    "late_intraday"
+  ],
+  "gates": {
+    "late_trend": "previous close > MA60 and MA120 > its value20 sessions ago",
+    "late_relative": "previous known20-session stock return > Shenzhen Component Index (399001) return and > Shennan Circuits return; Shennan is one peer proxy, not a sector index",
+    "late_both": "trend AND relative gates",
+    "late_intraday": "completed09:40-09:45 close > cumulativeVWAP, > session open, cumulative volume >= preceding20-session mean for09:45"
+  },
+  "delayedSell": "Only daily target decreases. If gate qualifies at09:45, wait for first completed close < cumulative VWAP; execute following open, deadline11:00. Otherwise original09:45. Same/increased targets retain10:00. Base cash D or its full-target150% counterpart unchanged.",
+  "diagnosis": "Continuous portfolios from2023-10-09; exact monthly log-relative-wealth contributions; separately replay each changed session twice from identical baseline prior-close cash/shares, including holiday interest before start, T+1 shares, dividends and same execution constraints. Replayed baseline must match original end NAV.",
+  "selection": "Freeze at2024-12-31. Rank annualized log growth minus1.5*abs5minDD, require20 delayed sessions in training and trainingDD not worse than original by2pp, otherwise keep original. Select cash and finance separately.",
+  "acceptance": "Incremental candidate must beat original in2025..June2026 AND July..Oct8, not increase DD by>2pp in either, beat original under10bp slip in both, not lower older-period return, and beat original in>=2 of3 fixed anniversary years. Full cash objective additionally requires beating100% hold with DD<=75% of hold; new forward evidence still required for promotion.",
+  "boundaries": "All windows freshly funded for period performance; monthly and paired replay diagnosis instead use continuous accounts. Sixvariants x two capital policies =12, ofwhich8 are new gated schedules. All results retained."
+}

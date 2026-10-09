@@ -1,0 +1,32 @@
+[
+  {
+    "base": "D",
+    "choice": "D_late_trend",
+    "checks": {
+      "changedRule": true,
+      "beatsOriginalValidation": true,
+      "beatsOriginalRecent": false,
+      "drawdownBudget": true,
+      "olderNotWorse": false,
+      "twoOfThreeYears": true,
+      "cashFullPeriodReturnDrawdownOnly": true,
+      "stress10bpBoth": false
+    },
+    "incrementalPass": false
+  },
+  {
+    "base": "L",
+    "choice": "L_late_trend",
+    "checks": {
+      "changedRule": true,
+      "beatsOriginalValidation": true,
+      "beatsOriginalRecent": false,
+      "drawdownBudget": true,
+      "olderNotWorse": false,
+      "twoOfThreeYears": true,
+      "cashFullPeriodReturnDrawdownOnly": null,
+      "stress10bpBoth": false
+    },
+    "incrementalPass": false
+  }
+]
