@@ -14,9 +14,8 @@ export function signalFreshness(market,cached=false,now=Date.now()){
  if(now>=start&&(!Number.isFinite(minute)||minute>now+60000||expected-minute>5*60000))return '分时数据滞后或缺失，暂停计划调仓提示。';
  return null;
 }
-export function liveSignal({context,market,model,config,previousTarget,portfolio,cached=false,now=Date.now()}){
+function scheduledSignal({context,market,model,config,previousTarget,portfolio}){
  const empty=message=>({message,signals:[]});
- const freshness=signalFreshness(market,cached,now);if(freshness)return empty(freshness);
  if(!context||context.date!==market.quote.date)return empty('指标尚未更新到该交易日，暂停生成信号；行情仍可查看。');
  if(model==='B')return empty('全仓持有基准不产生每日调仓信号。');
  const points=market.minutes?.date===context.date?market.minutes.points:[];
@@ -38,6 +37,7 @@ export function liveSignal({context,market,model,config,previousTarget,portfolio
   }else gate=!!gates[config.gate];
   if(gate)target=config.level;
  }
+ if(!Number.isFinite(at.price)||at.price<=0)return empty('计划时点价格无效，暂不显示买卖点。');
  const equity=portfolio.cash+portfolio.shares*at.price;
  if(!(equity>0))return empty('模型账户净资产非正，暂停普通目标信号。');
  const before=portfolio.shares*at.price/equity;
@@ -45,4 +45,24 @@ export function liveSignal({context,market,model,config,previousTarget,portfolio
  const side=Math.abs(target-before)<=tolerance?0:(target>before?1:-1);
  const signal={time:scheduled,price:at.price,before,target,side,gate,gateMissing};
  return {signals:[signal],message:gateMissing?'融资条件数据不完整，仅显示基础目标；融资信号暂停。':(side===0?'计划检查：模型仓位已接近目标，无加减仓提示。':'已生成计划调仓提示；目标仓位不等于成交后仓位。')};
+}
+
+// An outage stops new live advice, but does not erase completed, reproducible checks.
+// Replay is computed with the selected settings, never represented as an alert sent then.
+export function liveSignal(options){
+ const {market,cached=false,now=Date.now()}=options;
+ const freshness=signalFreshness(market,cached,now);
+ if(!freshness)return scheduledSignal(options);
+ const empty={message:freshness,signals:[],replaySignals:[]};
+ const today=new Date(now+8*3600000).toISOString().slice(0,10),q=market.quote;
+ const stamp=Date.parse(`${q.date}T${q.time}+08:00`);
+ if(q.date!==today||!Number.isFinite(stamp)||stamp>now+60000)return empty;
+ const points=(market.minutes?.points??[]).filter(p=>{
+  const time=Date.parse(`${q.date}T${p.time}:00+08:00`);
+  return Number.isFinite(time)&&time<=now&&time<=stamp;
+ });
+ const result=scheduledSignal({...options,market:{...market,minutes:{...market.minutes,points}}});
+ if(!result.signals.length)return {...empty,message:`${freshness} ${result.message}`};
+ return {...empty,replaySignals:result.signals,
+  message:`分时截至 ${points.at(-1).time}；显示已完成时点的策略回看，按当前设置重算，非当前买卖提示。${result.signals[0].side===0?'该时点接近目标仓位，无买卖操作。':'图中买卖点为计划参考点，不代表已经成交。'}`};
 }

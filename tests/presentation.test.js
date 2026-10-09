@@ -63,3 +63,30 @@ assert.equal(attr.longestBehind,277);
 assert.equal(attribution({nav:[110,120],capital:100},{nav:[100,130]},['2026-07-01','2026-07-02']).preJuly,null);
 assert.equal(attribution({nav:[90,100,101],capital:100},{nav:[100,110,100]},['2026-01-01','2026-01-02','2026-01-03']).longestBehind,2);
 console.log('PASS: continuous-account subperiod compounding and cumulative underperformance statistics.');
+
+// Retained minute data can reproduce completed checks without reviving live alerts.
+const replayOpts={...opts,now:Date.parse('2026-10-09T14:51:00+08:00'),market:{...market(points),minutesCached:true}};
+const replayBuy=liveSignal(replayOpts);
+assert.equal(replayBuy.signals.length,0);
+assert.equal(replayBuy.replaySignals[0].side,1);
+assert.equal(replayBuy.replaySignals[0].price,103);
+assert.match(replayBuy.message,/回看/);
+assert.equal(liveSignal({...replayOpts,cached:true}).replaySignals[0].side,1);
+const replaySell=liveSignal({...replayOpts,context:{...context,target:{D:0}},previousTarget:1,portfolio:{cash:0,shares:10000}});
+assert.equal(replaySell.replaySignals[0].side,-1);
+assert.equal(replaySell.replaySignals[0].time,'09:45');
+for(const invalid of [
+ {...replayOpts,market:{...replayOpts.market,minutes:{date:context.date,points:points.filter(p=>p.time!=='10:00')}}},
+ {...replayOpts,market:{...replayOpts.market,minutes:{date:'2026-10-08',points}}},
+ {...replayOpts,now:Date.parse('2026-10-09T09:59:00+08:00')},
+ {...replayOpts,now:Date.parse('2026-10-10T14:51:00+08:00')},
+ {...replayOpts,context:{...context,date:'2026-10-08'}}
+])assert.equal(liveSignal(invalid).replaySignals.length,0);
+const snapshot=read('docs/latest-quote.json');
+const todayDefault=liveSignal({context:read('docs/live-context.json'),market:{...snapshot,minutesCached:true},cached:true,
+ now:Date.parse('2026-10-09T14:51:00+08:00'),model:'L',config:defaults.config,
+ previousTarget:d.signals.D.at(-1)[1],portfolio:defaults.daily.at(-1)});
+assert.equal(todayDefault.signals.length,0);assert.equal(todayDefault.replaySignals.length,1);
+assert.equal(todayDefault.replaySignals[0].time,'10:00');assert.equal(todayDefault.replaySignals[0].side,0);
+assert.equal(todayDefault.replaySignals[0].price,110.01);
+console.log('PASS: completed buy/sell checks remain visible as replay during outages; no missing/future/wrong-day points; actual default remains hold.');
