@@ -25,3 +25,6 @@ console.log(`Versioned ${versions.size} modules and stylesheet; page version ${a
 const starApp=version(resolve(root,'star50/app.js')),starPath=resolve(root,'star50/index.html');
 const starHtml=readFileSync(starPath,'utf8').replace(/src="app\.js(?:\?v=[^"]+)?"/,`src="app.js?v=${starApp}"`);
 writeFileSync(starPath,starHtml);console.log(`STAR50 page version ${starApp}.`);
+
+const bandApp=version(resolve(root,'research/band-overlay.js')),bandPath=resolve(root,'research/band-overlay.html');
+writeFileSync(bandPath,readFileSync(bandPath,'utf8').replace(/src="band-overlay\.js(?:\?v=[^"]+)?"/,`src="band-overlay.js?v=${bandApp}"`));console.log(`Experimental page version ${bandApp}.`);
