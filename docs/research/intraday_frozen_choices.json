@@ -1,0 +1,32 @@
+{
+  "choices": {
+    "D": "D_delay1030_early_weak",
+    "L": "L_delay1030_early_weak"
+  },
+  "scores": {
+    "D_fixed10_fixed945": 0.036370426131668576,
+    "D_fixed10_weak_confirm": 0.0351693265578526,
+    "D_fixed10_early_weak": 0.039998865439222264,
+    "D_delay1030_fixed945": 0.04742024928275762,
+    "D_delay1030_weak_confirm": 0.03416711265413508,
+    "D_delay1030_early_weak": 0.05218484265252926,
+    "D_vwap_rising_fixed945": -0.0428773113537565,
+    "D_vwap_rising_weak_confirm": -0.036464670001595895,
+    "D_vwap_rising_early_weak": -0.039502626529750784,
+    "D_opening_break_fixed945": -0.08257765891350535,
+    "D_opening_break_weak_confirm": -0.07669618000468836,
+    "D_opening_break_early_weak": -0.07826858253667918,
+    "L_fixed10_fixed945": 0.06677702380289124,
+    "L_fixed10_weak_confirm": 0.07054172637103062,
+    "L_fixed10_early_weak": 0.07782701217236132,
+    "L_delay1030_fixed945": 0.09535444578285235,
+    "L_delay1030_weak_confirm": 0.07642590895482437,
+    "L_delay1030_early_weak": 0.10565658938159544,
+    "L_vwap_rising_fixed945": -0.05559983278757724,
+    "L_vwap_rising_weak_confirm": -0.0549678021690595,
+    "L_vwap_rising_early_weak": -0.05516035029214933,
+    "L_opening_break_fixed945": -0.05701504341313024,
+    "L_opening_break_weak_confirm": -0.04781843647677031,
+    "L_opening_break_early_weak": -0.04706759901098456
+  }
+}

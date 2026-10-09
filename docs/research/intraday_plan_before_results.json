@@ -1,0 +1,146 @@
+{
+  "created": "2026-10-09",
+  "researchQuestion": "Do causally observable intraday patterns improve timing, under actual T+1 and financing constraints?",
+  "decisionBars": [
+    3,
+    6,
+    12,
+    30,
+    36
+  ],
+  "features": [
+    "gap >= 1%",
+    "gap <= -1%",
+    "above VWAP + intraday rise > .25 ATR + same-time volume ratio > 1.5",
+    "below VWAP + intraday fall < -.25 ATR + volume ratio > 1.5",
+    "cross above VWAP with prior RSI2<35",
+    "opening-range failed breakout"
+  ],
+  "eventOutcomes": "Gross forward return from next executable bar open to same-day close (only old inventory can sell), and to next session 09:45 open (earliest modeled next-day exit for a new buy). Event probability is not a backtest or a fill guarantee. Next-day return uses adjustment factors to neutralize ex-dividend gaps.",
+  "sampleRule": "Descriptive discovery through 2024, chronological validation 2025-01-01 through 2026-06-30, separate July onward. For descriptive signals report all cells, Wilson interval, count, baseline difference and adverse tail; fewer than 30 validation observations cannot support a general conclusion. No multiple-testing significance claim.",
+  "timingCandidates": [
+    {
+      "base": "D",
+      "buy": "fixed10",
+      "sell": "fixed945"
+    },
+    {
+      "base": "D",
+      "buy": "fixed10",
+      "sell": "weak_confirm"
+    },
+    {
+      "base": "D",
+      "buy": "fixed10",
+      "sell": "early_weak"
+    },
+    {
+      "base": "D",
+      "buy": "delay1030",
+      "sell": "fixed945"
+    },
+    {
+      "base": "D",
+      "buy": "delay1030",
+      "sell": "weak_confirm"
+    },
+    {
+      "base": "D",
+      "buy": "delay1030",
+      "sell": "early_weak"
+    },
+    {
+      "base": "D",
+      "buy": "vwap_rising",
+      "sell": "fixed945"
+    },
+    {
+      "base": "D",
+      "buy": "vwap_rising",
+      "sell": "weak_confirm"
+    },
+    {
+      "base": "D",
+      "buy": "vwap_rising",
+      "sell": "early_weak"
+    },
+    {
+      "base": "D",
+      "buy": "opening_break",
+      "sell": "fixed945"
+    },
+    {
+      "base": "D",
+      "buy": "opening_break",
+      "sell": "weak_confirm"
+    },
+    {
+      "base": "D",
+      "buy": "opening_break",
+      "sell": "early_weak"
+    },
+    {
+      "base": "L",
+      "buy": "fixed10",
+      "sell": "fixed945"
+    },
+    {
+      "base": "L",
+      "buy": "fixed10",
+      "sell": "weak_confirm"
+    },
+    {
+      "base": "L",
+      "buy": "fixed10",
+      "sell": "early_weak"
+    },
+    {
+      "base": "L",
+      "buy": "delay1030",
+      "sell": "fixed945"
+    },
+    {
+      "base": "L",
+      "buy": "delay1030",
+      "sell": "weak_confirm"
+    },
+    {
+      "base": "L",
+      "buy": "delay1030",
+      "sell": "early_weak"
+    },
+    {
+      "base": "L",
+      "buy": "vwap_rising",
+      "sell": "fixed945"
+    },
+    {
+      "base": "L",
+      "buy": "vwap_rising",
+      "sell": "weak_confirm"
+    },
+    {
+      "base": "L",
+      "buy": "vwap_rising",
+      "sell": "early_weak"
+    },
+    {
+      "base": "L",
+      "buy": "opening_break",
+      "sell": "fixed945"
+    },
+    {
+      "base": "L",
+      "buy": "opening_break",
+      "sell": "weak_confirm"
+    },
+    {
+      "base": "L",
+      "buy": "opening_break",
+      "sell": "early_weak"
+    }
+  ],
+  "timingRules": "Only target increases alter buy time. Fixed10=10:00; delay1030=10:30; confirmations search 09:45-11:00 and fall back to11:00. VWAP rising requires completed close>cumVWAP and>prior close. Opening break requires completed close>first15min high. Decreases:fixed945=09:45; weak_confirm searches09:45-11:00 for completed close<VWAP, else11:00; early_weak=09:35 if first completed bar is down>.2 previous ATR and volume ratio>1.2, else09:45. Equal targets retain10:00 check. No same-bar close-to-open fill.",
+  "selection": "Rank cash and finance independently on 2023-10-09..2024-12-31 by annualized log return minus 1.5 times five-minute maximum drawdown. Freeze choice, then test2025..June2026 and July..Oct8 separately; retrospective chronological tests because the overall history and base D were previously seen.",
+  "execution": "Original finance engine including T+1, fees, adverse slip, volume caps, limits, borrowing <=50% current net equity at every buy. Main slip5bp, stress10/20bp, financing6%."
+}
