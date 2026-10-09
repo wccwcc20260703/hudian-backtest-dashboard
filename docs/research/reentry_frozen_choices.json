@@ -1,0 +1,60 @@
+{
+  "choices": {
+    "D": "D_none",
+    "L": "L_none"
+  },
+  "ranking": {
+    "D": [
+      {
+        "name": "D_none",
+        "eligible": true,
+        "score": 0.036370426131668576,
+        "repurchaseDays": 0
+      },
+      {
+        "name": "D_vwap",
+        "eligible": true,
+        "score": -0.014769969866691879,
+        "repurchaseDays": 35
+      },
+      {
+        "name": "D_open",
+        "eligible": true,
+        "score": -0.01884408393417522,
+        "repurchaseDays": 31
+      },
+      {
+        "name": "D_volume",
+        "eligible": true,
+        "score": 0.0037162466104613823,
+        "repurchaseDays": 11
+      }
+    ],
+    "L": [
+      {
+        "name": "L_none",
+        "eligible": true,
+        "score": 0.06677702380289124,
+        "repurchaseDays": 0
+      },
+      {
+        "name": "L_vwap",
+        "eligible": true,
+        "score": -0.0017490784517484315,
+        "repurchaseDays": 34
+      },
+      {
+        "name": "L_open",
+        "eligible": true,
+        "score": -0.001362858189328242,
+        "repurchaseDays": 30
+      },
+      {
+        "name": "L_volume",
+        "eligible": true,
+        "score": 0.027440844824172195,
+        "repurchaseDays": 11
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "noReentryParityWindows": 18,
+  "prefixChecks": 801,
+  "ledgerTrades": 11918,
+  "repurchaseFills": 1087,
+  "maximumLedgerError": 0.0,
+  "T1": true,
+  "debtCap": true,
+  "halfActualMorningSoldInventory": true,
+  "oneOrderPerDay": true,
+  "planSHA256": "9b0ead70309f7df66590b071a6d1cffa400adf12c9e5291644e31fba180c9932",
+  "syntheticNoSaleNoRebuy": true,
+  "syntheticDuplicateTriggerIgnored": true,
+  "syntheticSameDayBlockedNextDaySell": true
+}

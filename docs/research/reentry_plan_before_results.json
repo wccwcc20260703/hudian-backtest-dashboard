@@ -1,0 +1,18 @@
+{
+  "question": "After an actual morning inventory sale, can one afternoon half-inventory repurchase improve participation after costs and overnight risk?",
+  "recordedAt": "2026-10-09T14:05:29.997512+08:00",
+  "history": "All historical windows already examined; retrospective chronological validation only, no new unseen evidence.",
+  "common": "Base target must decrease, latest previously announced consolidated profit growth>0, actual non-forced morning sales>=200shares; some completed09:45..11:30 close below cumulativeVWAP. First qualifying13:10..14:30 next-open order; at mostone repurchase order/day, up to5bar fills, total<=floor(50% actualmorning shares sold/100)*100, position target ceiling=previous base target. No same-day sale of new shares; inherited T+1 and risk overrides.",
+  "rules": {
+    "none": "No repurchase, unchanged original.",
+    "vwap": "Two completed afternoon closes above their respective cumulativeVWAP; last close>priorclose.",
+    "open": "vwap conditions AND last completed close>session openingprice.",
+    "volume": "vwap conditions AND cumulativevolume at decision >=mean preceding20session cumulativevolume atsame time."
+  },
+  "selection": "Freeze at2024end; require>=10training days withactualrepurchases, DD<=original+2pp; maximize annual loggrowth minus1.5*abs5minDD. Original alwayseligible. Separatecash/finance.",
+  "rolling": "Eachcalendarquarter2025onward select using preceding252sessions;>=5actualrepurchasedays, sameDD/score. Continuous account acrossseams; original remainseligible.",
+  "incremental": "Beat original validation2025..June2026 AND July..Oct8; DD<=original+2pp inboth; olderreturnnotworse; beat original>=2of3annualsegments; beatbothunder10bp.",
+  "cashGoal": "Return>=hold and DD<=75%hold;>=2of3annualsegments;10bp;older;independentforwardevidence. Wealth1.20 separate. Do not replace defaults on failure.",
+  "finance": "D fullsignals150%, differentfromdashboard Dtrenddefault; every financedbuy debt<=50%current netequity;6%calendarinterest; no realorders.",
+  "periods": "Independentfreshcash windows unless labeledcontinuous; gross eventprice changes are descriptive and not executable strategy returns."
+}

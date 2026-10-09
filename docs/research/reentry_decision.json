@@ -1,0 +1,41 @@
+[
+  {
+    "base": "D",
+    "choice": "D_none",
+    "incremental": {
+      "changed": false,
+      "validation": false,
+      "recent": false,
+      "older": true,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "twoOfThreeYears": false,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": false
+    },
+    "promote": false
+  },
+  {
+    "base": "L",
+    "choice": "L_none",
+    "incremental": {
+      "changed": false,
+      "validation": false,
+      "recent": false,
+      "older": true,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  }
+]

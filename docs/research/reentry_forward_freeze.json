@@ -1,0 +1,14 @@
+{
+  "recordedAt": "2026-10-09T14:07:26.604557+08:00",
+  "status": "research observation only, not dashboard default or trading instruction",
+  "selection": "D_open and L_open chosen after inspecting prior history; no claim they were selected by2024training. D/L_rolling separately observed.",
+  "firstEligibleSession": "First complete trading session strictly AFTER2026-10-09. Exclude today because its intraday path was already observed.",
+  "startingAccount": "Each prospective arm starts with1millioncash, zero shares on first eligible session; same historical indicators, costs and trade constraints. Cash and finance separately.",
+  "frozenRules": "open repurchase as in plan_before_results; half actual nonforced morning shares sold, maximumoneorder,13:10..14:30, completeddata only. Compare againstnone. Rolling selection reviewed only at calendarquarter using prior252 sessions.",
+  "review": "Collect60complete future trading sessions and report actual qualifying eventcount; no retuning during collection. Sparse events cannot establish effectiveness; original cash acceptance and independent evidence requirements remain unchanged.",
+  "sourceHashes": {
+    "work/reentry/reentry_engine.py": "4661c381e74974368addd9928902e314257ee1534bad20628bcaf8c1718154fa",
+    "outputs/reentry/plan_before_results.json": "9b0ead70309f7df66590b071a6d1cffa400adf12c9e5291644e31fba180c9932",
+    "work/reentry/study.py": "016dd0a8c276eb881c97861b4f583af4e47558208a5652bfb94a4a7828968c75"
+  }
+}
