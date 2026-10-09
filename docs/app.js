@@ -1,20 +1,22 @@
 import {backtest,barTime} from './engine.js';
 import {candleValues} from './market.js';
 import {startLive} from './live.js';
-const $=id=>document.getElementById(id), names={D:'D · 反转 + 业绩门槛',H:'H · 三状态自适应',B:'全仓持有基准'},colors={D:'#078685',H:'#9070cc',B:'#9da9ba'},modeNames=['防御空仓','反转交易','趋势参与'];
+import {financeBacktest} from './finance-engine.js';
+const $=id=>document.getElementById(id), names={D:'D · 反转 + 业绩门槛',H:'H · 三状态自适应',B:'全仓持有基准',L:'L · 条件融资'},colors={D:'#078685',H:'#9070cc',B:'#9da9ba',L:'#cf933d'},modeNames=['防御空仓','反转交易','趋势参与'];
 const fmt=(v,n=2)=>Number(v).toLocaleString('zh-CN',{minimumFractionDigits:n,maximumFractionDigits:n}),pct=v=>(v>0?'+':'')+fmt(v*100)+'%',money=v=>fmt(v,2),pctAxis=v=>fmt(v,0)+'%';
-let data,results={},active='D',view='equity',start=0,end=727,day=0,zoom=[0,100];
+let data,financeGates,results={},active='D',view='equity',start=0,end=727,day=0,zoom=[0,100];
 let liveMarket=null,liveController=null;
 const charts={}, axis={axisLine:{lineStyle:{color:'#e4eaf1'}},axisTick:{show:false},axisLabel:{color:'#93a0b2',fontSize:10},splitLine:{lineStyle:{color:'#eef2f7',type:'dashed'}}};
 const tooltip={trigger:'axis',backgroundColor:'#fff',borderColor:'#e2e9f1',textStyle:{color:'#294059',fontSize:12},extraCssText:'box-shadow:0 5px 20px #18334b18;border-radius:7px',confine:true};
 function showError(msg){$('error').textContent=msg;$('error').hidden=!msg;}
 function indexAt(date){return data.dates.findIndex(x=>x>=date);}
 function run(){
- showError('');if(!$('form').reportValidity())return;
+ showError('');if(!$('form').reportValidity()||!Array.from($('finance-settings').querySelectorAll('input')).every(i=>i.reportValidity()))return;
  const a=indexAt($('start').value),last=data.dates.findLastIndex(x=>x<=$('end').value),z=last+1;
  if(a<0||z<=a||$('start').value>$('end').value){showError('所选区间没有交易日，请调整开始和结束日期。');return;}
  const options={capital:Number($('capital').value),slip:Number($('slip').value)};
  start=a;end=z;for(const key of ['D','H','B'])results[key]=backtest(data,key,a,z,options);
+ results.L=financeBacktest(data,financeGates,a,z,{...options,base:$('finance-base').value,gate:$('finance-gate').value,level:Number($('finance-level').value),rate:Number($('finance-rate').value)/100,credit:Number($('finance-credit').value)});
  day=Math.max(start,Math.min(day,end-1));zoom=[0,100];
  $('range-note').textContent=`已回测 ${data.dates[start]} → ${data.dates[end-1]} · ${end-start} 个交易日`;
  $('day').min=data.dates[start];$('day').max=data.dates[end-1];
@@ -22,14 +24,15 @@ function run(){
 }
 function renderMetrics(){
  const r=results[active],b=results.B,m=r.metrics,rel=m.return_-b.metrics.return_;
- $('metrics').innerHTML=[['区间累计收益',pct(m.return_),`期末权益 ¥ ${fmt(r.nav.at(-1),0)}`,m.return_>=0?'positive':'negative'],['相对持有基准',(rel>0?'+':'')+fmt(rel*100)+' pp','收益率差 · 百分点',rel>=0?'positive':'negative'],['最大回撤 · 5 分钟',fmt(m.mdd5*100)+'%',`日线收盘回撤 ${fmt(m.mdd*100)}%`,''],['平均持仓比例',fmt(m.exposure*100)+'%',`${m.orders} 笔成交 · 费用 ¥ ${fmt(m.fees,0)}`,'']].map(([l,v,d,c])=>`<div class="metric"><div class="label">${l}</div><div class="value ${c}">${v}</div><div class="detail">${d}</div></div>`).join('');
- $('comparison-body').innerHTML=['D','H','B'].map(k=>{const m=results[k].metrics;return `<tr class="${k===active?'selected-row':''}"><td><span class="strategy-dot" style="background:${colors[k]}"></span>${names[k]}</td><td class="${m.return_>=0?'positive':'negative'}">${pct(m.return_)}</td><td>${k==='B'?'—':fmt((m.return_-b.metrics.return_)*100)+' pp'}</td><td>${fmt(m.mdd5*100)}%</td><td>${fmt(m.exposure*100,1)}%</td><td>${m.orders}</td><td>¥ ${fmt(m.fees,0)}</td></tr>`}).join('');
+ $('metrics').innerHTML=[['区间累计收益',pct(m.return_),`期末权益 ¥ ${fmt(r.nav.at(-1),0)}`,m.return_>=0?'positive':'negative'],['相对持有基准',(rel>0?'+':'')+fmt(rel*100)+' pp','收益率差 · 百分点',rel>=0?'positive':'negative'],['最大回撤 · 5 分钟',fmt(m.mdd5*100)+'%',`日线收盘回撤 ${fmt(m.mdd*100)}%`,''],['平均持仓比例',fmt(m.exposure*100)+'%',`${m.orders} 笔成交 · 费用 ¥ ${fmt(m.fees,0)}${active==='L'?' · 利息 ¥ '+fmt(m.interest,0):''}`,'']].map(([l,v,d,c])=>`<div class="metric"><div class="label">${l}</div><div class="value ${c}">${v}</div><div class="detail">${d}</div></div>`).join('');
+ $('finance-stats').textContent=`已计算 ${results.L.config.base} / ${fmt(results.L.config.level*100,0)}% / 年息 ${fmt(results.L.config.rate*100,1)}% / 额度 ¥ ${fmt(results.L.config.credit,0)}：利息 ¥ ${fmt(results.L.metrics.interest,0)} · 最低维持担保比例 ${results.L.metrics.min_maintenance?fmt(results.L.metrics.min_maintenance*100,1)+'%':'无借款'} · 使用融资 ${results.L.metrics.borrow_days} 天 · 期末欠款 ¥ ${fmt(results.L.metrics.ending_debt,0)}`;
+ $('comparison-body').innerHTML=['D','H','L','B'].map(k=>{const m=results[k].metrics;return `<tr class="${k===active?'selected-row':''}"><td><span class="strategy-dot" style="background:${colors[k]}"></span>${names[k]}</td><td class="${m.return_>=0?'positive':'negative'}">${pct(m.return_)}</td><td>${k==='B'?'—':fmt((m.return_-b.metrics.return_)*100)+' pp'}</td><td>${fmt(m.mdd5*100)}%</td><td>${fmt(m.exposure*100,1)}%</td><td>${m.orders}</td><td>¥ ${fmt(m.fees,0)}${k==='L'?'<br><small>融资利息 ¥ '+fmt(m.interest,0)+'</small>':''}</td></tr>`}).join('');
 }
 function renderPerformance(){
  const dd=view==='drawdown',dates=dd?['区间起点',...data.dates.slice(start,end).flatMap(d=>Array.from({length:48},(_,j)=>d+' '+(j===47?'15:00':barTime(j+1===24?24:j+1))))]:['区间起点',...data.dates.slice(start,end)];
  // The final morning bar is marked 11:30, not 13:00.
  if(dd)for(let d=0;d<end-start;d++)dates[1+d*48+23]=data.dates[start+d]+' 11:30';
- charts.performance.setOption({animation:false,grid:{left:68,right:35,top:48,bottom:45},legend:{top:12,right:25,icon:'roundRect',itemWidth:16,itemHeight:3,textStyle:{fontSize:11,color:'#718199'}},tooltip:{...tooltip,valueFormatter:v=>fmt(v)+'%'},xAxis:{...axis,type:'category',data:dates,boundaryGap:false,axisLabel:{...axis.axisLabel,formatter:v=>v.slice(0,10),hideOverlap:true}},yAxis:{...axis,type:'value',axisLabel:{...axis.axisLabel,formatter:pctAxis}},series:['D','H','B'].map(k=>({name:names[k],type:'line',showSymbol:false,sampling:dd?'min':'lttb',lineStyle:{width:k===active?2.5:1.7,type:k==='B'?'dashed':'solid'},itemStyle:{color:colors[k]},data:dd?[0,...results[k].drawdown]:[0,...results[k].nav.map(v=>(v/results[k].capital-1)*100)]}))},true);
+ charts.performance.setOption({animation:false,grid:{left:68,right:35,top:48,bottom:45},legend:{top:12,right:25,icon:'roundRect',itemWidth:16,itemHeight:3,textStyle:{fontSize:11,color:'#718199'}},tooltip:{...tooltip,valueFormatter:v=>fmt(v)+'%'},xAxis:{...axis,type:'category',data:dates,boundaryGap:false,axisLabel:{...axis.axisLabel,formatter:v=>v.slice(0,10),hideOverlap:true}},yAxis:{...axis,type:'value',axisLabel:{...axis.axisLabel,formatter:pctAxis}},series:['D','H','L','B'].map(k=>({name:names[k],type:'line',showSymbol:false,sampling:dd?'min':'lttb',lineStyle:{width:k===active?2.5:1.7,type:k==='B'?'dashed':'solid'},itemStyle:{color:colors[k]},data:dd?[0,...results[k].drawdown]:[0,...results[k].nav.map(v=>(v/results[k].capital-1)*100)]}))},true);
 }
 function tradeScatter(trades,side,intraday=false){
  let points=[];if(intraday)points=trades.filter(t=>t[2]===side).map(t=>[barTime(t[1]),t[4],t[3],1]);
@@ -49,12 +52,13 @@ function renderDay(){
  const r=results[active],ds=data.dates[day],local=day-start,trades=r.trades.filter(t=>t[0]===day),close=r.daily[local];
  $('day').value=ds;$('day-title').textContent=ds;$('prev').disabled=day===start;$('next').disabled=day===end-1;
  $('next-trade').disabled=!r.trades.some(t=>t[0]>day);
- const signal=active==='B'?null:data.signals[active][day];
- $('day-summary').innerHTML=`<span>H 事前状态<b>${modeNames[data.state[day]]}</b></span><span>前日 RSI(2)<b>${fmt(data.rsi[day],1)}</b></span><span>已披露利润同比<b>${data.growth[day]===null?'缺失':pct(data.growth[day])}</b></span><span>选中策略目标<b>${signal?fmt(signal[1]*100,0)+'% · '+barTime(signal[0]):'首次建仓后持有'}</b></span><span>收盘仓位<b>${fmt(r.exposure[local]*100,1)}%</b></span><span>收盘权益<b>¥ ${fmt(r.nav[local],0)}</b></span>`;
+ const signal=active==='B'?null:(active==='L'?r.targets[local]:data.signals[active][day]);
+ $('day-summary').innerHTML=`<span>H 事前状态<b>${modeNames[data.state[day]]}</b></span><span>前日 RSI(2)<b>${fmt(data.rsi[day],1)}</b></span><span>已披露利润同比<b>${data.growth[day]===null?'缺失':pct(data.growth[day])}</b></span><span>选中策略目标<b>${signal?fmt(signal[1]*100,0)+'% · '+barTime(signal[0]):'首次建仓后持有'}</b></span><span>收盘仓位<b>${fmt(r.exposure[local]*100,1)}%</b></span><span>收盘权益<b>¥ ${fmt(r.nav[local],0)}</b></span>${active==='L'?'<span>收盘融资欠款<b>¥ '+fmt(r.debt[local],0)+'</b></span><span>当天计提利息<b>¥ '+fmt(r.dailyInterest[local])+'</b></span>':''}`;
  charts.intraday.setOption({animation:false,grid:{left:68,right:35,top:28,bottom:38},tooltip:{...tooltip,formatter:candleTooltip},xAxis:{...axis,type:'category',data:Array.from({length:48},(_,j)=>barTime(j)),axisLabel:{...axis.axisLabel,interval:5}},yAxis:{...axis,scale:true,name:'元',nameTextStyle:{color:'#9ca7b5'},axisLabel:{...axis.axisLabel,formatter:v=>fmt(v)}},series:[{name:'5 分钟',type:'candlestick',data:data.bars[day].map(v=>[v[0],v[3],v[2],v[1]]),itemStyle:{color:'#df6570',color0:'#4a9a8c',borderColor:'#df6570',borderColor0:'#4a9a8c'},markLine:{silent:true,symbol:'none',lineStyle:{color:'#b3bdc9',type:'dashed',width:1},label:{show:false},data:[{yAxis:data.reference[day]}]}},tradeScatter(trades,1,true),tradeScatter(trades,-1,true)]},true);
  $('trade-count').textContent=`${trades.length} 笔`;
  $('trades').innerHTML=trades.length?trades.map(t=>`<tr><td>${barTime(t[1])}</td><td class="${t[2]>0?'buy':'sell'}">${t[2]>0?'▲ 买入':'▼ 卖出'}</td><td>¥ ${fmt(t[4])}</td><td>${fmt(t[3],0)}</td><td>¥ ${money(t[5])}</td><td>${fmt(t[7],0)}</td><td>¥ ${money(t[6])}</td></tr>`).join(''):`<tr><td colspan="7" class="empty">该策略当日无成交 · 收盘持有 ${fmt(close.shares,0)} 股，现金 ¥ ${money(close.cash)}</td></tr>`;
 }
+$('finance-run').onclick=()=>{if(!Array.from($('finance-settings').querySelectorAll('input')).every(i=>i.reportValidity()))return;run();document.querySelector('[data-model="L"]').click();};
 $('form').addEventListener('submit',e=>{e.preventDefault();run();});
 for(const b of document.querySelectorAll('[data-model]'))b.onclick=()=>{if(!data)return;active=b.dataset.model;document.querySelectorAll('[data-model]').forEach(x=>x.classList.toggle('active',x===b));renderMetrics();renderPerformance();renderPrice();renderDay();};
 for(const b of document.querySelectorAll('[data-view]'))b.onclick=()=>{if(!data)return;view=b.dataset.view;document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x===b));renderPerformance();};
@@ -63,8 +67,8 @@ for(const id of ['start','end'])$(id).onchange=()=>document.querySelectorAll('[d
 $('prev').onclick=()=>{if(day>start){day--;renderDay();}};$('next').onclick=()=>{if(day<end-1){day++;renderDay();}};
 $('next-trade').onclick=()=>{const next=results[active].trades.find(t=>t[0]>day);if(next){day=next[0];renderDay();}};
 $('day').onchange=()=>{const i=indexAt($('day').value);if(i>=start&&i<end){day=i;renderDay();}else $('day').value=data.dates[day];};
-$('apply-zoom').onclick=()=>{const n=end-start-1;const a=start+Math.ceil(n*zoom[0]/100),z=start+Math.floor(n*zoom[1]/100);$('start').value=data.dates[a];$('end').value=data.dates[Math.max(a,z)];run();};
-$('export').onclick=()=>{const r=results[active],rows=[['日期','时间','方向','数量','成交价','交易费用','成交后现金','成交后持股','当日可卖','目标仓位'],...r.trades.map(t=>[data.dates[t[0]],barTime(t[1]),t[2]>0?'买入':'卖出',t[3],t[4],t[5].toFixed(4),t[6].toFixed(4),t[7],t[8],t[10]])];const blob=new Blob(['\ufeff'+rows.map(r=>r.join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`沪电股份_${active}_${data.dates[start]}_${data.dates[end-1]}_成交.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+$('apply-zoom').onclick=()=>{const ds=charts.price.getOption().xAxis[0].data,n=ds.length-1,visible=ds.slice(Math.ceil(n*zoom[0]/100),Math.floor(n*zoom[1]/100)+1).filter(d=>d<=data.dates.at(-1));if(!visible.length){showError('当前只包含盘中行情，尚不能用于完整交易日回测。');return;}$('start').value=visible[0];$('end').value=visible.at(-1);run();};
+$('export').onclick=()=>{const r=results[active],rows=[['日期','时间','方向','数量','成交价','交易费用','成交后净现金（负数为欠款）','成交后持股','当日可卖','目标仓位'],...r.trades.map(t=>[data.dates[t[0]],barTime(t[1]),t[2]>0?'买入':'卖出',t[3],t[4],t[5].toFixed(4),t[6].toFixed(4),t[7],t[8],t[10]])];const blob=new Blob(['\ufeff'+rows.map(r=>r.join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`沪电股份_${active}_${data.dates[start]}_${data.dates[end-1]}_成交.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 function renderLive(market,cached){
  liveMarket=market;const q=market.quote,minute=market.minutes,change=q.price/q.previous-1;
  $('live-date').textContent=q.date;
@@ -81,6 +85,7 @@ function renderLive(market,cached){
 }
 async function init(){try{
  const response=await fetch('./data.json');if(!response.ok)throw Error(`行情文件加载失败 (${response.status})`);data=await response.json();
+ const gateResponse=await fetch('./finance-gates.json');if(!gateResponse.ok)throw Error('融资条件数据加载失败');financeGates=await gateResponse.json();
  for(const id of ['performance','price','intraday'])charts[id]=echarts.init($(id),null,{renderer:'canvas'});
  charts.price.on('click',p=>{if(p.componentType!=='series')return;const date=p.seriesType==='candlestick'?p.name:p.value[0];const i=data.dates.indexOf(date);if(i>=start&&i<end){day=i;renderDay();}else if(date===liveMarket?.quote.date){$('live-panel').scrollIntoView({behavior:'smooth',block:'start'});}});
  charts.price.on('datazoom',()=>{const o=charts.price.getOption().dataZoom[0];zoom=[o.start,o.end];});
