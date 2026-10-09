@@ -3,6 +3,7 @@ import {candleValues} from './market.js';
 import {startLive} from './live.js';
 import {financeBacktest} from './finance-engine.js';
 import {tradePosition} from './positions.js';
+import {attribution} from './attribution.js';
 import {liveSignal} from './live-signals.js';
 import {baseHelp,gateHelp} from './strategy-help.js';
 const $=id=>document.getElementById(id), names={D:'D · 反转 + 业绩门槛',H:'H · 三状态自适应',B:'全仓持有基准',L:'L · 条件融资'},colors={D:'#078685',H:'#9070cc',B:'#9da9ba',L:'#cf933d'},modeNames=['防御空仓','反转交易','趋势参与'];
@@ -29,17 +30,23 @@ function run(){
  liveResults.L=start===0&&end===data.dates.length?results.L:financeBacktest(data,financeGates,0,data.dates.length,{...options,...results.L.config});
  if(liveMarket)renderLive(liveMarket,liveCached);
 }
+function renderAttribution(){
+ const dates=data.dates.slice(start,end),a=attribution(results[active],results.B,dates);
+ $('attribution-summary').textContent=active==='B'?'持有基准是比较基线。':`${names[active]}：从所选起点累计领先持有的交易日占 ${fmt(a.leadFraction*100,1)}%，最长连续落后 ${a.longestBehind} 个交易日。`;
+ $('attribution-body').innerHTML=['D','H','L','B'].map(k=>{const p=attribution(results[k],results.B,dates);return `<tr><td>${names[k]}</td><td>${p.preJuly===null?'区间未覆盖':pct(p.preJuly)}</td><td>${p.postJuly===null?'区间未覆盖':pct(p.postJuly)}</td><td>${k==='B'?'基线':fmt(p.leadFraction*100,1)+'%'}</td><td>${k==='B'?'—':p.longestBehind+' 天'}</td></tr>`;}).join('');
+}
 function renderMetrics(){
+ renderAttribution();
  const r=results[active],b=results.B,m=r.metrics,rel=m.return_-b.metrics.return_;
  $('metrics').innerHTML=[['区间累计收益',pct(m.return_),`期末权益 ¥ ${fmt(r.nav.at(-1),0)}`,m.return_>=0?'positive':'negative'],['相对持有基准',(rel>0?'+':'')+fmt(rel*100)+' pp','收益率差 · 百分点',rel>=0?'positive':'negative'],['最大回撤 · 5 分钟',fmt(m.mdd5*100)+'%',`日线收盘回撤 ${fmt(m.mdd*100)}%`,''],['平均持仓比例',fmt(m.exposure*100)+'%',`${m.orders} 笔成交 · 费用 ¥ ${fmt(m.fees,0)}${active==='L'?' · 利息 ¥ '+fmt(m.interest,0):''}`,'']].map(([l,v,d,c])=>`<div class="metric"><div class="label">${l}</div><div class="value ${c}">${v}</div><div class="detail">${d}</div></div>`).join('');
  $('finance-stats').textContent=`已计算 ${results.L.config.base} / ${fmt(results.L.config.level*100,0)}% / 年息 ${fmt(results.L.config.rate*100,1)}% / ${results.L.config.creditMode==='equity50'?'融资上限为当前净资产的 50%':'固定额度 ¥ '+fmt(results.L.config.credit,0)}：利息 ¥ ${fmt(results.L.metrics.interest,0)} · 最低维持担保比例 ${results.L.metrics.min_maintenance?fmt(results.L.metrics.min_maintenance*100,1)+'%':'无借款'} · 实际仓位峰值 ${fmt(results.L.metrics.max_exposure*100,1)}% · 使用融资 ${results.L.metrics.borrow_days} 天 · 期末欠款 ¥ ${fmt(results.L.metrics.ending_debt,0)}`;
  $('comparison-body').innerHTML=['D','H','L','B'].map(k=>{const m=results[k].metrics;return `<tr class="${k===active?'selected-row':''}"><td><span class="strategy-dot" style="background:${colors[k]}"></span>${names[k]}</td><td class="${m.return_>=0?'positive':'negative'}">${pct(m.return_)}</td><td>${k==='B'?'—':fmt((m.return_-b.metrics.return_)*100)+' pp'}</td><td>${fmt(m.mdd5*100)}%</td><td>${fmt(m.exposure*100,1)}%</td><td>${m.orders}</td><td>¥ ${fmt(m.fees,0)}${k==='L'?'<br><small>融资利息 ¥ '+fmt(m.interest,0)+'</small>':''}</td></tr>`}).join('');
 }
 function renderPerformance(){
- const dd=view==='drawdown',dates=dd?['区间起点',...data.dates.slice(start,end).flatMap(d=>Array.from({length:48},(_,j)=>d+' '+(j===47?'15:00':barTime(j+1===24?24:j+1))))]:['区间起点',...data.dates.slice(start,end)];
+ const dd=view==='drawdown',relative=view==='relative',dates=dd?['区间起点',...data.dates.slice(start,end).flatMap(d=>Array.from({length:48},(_,j)=>d+' '+(j===47?'15:00':barTime(j+1===24?24:j+1))))]:['区间起点',...data.dates.slice(start,end)];
  // The final morning bar is marked 11:30, not 13:00.
  if(dd)for(let d=0;d<end-start;d++)dates[1+d*48+23]=data.dates[start+d]+' 11:30';
- charts.performance.setOption({animation:false,grid:{left:68,right:35,top:48,bottom:45},legend:{top:12,right:25,icon:'roundRect',itemWidth:16,itemHeight:3,textStyle:{fontSize:11,color:'#718199'}},tooltip:{...tooltip,valueFormatter:v=>fmt(v)+'%'},xAxis:{...axis,type:'category',data:dates,boundaryGap:false,axisLabel:{...axis.axisLabel,formatter:v=>v.slice(0,10),hideOverlap:true}},yAxis:{...axis,type:'value',axisLabel:{...axis.axisLabel,formatter:pctAxis}},series:['D','H','L','B'].map(k=>({name:names[k],type:'line',showSymbol:false,sampling:dd?'min':'lttb',lineStyle:{width:k===active?2.5:1.7,type:k==='B'?'dashed':'solid'},itemStyle:{color:colors[k]},data:dd?[0,...results[k].drawdown]:[0,...results[k].nav.map(v=>(v/results[k].capital-1)*100)]}))},true);
+ charts.performance.setOption({animation:false,grid:{left:68,right:35,top:48,bottom:45},legend:{top:12,right:25,icon:'roundRect',itemWidth:16,itemHeight:3,textStyle:{fontSize:11,color:'#718199'}},tooltip:{...tooltip,valueFormatter:v=>fmt(v)+'%'},xAxis:{...axis,type:'category',data:dates,boundaryGap:false,axisLabel:{...axis.axisLabel,formatter:v=>v.slice(0,10),hideOverlap:true}},yAxis:{...axis,type:'value',axisLabel:{...axis.axisLabel,formatter:pctAxis}},series:['D','H','L','B'].map(k=>({name:names[k],type:'line',showSymbol:false,sampling:dd?'min':'lttb',lineStyle:{width:k===active?2.5:1.7,type:k==='B'?'dashed':'solid'},itemStyle:{color:colors[k]},data:dd?[0,...results[k].drawdown]:[0,...results[k].nav.map((v,i)=>relative?(v/results.B.nav[i]-1)*100:(v/results[k].capital-1)*100)]}))},true);
 }
 function positionText(t){const p=tradePosition(data,t);return `${fmt(p.before*100,2)}% → ${fmt(p.after*100,2)}%`;}
 function fillDetail(t){return `${barTime(t[1])} ${t[2]>0?'买入':'卖出'} ${fmt(t[3],0)} 股 @ ¥ ${fmt(t[4])}<br>实际仓位 ${positionText(t)}`;}
@@ -77,6 +84,11 @@ function renderStrategyHelp(){
  $('finance-pending').hidden=!data;
 }
 for(const id of ['finance-base','finance-gate','finance-level','finance-rate','finance-credit','finance-credit-mode'])$(id).addEventListener('change',renderStrategyHelp);
+$('compare-prejuly').onclick=()=>{
+ $('finance-base').value='D';$('finance-gate').value='all_full';$('finance-level').value='1.5';
+ $('finance-rate').value='6';$('finance-credit-mode').value='equity50';$('finance-credit').disabled=true;
+ renderStrategyHelp();$('finance-run').click();document.querySelector('[data-view="relative"]').click();
+};
 $('restore-default').onclick=()=>{
  $('finance-base').value='D';$('finance-gate').value='trend';$('finance-level').value='1.5';
  $('finance-rate').value='6';$('finance-credit-mode').value='equity50';$('finance-credit').disabled=true;

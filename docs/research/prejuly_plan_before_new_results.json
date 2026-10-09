@@ -1,0 +1,126 @@
+{
+  "cutoff": "2026-06-30",
+  "newCandidates": [
+    {
+      "family": "trend_floor",
+      "n": 60,
+      "floor": 0.75,
+      "lev": 1.0
+    },
+    {
+      "family": "trend_floor",
+      "n": 60,
+      "floor": 0.75,
+      "lev": 1.25
+    },
+    {
+      "family": "trend_floor",
+      "n": 60,
+      "floor": 0.75,
+      "lev": 1.5
+    },
+    {
+      "family": "trend_floor",
+      "n": 60,
+      "floor": 1.0,
+      "lev": 1.0
+    },
+    {
+      "family": "trend_floor",
+      "n": 60,
+      "floor": 1.0,
+      "lev": 1.25
+    },
+    {
+      "family": "trend_floor",
+      "n": 60,
+      "floor": 1.0,
+      "lev": 1.5
+    },
+    {
+      "family": "trend_floor",
+      "n": 120,
+      "floor": 0.75,
+      "lev": 1.0
+    },
+    {
+      "family": "trend_floor",
+      "n": 120,
+      "floor": 0.75,
+      "lev": 1.25
+    },
+    {
+      "family": "trend_floor",
+      "n": 120,
+      "floor": 0.75,
+      "lev": 1.5
+    },
+    {
+      "family": "trend_floor",
+      "n": 120,
+      "floor": 1.0,
+      "lev": 1.0
+    },
+    {
+      "family": "trend_floor",
+      "n": 120,
+      "floor": 1.0,
+      "lev": 1.25
+    },
+    {
+      "family": "trend_floor",
+      "n": 120,
+      "floor": 1.0,
+      "lev": 1.5
+    },
+    {
+      "family": "core_reversal",
+      "core": 0.5,
+      "lev": 1.0
+    },
+    {
+      "family": "core_reversal",
+      "core": 0.5,
+      "lev": 1.25
+    },
+    {
+      "family": "core_reversal",
+      "core": 0.5,
+      "lev": 1.5
+    },
+    {
+      "family": "core_reversal",
+      "core": 0.75,
+      "lev": 1.0
+    },
+    {
+      "family": "core_reversal",
+      "core": 0.75,
+      "lev": 1.25
+    },
+    {
+      "family": "core_reversal",
+      "core": 0.75,
+      "lev": 1.5
+    },
+    {
+      "family": "core_reversal",
+      "core": 0.9,
+      "lev": 1.0
+    },
+    {
+      "family": "core_reversal",
+      "core": 0.9,
+      "lev": 1.25
+    },
+    {
+      "family": "core_reversal",
+      "core": 0.9,
+      "lev": 1.5
+    }
+  ],
+  "selection": "Use 2023-10-09 through 2024-12-31 only; maximize annualized log growth minus 1.5 times absolute five-minute drawdown. Separately select cash-only and financing candidates. No reselection after seeing 2025-2026 outcomes.",
+  "validation": "Frozen choice forward evaluation 2025-01-01 to 2026-06-30; split 2025 and 2026H1. July onward excluded from selection. Historical data were already observed in previous work, so these remain retrospective chronological tests, not genuinely untouched samples.",
+  "walkforward": "Every 63 sessions, rank candidates using only preceding 504 sessions and the same score, stitch next 63-session signals and run a continuous portfolio.",
+  "engine": "Same actual raw 5-minute prices, T+1, volume cap, adverse slippage, fees, net-equity financing cap 50%, interest 6%; no changes to execution engine."
+}

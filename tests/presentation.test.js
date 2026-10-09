@@ -1,3 +1,4 @@
+import {attribution} from '../docs/attribution.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {backtest} from '../docs/engine.js';
@@ -47,3 +48,11 @@ const t=defaults.trades.find(t=>tradePosition(d,t).after>1);
 chart.setOption({xAxis:{type:'category',data:[d.dates[t[0]]]},yAxis:{},series:[{type:'scatter',data:[{value:[d.dates[t[0]],t[4],t[3]],trade:t}]}]});
 assert.deepEqual(chart.getModel().getSeriesByIndex(0).getDataParams(0).data.trade,t);chart.dispose();
 console.log(`PASS: ${n} cash/financed fills reconcile before/after exposure; default ranking matches backtest; live timing, missing data, no lookahead, and per-fill chart metadata.`);
+
+const bm=backtest(d,'B',0,d.dates.length),attr=attribution(defaults,bm,d.dates);
+assert.ok(Math.abs((1+attr.preJuly)*(1+attr.postJuly)-defaults.nav.at(-1)/defaults.capital)<1e-10);
+assert.ok(Math.abs(attr.preJuly-4.75223)<.000001);
+assert.equal(attr.longestBehind,277);
+assert.equal(attribution({nav:[110,120],capital:100},{nav:[100,130]},['2026-07-01','2026-07-02']).preJuly,null);
+assert.equal(attribution({nav:[90,100,101],capital:100},{nav:[100,110,100]},['2026-01-01','2026-01-02','2026-01-03']).longestBehind,2);
+console.log('PASS: continuous-account subperiod compounding and cumulative underperformance statistics.');
