@@ -1,0 +1,13 @@
+{
+  "ledgerTrades": 14180,
+  "repurchaseFills": 1175,
+  "maximumLedgerError": 0.0,
+  "prefixChecks": 226,
+  "baselineMetricComparisons": 72,
+  "T1": true,
+  "halfSoldCap": true,
+  "buyDebtCap": true,
+  "cashNoBorrow": true,
+  "forwardUnchanged": true,
+  "forwardSHA256": "5390318b686d5b5f514ec070b03013858b4577437156f4d66eb2055ef515e242"
+}

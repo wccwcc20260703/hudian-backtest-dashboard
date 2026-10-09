@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-10-09T15:17:02.338747+08:00",
+  "requestedSession": "2026-10-09",
+  "status": "source_returned",
+  "daily": {
+    "error": "0",
+    "message": "success",
+    "rows": 0
+  },
+  "minute5": {
+    "error": "0",
+    "message": "success",
+    "rows": 0
+  },
+  "quarter3Growth": {
+    "error": "0",
+    "rows": 0
+  }
+}

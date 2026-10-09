@@ -1,0 +1,72 @@
+{
+  "choices": {
+    "D": "D_none",
+    "L": "L_none"
+  },
+  "rankings": {
+    "D": [
+      {
+        "name": "D_none",
+        "eligible": true,
+        "days": 0,
+        "score": 0.036370426131668576
+      },
+      {
+        "name": "D_open",
+        "eligible": true,
+        "days": 31,
+        "score": -0.01884408393417522
+      },
+      {
+        "name": "D_gap_nonnegative",
+        "eligible": true,
+        "days": 12,
+        "score": 0.00268966529919501
+      },
+      {
+        "name": "D_near_vwap",
+        "eligible": true,
+        "days": 21,
+        "score": 0.015300214999642181
+      },
+      {
+        "name": "D_positive_ret20",
+        "eligible": true,
+        "days": 20,
+        "score": -0.001483360069361811
+      }
+    ],
+    "L": [
+      {
+        "name": "L_none",
+        "eligible": true,
+        "days": 0,
+        "score": 0.06677702380289124
+      },
+      {
+        "name": "L_open",
+        "eligible": true,
+        "days": 30,
+        "score": -0.001362858189328242
+      },
+      {
+        "name": "L_gap_nonnegative",
+        "eligible": true,
+        "days": 12,
+        "score": 0.035025918934116385
+      },
+      {
+        "name": "L_near_vwap",
+        "eligible": true,
+        "days": 20,
+        "score": 0.04511592433117406
+      },
+      {
+        "name": "L_positive_ret20",
+        "eligible": true,
+        "days": 19,
+        "score": 0.01485808283868395
+      }
+    ]
+  }
+}

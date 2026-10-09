@@ -1,0 +1,19 @@
+{
+  "question": "Can fixed, causal gap/VWAP-distance/prior20day filters distinguish robust afternoon re-entry from fragile rebounds?",
+  "recordedAt": "2026-10-09T15:15:31.954070+08:00",
+  "rules": {
+    "none": "Original strategy, no afternoon repurchase.",
+    "open": "Existing frozen research candidate unchanged.",
+    "gap_nonnegative": "Existing open confirmation, only if session open >= corporate-action-adjusted previous close.",
+    "near_vwap": "Existing open confirmation, only if last completed close <= 1.01 * cumulative VWAP.",
+    "positive_ret20": "Existing open confirmation, only if previous-close adjusted 20-session return > 0."
+  },
+  "scope": "Three standalone filters only. No threshold search, conjunction grid, or default change. Historical data all previously seen, not new blind evidence.",
+  "selection": "At2024end choose among5 rules peraccount: >=10actualtrainingrepurchasedays for any reentry rule, DD<=no-reentry+2pp; annual loggrowth minus1.5absDD. No-reentry alwayseligible. Quarterly2025onward prior252sessions with>=5actualrepurchasedays, continuous account.",
+  "execution": "Reuse audited engine: morning actualnonforcedsales50%cap,previousbasetargetceiling,oneafternoonorder,5barsmax,T+1,100shares,1%previousbarvolume,limits,fees,5bp and10bp slippage; financing6%calendarinterest/debt<=50%currentequityaftereachbuy.",
+  "acceptance": "Incrementalvsopen: improve2025..June2026 AND July..Oct8,DD<=open+2ppboth,oldernotworse,improve>=2of3fixedyears,10bp improvesboth. Originalcashgoal unchanged: preserveholdreturn,DD<=75%hold,>=2of3fixedyears,10bp,older,independentforward. Wealth1.20separate.",
+  "diagnostic": "Per-account actual old-open buy events; gross price outcomes toclose/next09:45 are descriptive, not strategyreturns. Kept-minus-rejected direction and samplecounts by chronologicalperiod; fewerthan5 in either bucket is inconclusive.",
+  "historyThrough": "2026-10-08",
+  "freshness": "2026-10-09 has closed but complete 48-bar session not reliably obtained; retain verified history through Oct8, do not substitute live quote for missing intraday data.",
+  "forwardManifestSHA256": "5390318b686d5b5f514ec070b03013858b4577437156f4d66eb2055ef515e242"
+}

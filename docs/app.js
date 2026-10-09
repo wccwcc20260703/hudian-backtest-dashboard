@@ -32,8 +32,10 @@ function run(){
 }
 function renderAttribution(){
  const dates=data.dates.slice(start,end),a=attribution(results[active],results.B,dates);
- $('attribution-summary').textContent=active==='B'?'持有基准是比较基线。':`${names[active]}：从所选起点累计领先持有的交易日占 ${fmt(a.leadFraction*100,1)}%，最长连续落后 ${a.longestBehind} 个交易日。`;
- $('attribution-body').innerHTML=['D','H','L','B'].map(k=>{const p=attribution(results[k],results.B,dates);return `<tr><td>${names[k]}</td><td>${p.preJuly===null?'区间未覆盖':pct(p.preJuly)}</td><td>${p.postJuly===null?'区间未覆盖':pct(p.postJuly)}</td><td>${k==='B'?'基线':fmt(p.leadFraction*100,1)+'%'}</td><td>${k==='B'?'—':p.longestBehind+' 天'}</td></tr>`;}).join('');
+ const fc=results.L.config,gateNames={trend:'趋势支持',edge_morning:'反转＋早盘转强',deep_rsi20:'RSI低于20',edge:'反转有效',strong_edge:'高反转收益门槛',all_full:'所有满仓信号'};
+ const label=k=>k==='L'?`${names[k]} · ${fc.base} / ${gateNames[fc.gate]} / ${fmt(fc.level*100,0)}%`:names[k];
+ $('attribution-summary').textContent=active==='B'?'持有基准是比较基线。':`${label(active)} · 区间累计收益 ${pct(results[active].metrics.return_)}：从所选起点累计领先持有的交易日占 ${fmt(a.leadFraction*100,1)}%，最长连续落后 ${a.longestBehind} 个交易日。`;
+ $('attribution-body').innerHTML=['D','H','L','B'].map(k=>{const p=attribution(results[k],results.B,dates);return `<tr><td>${label(k)}</td><td><strong>${pct(results[k].metrics.return_)}</strong></td><td>${p.preJuly===null?'区间未覆盖':pct(p.preJuly)}</td><td>${p.postJuly===null?'区间未覆盖':pct(p.postJuly)}</td><td>${k==='B'?'基线':fmt(p.leadFraction*100,1)+'%'}</td><td>${k==='B'?'—':p.longestBehind+' 天'}</td></tr>`;}).join('');
 }
 function renderMetrics(){
  renderAttribution();

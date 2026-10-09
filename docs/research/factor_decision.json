@@ -1,0 +1,212 @@
+[
+  {
+    "name": "D_none",
+    "incremental": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": true,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "yearsPassed": 1,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": false
+    },
+    "promote": false
+  },
+  {
+    "name": "D_open",
+    "incremental": {
+      "validation": false,
+      "recent": false,
+      "older": true,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "yearsPassed": 1,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": true
+    },
+    "promote": false
+  },
+  {
+    "name": "D_gap_nonnegative",
+    "incremental": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "yearsPassed": 1,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": true
+    },
+    "promote": false
+  },
+  {
+    "name": "D_near_vwap",
+    "incremental": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": true,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "yearsPassed": 1,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": true
+    },
+    "promote": false
+  },
+  {
+    "name": "D_positive_ret20",
+    "incremental": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "yearsPassed": 1,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": true
+    },
+    "promote": false
+  },
+  {
+    "name": "L_none",
+    "incremental": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": true,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  },
+  {
+    "name": "L_open",
+    "incremental": {
+      "validation": false,
+      "recent": false,
+      "older": true,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  },
+  {
+    "name": "L_gap_nonnegative",
+    "incremental": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  },
+  {
+    "name": "L_near_vwap",
+    "incremental": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": true,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  },
+  {
+    "name": "L_positive_ret20",
+    "incremental": {
+      "validation": false,
+      "recent": false,
+      "older": true,
+      "ddBudget": true,
+      "twoOfThree": false,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  },
+  {
+    "name": "D_rolling",
+    "incremental": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": true,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": {
+      "full": true,
+      "yearsPassed": 1,
+      "older": false,
+      "stress10bp": true,
+      "independentForward": false,
+      "wealth120Separate": true
+    },
+    "promote": false
+  },
+  {
+    "name": "L_rolling",
+    "incremental": {
+      "validation": false,
+      "recent": false,
+      "older": false,
+      "ddBudget": true,
+      "twoOfThree": true,
+      "stress10bp": false
+    },
+    "incrementalPass": false,
+    "cashObjective": null,
+    "promote": false
+  }
+]
