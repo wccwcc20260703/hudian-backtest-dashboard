@@ -1,3 +1,4 @@
+import {startBriefings} from './briefings.js?v=6f9223565966';
 import {backtest,barTime} from './engine.js?v=45e8fd5cb157';
 import {candleValues} from './market.js?v=3a58d356331d';
 import {startLive} from './live.js?v=39237cf4051d';
@@ -147,4 +148,5 @@ async function init(){try{
  $('show-live').onchange=()=>renderPrice();
  window.addEventListener('resize',()=>Object.values(charts).forEach(c=>c.resize()));
  }catch(e){showError('看板未能载入：'+e.message+'。请刷新页面重试。');$('run').textContent='载入失败';$('range-note').textContent='行情数据尚未就绪';}}
+startBriefings();
 init();

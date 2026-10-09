@@ -1,0 +1,23 @@
+沪电股份每日发布工作流（Asia/Shanghai，北京时间）
+项目目录 /Users/taowang/Documents/Codex/2026-10-09/3-100/work/hudian-backtest-dashboard
+Python /Users/taowang/Documents/Codex/2026-10-09/3-100/work/venv/bin/python
+
+同一任务仅支持一个自动安排，现已合并：每日08:05做最多15分钟研究；08:30盘前；15:05盘后；15:30核验发布后续研。周末仅研究。工作日08:30启动盘前，目标09:00前完成GitHub Pages发布；15:05启动盘后，目标15:30前完成。先核验深交所交易日历；周末、节假日不生成虚构交易日。若日历不可核验，发布partial缺失说明而非猜测交易日。不要修改系统时钟或伪造生成时间。迟到执行必须标明补发。电脑及本地应用需保持运行，网络和Pages部署可能影响时效。
+
+读取研究检查点、docs/default-selection.json、docs/daily-briefings.json和最近报告，避免同日重复发布；只在内容变化、补齐资料或首次发布时提交。读取当前Git状态，不覆盖其他进行中的研究编辑，只提交本次报告相关文件。新研究链接只进入docs/research/archive.html，勿重新插入首页顶部。
+
+盘后：
+1. 获取今日腾讯行情(qt.gtimg.cn/q=sz002463)、BaoStock日线及5分钟，必要时用其他合法公开来源交叉核验。保留原始响应、请求时间、源时间、行数、差异。使用真实日线OHLC，分钟数据须正确日期、时序、非零成交量，完整覆盖48个5分钟时段。回测交易日尚未更新时禁止补画成交或冒充完成日。
+2. 已完整核验时，复用历史计算及当前默认设置，报告当天行情、高低开和早午盘路径、模型每笔操作的时间、理由、起始/成交后仓位、收益与持有对照、费用和融资利息、错失机会及数据缺失；区分计划/模拟/真实成交。我们没有真实账户或订单，不能声称真实收益。
+3. 数据未齐也必须先发布partial版：来源可信的收盘快照、能够证实的日线事实、明确哪些内容待补，暂停可执行信号。不得为赶时间用均价或插值伪造价格。及时停止失败源重试，给部署预留至少5分钟。
+
+盘前：
+1. 核验当天是交易日、上一完整交易日的可靠日线和分钟，已公告财报及最新公告。财报只用披露后当时可知版本，缺少公告访问则如实标注。
+2. 核验TTMI、金像电2368.TW、SMH、NVDA、QQQ、台湾大盘最近已完成收盘，严格用09:00前可知信息，处理美股夏令时、各地节假日和除权。海外因子仍属研究，不能擅自变成默认条件。
+3. 基于默认策略提供当日目标、前一日模型持仓、融资余额与50%净资产买入额度、条件式加减仓方案及风险失效条件。09:00不能知道当日开盘价、VWAP或早盘量，09:45/10:00触发须等待实际数据。若上一完整交易日/模型状态不齐，status=partial，仅列关注条件并明确暂停可执行计划。
+4. 不重新优化参数、不改默认策略、不下单、不付费取数。08:50前形成可发布版本，留部署时间。complete仅用于全部必要行情、日历、指标核验完成，否则partial。
+
+发布：按docs/briefings/2026-10-09/post.json结构生成UTF-8输入到workspace work/briefings/。字段包括kind,tradeDate,title,status,generatedAt(含+08:00),deadline(当天09:00或15:30),validUntil,asOf,requiredSession,verifiedThrough,calendarVerified,summary,facts[{label,value}],items[{label,text}],sources[{name,url,asOf}],limitations。
+盘前validUntil当天09:30；盘后validUntil下一已核验交易日15:30。deadline是目标，不是保证已发布；generatedAt用实际生成时间，late由脚本自动计算。sources保留原始出处链接与源时间。网络端点不能代表历史版本已永久保留，原始证据另存work/briefings/<date>/。
+执行 python scripts/publish-briefing.py /abs/path/input.json，脚本写docs/daily-briefings.json及docs/briefings/<date>/<kind>.json/html。node tests/briefings.test.js、git diff --check；直接阅读生成报告核对数字及日期。提交仅本次报告，推送main，检查Pages部署commit并远端读取json/html比对。把成功commit、源状态、实际发布时间、是否超时写入work/research-checkpoint.json的dailyBriefings。
+如果运行中依赖失败，优先发布partial，再记录准确原因。通知仅在发布完成、有意义补全、失败或需要用户处理时；没有变化保持安静。不要发送邮件或聊天给其他人。

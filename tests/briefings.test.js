@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {briefingState} from '../docs/briefings.js';
+const pre={status:'pending',deadline:'2026-10-12T09:00:00+08:00',summary:'waiting'};
+assert.equal(briefingState(pre,new Date('2026-10-12T08:59:00+08:00')).label,'待发布');
+assert.match(briefingState(pre,new Date('2026-10-12T09:01:00+08:00')).label,/待补发/);
+const ready={...pre,status:'partial',validUntil:'2026-10-12T09:30:00+08:00'};
+assert.match(briefingState(ready,new Date('2026-10-12T09:00:00+08:00')).label,/数据待补齐/);
+assert.match(briefingState(ready,new Date('2026-10-12T09:31:00+08:00')).label,/历史记录/);
+assert.equal(briefingState(null).label,'尚未发布');
+console.log('Briefing deadline, freshness, partial-data checks passed.');
