@@ -1,8 +1,10 @@
-import {strengthAt} from './signal-strength.js?v=66213aa0a05f';
+import {strengthAt} from './signal-strength.js?v=01d4074be540';
 import {signalFreshness} from './live-signals.js?v=c76ec1fd76c8';
 // Observation rules have no account input. Signals are emitted at confirmation time,
 // never moved backwards to an earlier low/high after later prices become available.
-export function opportunitySignals({context,market,cached=false,now=Date.now()}){
+export function opportunitySignals({context,market,cached=false,now=Date.now(),intervalMinutes=1}){
+ if(![1,5].includes(intervalMinutes))throw Error('观察点仅支持1或5分钟');
+ const step=intervalMinutes*60000;
  const empty=message=>({signals:[],message,levels:[]});
  if(!context||context.date!==market.quote.date||context.asOf>=context.date)return empty('月线指标未更新到该交易日，暂停机会观察。');
  if(!(context.prior9Sum>0)||context.completedMonths?.length!==10)return empty('月末收盘资料不完整，暂停机会观察。');
@@ -13,14 +15,14 @@ export function opportunitySignals({context,market,cached=false,now=Date.now()})
  for(const p of market.minutes.points){
   if(!/^\d\d:\d\d$/.test(p.time)||!((p.time>='09:30'&&p.time<='11:30')||(p.time>='13:00'&&p.time<='15:00')))continue;
   const sec=Date.parse(`${context.date}T${p.time}:00+08:00`);
-  if(sec+60000>cutoff||p.time<=last||!(p.price>0))continue;
+  if(sec+step>cutoff||p.time<=last||!(p.price>0))continue;
   last=p.time;points.push({...p,sec,level:(context.prior9Sum+p.price)/10,vwap:p.volume>0&&p.amount>0?p.amount/p.volume:null});
  }
  if(!points.length)return empty('等待已完成且时间有效的分钟价格。');
  const replay=!!signalFreshness(market,cached,now)||new Date(now+8*3600000).toISOString().slice(11,16)>='15:00';
  const signals=[];let touched=-1,supportConfirmed=false,broken=false,lastVWAP=-Infinity,vwapLong=false;
- const continuous=(a,z)=>a>=0&&points.slice(a+1,z+1).every((p,j)=>p.sec-points[a+j].sec===60000);
- const add=(p,side,kind,title,reason,invalidation)=>{const parent=kind==='vwap-invalidated'?signals.findLast(s=>s.kind==='vwap-reclaim'):null;const signal={id:kind+'-'+p.time,time:p.time,confirmedAt:new Date(p.sec+60000+8*3600000).toISOString().slice(11,16),price:p.price,open:market.quote.open,side,kind,title,reason,invalidation,level:p.level,replay,ruleVersion:context.ruleVersion,parentId:parent?.id??null};signal.strength=strengthAt(signal,points.filter(x=>x.sec<=p.sec));signals.push(signal);};
+ const continuous=(a,z)=>a>=0&&points.slice(a+1,z+1).every((p,j)=>p.sec-points[a+j].sec===step);
+ const add=(p,side,kind,title,reason,invalidation)=>{const parent=kind==='vwap-invalidated'?signals.findLast(s=>s.kind==='vwap-reclaim'):null;const signal={id:kind+'-'+p.time,time:p.time,confirmedAt:new Date(p.sec+step+8*3600000).toISOString().slice(11,16),price:p.price,open:market.quote.open,side,kind,title,reason,invalidation,level:p.level,replay,ruleVersion:context.ruleVersion,parentId:parent?.id??null};signal.strength=strengthAt(signal,points.filter(x=>x.sec<=p.sec),intervalMinutes);if(intervalMinutes!==1){for(const key of ['reason','invalidation'])signal[key]=signal[key].replaceAll('3分钟',`3根${intervalMinutes}分钟`).replaceAll('2个已完成分钟',`2根已完成${intervalMinutes}分钟`).replaceAll('3个已完成分钟',`3根已完成${intervalMinutes}分钟`).replaceAll('本分钟',`本根${intervalMinutes}分钟`).replaceAll('前2分钟',`前2根${intervalMinutes}分钟`).replaceAll('连续分钟',`连续${intervalMinutes}分钟K线`);signal.reason+=' 历史5分钟近似规则，不是原1分钟信号逐笔还原。';}signals.push(signal);};
  for(let i=0;i<points.length;i++){
   const p=points[i];
   if(touched<0&&Math.abs(p.price/p.level-1)<=.005){touched=i;add(p,0,'support-touch','月线支撑观察',`价格进入动态10个月均线±0.5%区域；该时点均线${p.level.toFixed(2)}元。触及本身不是买入确认。`,'继续下破时支撑可能失败；等待连续分钟重新站上均线。');}
