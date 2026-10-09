@@ -1,5 +1,6 @@
+import {STOCK_COMMISSION,MIN_COMMISSION} from './fees.js?v=74745f12a7da';
 // Presentation only: estimates never create orders or change the model ledger.
-export function orderEstimate({price,target,side,portfolio,model='D',config={},slip=.0005,transfer=.00001,stamp=.0005,previous}){
+export function orderEstimate({price,target,side,portfolio,model='D',config={},commission=STOCK_COMMISSION,minCommission=MIN_COMMISSION,slip=.0005,transfer=.00001,stamp=.0005,previous}){
  const {cash,shares}=portfolio??{},equity=cash+shares*price;
  if(![cash,shares,price,target,slip,transfer,stamp].every(Number.isFinite)||!(price>0&&equity>0)||shares<0)return {valid:false};
  const before=shares*price/equity,desired=Math.max(0,Math.floor(equity*target/price/100)*100);
@@ -9,13 +10,13 @@ export function orderEstimate({price,target,side,portfolio,model='D',config={},s
  if(side<0){qty=Math.min(qty,portfolio.available??shares);if(target===0)qty=Math.min(shares,portfolio.available??shares);}
  if(side>0){
   const allowed=model==='L'?Math.min(1.5,Math.max(1,target)):1;
-  const budget=allowed*cash+(allowed-1)*shares*price-allowed*5;
-  let affordable=Math.max(0,Math.floor(budget/(price+allowed*(fill-price)+allowed*fill*(.00025+transfer))/100)*100);
-  if(model==='L'&&config.credit!=null)affordable=Math.min(affordable,Math.max(0,Math.floor((cash+config.credit-5)/(fill*(1+.00025+transfer))/100)*100));
+  const budget=allowed*cash+(allowed-1)*shares*price-allowed*minCommission;
+  let affordable=Math.max(0,Math.floor(budget/(price+allowed*(fill-price)+allowed*fill*(commission+transfer))/100)*100);
+  if(model==='L'&&config.credit!=null)affordable=Math.min(affordable,Math.max(0,Math.floor((cash+config.credit-minCommission)/(fill*(1+commission+transfer))/100)*100));
   qty=Math.min(qty,affordable);if(qty<required)reason='资金或融资额度限制';
  }
  if(Number.isFinite(previous)&&previous>0){const upper=Math.floor(previous*1.1*100+.5)/100,lower=Math.floor(previous*.9*100+.5)/100;if(side>0&&(price>=upper-.005||fill>upper)||side<0&&(price<=lower+.005||fill<lower)){qty=0;reason='涨跌停价格限制';}}
- const gross=qty*fill,fee=qty?Math.max(5,gross*.00025)+gross*(transfer+(side<0?stamp:0)):0;
+ const gross=qty*fill,fee=qty?Math.max(minCommission,gross*commission)+gross*(transfer+(side<0?stamp:0)):0;
  const cashAfter=cash-side*gross-fee,sharesAfter=shares+side*qty,afterEquity=cashAfter+sharesAfter*price;
  return {valid:true,required,qty,fill,fee,before,after:afterEquity>0?sharesAfter*price/afterEquity:null,cashAfter,sharesAfter,reason};
 }

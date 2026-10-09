@@ -1,7 +1,7 @@
-import {backtest,barTime} from './engine.js';
-import {financeBacktest} from './finance-engine.js';
-import {tradePosition} from '../positions.js';
-import {startMarket} from './market.js';
+import {backtest,barTime} from './engine.js?v=24d79961fe67';
+import {financeBacktest} from './finance-engine.js?v=eaee4fef1dbc';
+import {tradePosition} from '../positions.js?v=0bef8d272a6e';
+import {startMarket} from './market.js?v=18c8fd59db5d';
 const $=id=>document.getElementById(id),pct=v=>`${v>=0?'+':''}${(v*100).toFixed(2)}%`,weight=v=>`${(v*100).toFixed(2)}%`,money=v=>Number(v).toLocaleString('zh-CN',{maximumFractionDigits:2}),names={H:'H · 三状态现金',D:'D · 反转现金',V:'V · H + 均价转弱减仓',L:'L · H条件融资',B:'全仓持有588000'},colors={H:'#168895',D:'#6784c0',V:'#c49449',L:'#986abd',B:'#8797a7'};
 let data,results={},active='H',start=0,end=0,day=0;
 const charts={};

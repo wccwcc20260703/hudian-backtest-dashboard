@@ -1,5 +1,5 @@
 import {opportunitySignals} from './opportunities.js?v=6bc2afa727e7';
-import {barTime} from './engine.js?v=45e8fd5cb157';
+import {barTime} from './engine.js?v=40d6edac7cb0';
 import {tradePosition} from './positions.js?v=0bef8d272a6e';
 export const barEnd=j=>j===23?'11:30':j===47?'15:00':barTime(j+1);
 export const dayChange=(data,d)=>data.close[d]/data.reference[d]-1;

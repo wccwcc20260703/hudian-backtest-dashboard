@@ -1,12 +1,12 @@
-import {historicalObservations,historyLines,tradeReason,dayChange} from './replay.js?v=ca50ea880de1';
+import {historicalObservations,historyLines,tradeReason,dayChange} from './replay.js?v=1d14cd0999b4';
 import {strengthExplanation} from './signal-strength.js?v=01d4074be540';
-import {orderEstimate,hoverStableUpdater,actionableSignals} from './live-presentation.js?v=3020e3cedf7a';
+import {orderEstimate,hoverStableUpdater,actionableSignals} from './live-presentation.js?v=71e80230a188';
 import {opportunitySignals} from './opportunities.js?v=6bc2afa727e7';
 import {startBriefings} from './briefings.js?v=6f9223565966';
-import {backtest,barTime} from './engine.js?v=45e8fd5cb157';
+import {backtest,barTime} from './engine.js?v=40d6edac7cb0';
 import {candleValues} from './market.js?v=3a58d356331d';
 import {startLive} from './live.js?v=39237cf4051d';
-import {financeBacktest} from './finance-engine.js?v=a2a5c9e08634';
+import {financeBacktest} from './finance-engine.js?v=bf7a904c52a3';
 import {tradePosition} from './positions.js?v=0bef8d272a6e';
 import {attribution} from './attribution.js?v=fb459d2c3f0d';
 import {liveSignal} from './live-signals.js?v=c76ec1fd76c8';
@@ -39,6 +39,13 @@ function run(){
  // Live hints always inherit the full historical model account, independent of range selection.
  for(const k of ['D','H','B'])liveResults[k]=start===0&&end===data.dates.length?results[k]:backtest(data,k,0,data.dates.length,options);
  liveResults.L=start===0&&end===data.dates.length?results.L:financeBacktest(data,financeGates,0,data.dates.length,{...options,...results.L.config});
+
+ const dc={...options,base:'D',gate:'all_full',driftPolicy:'buy_cap_only',level:1.5,rate:.06,credit:null};
+ const fullDefault=financeBacktest(data,financeGates,0,data.dates.length,dc),fb=liveResults.B;
+ const fullA=attribution(fullDefault,fb,data.dates),cut=data.dates.findIndex(d=>d>='2026-07-01');
+ $('default-cost-result').textContent=`${data.dates[0]} 至 ${data.dates.at(-1)}，默认组合按当前本金与滑点、佣金万1计算：收益 ${pct(fullDefault.metrics.return_)}，最大回撤 ${fmt(-fullDefault.metrics.mdd5*100)}%，最长累计落后 ${fullA.longestBehind} 个交易日。历史研究归档保留旧费率。`;
+ if(cut>0){const pre=financeBacktest(data,financeGates,0,cut,dc),pb=backtest(data,'B',0,cut,options),pa=attribution(pre,pb,data.dates.slice(0,cut));
+ $('default-prejuly-result').textContent=`${data.dates[0]} 至 ${data.dates[cut-1]}，当前默认组合：收益 ${pct(pre.metrics.return_)}，最大回撤 ${fmt(-pre.metrics.mdd5*100)}%，累计领先持有 ${fmt(pa.leadFraction*100,1)}%；同期持有 ${pct(pb.metrics.return_)} / 回撤 ${fmt(-pb.metrics.mdd5*100)}%。佣金万1；这不是独立验证。`;}
  if(liveMarket)renderLive(liveMarket,liveCached);
 }
 function renderAttribution(){

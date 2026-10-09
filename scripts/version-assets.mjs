@@ -21,3 +21,7 @@ const label=`<span id="page-version">页面版本 ${app}</span>`;
 html=html.includes('id="page-version"')?html.replace(/<span id="page-version">[^<]*<\/span>/,label):html.replace('</footer>',`${label}</footer>`);
 if(html!==original)writeFileSync(path,html);
 console.log(`Versioned ${versions.size} modules and stylesheet; page version ${app}.`);
+
+const starApp=version(resolve(root,'star50/app.js')),starPath=resolve(root,'star50/index.html');
+const starHtml=readFileSync(starPath,'utf8').replace(/src="app\.js(?:\?v=[^"]+)?"/,`src="app.js?v=${starApp}"`);
+writeFileSync(starPath,starHtml);console.log(`STAR50 page version ${starApp}.`);

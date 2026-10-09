@@ -167,5 +167,35 @@
       "mdd5": -0.2545213732594036
     }
   ],
-  "selectedAt": "2026-10-09T17:32:00.057838+08:00"
+  "selectedAt": "2026-10-09T17:32:00.057838+08:00",
+  "historicalCandidateCommission": 0.00025,
+  "currentEvaluation": {
+    "name": "D_all_full_1.5_buy_cap_only",
+    "commission": 0.0001,
+    "minimumCommission": 5,
+    "asOf": "2026-10-08",
+    "return_": 12.265060918741748,
+    "mdd": -0.19694411411278467,
+    "mdd5": -0.2520418016155769,
+    "exposure": 0.5936521191844796,
+    "orders": 1262,
+    "fees": 393745.16138999973,
+    "interest": 116770.91986825575,
+    "dividend_tax": 0,
+    "t1_blocks": 0,
+    "limit_blocks": 3,
+    "volume_caps": 908,
+    "turnover": 326.40170876918353,
+    "risk_orders": 0,
+    "borrow_days": 335,
+    "min_maintenance": 2.665496616115026,
+    "max_exposure": 1.6004215141142837,
+    "ending_debt": 7095055.081258253,
+    "max_debt": 7095055.081258253,
+    "leadFraction": 0.6189821182943603,
+    "longestBehind": 235,
+    "preJuly": 7.795283942304849,
+    "postJuly": 0.5082015550330907
+  },
+  "costNote": "当前评估按用户实际佣金万1重算；historicalCandidateCommission对应旧候选及previousSelection的万2.5口径，保留历史。没有重新筛选默认策略。"
 }

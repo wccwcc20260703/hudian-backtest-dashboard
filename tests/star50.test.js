@@ -6,7 +6,7 @@ const data=JSON.parse(fs.readFileSync(new URL('../docs/star50/data.json',import.
 const cases=JSON.parse(fs.readFileSync(new URL('./star50/fixtures.json',import.meta.url)));
 let orders=0;
 for(const f of cases){
- const r=f.model==='L'?financeBacktest(data,data.gates,f.start,f.end,{base:'H',gate:'trend',slip:f.slip}):backtest(data,f.model,f.start,f.end,{slip:f.slip});
+ const r=f.model==='L'?financeBacktest(data,data.gates,f.start,f.end,{base:'H',gate:'trend',slip:f.slip,commission:.00025}):backtest(data,f.model,f.start,f.end,{slip:f.slip,commission:.00025});
  assert.equal(r.nav.length,f.nav.length);r.nav.forEach((v,i)=>assert.ok(Math.abs(v-f.nav[i])<.02,`${f.model} nav ${i}: ${v} ${f.nav[i]}`));
  assert.equal(r.trades.length,f.trades.length,`${f.model} trades`);
  r.trades.forEach((t,i)=>{for(let j=0;j<14;j++)assert.ok(Math.abs(t[j]-f.trades[i][j])<.02,`${f.model} order ${i},${j}`);assert.ok(t[3]>0);assert.ok(t[2]>0||t[3]<=t[9]);assert.ok(t[3]<=t[11]);if(f.model==='L'&&t[2]>0){const eq=t[6]+t[7]*data.bars[t[0]][t[1]][0];assert.ok(Math.max(0,-t[6])<=eq*.5+.01);}orders++;});

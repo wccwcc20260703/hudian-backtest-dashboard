@@ -10,7 +10,8 @@ const read=p=>JSON.parse(fs.readFileSync(p));
 const d=read('docs/data.json'),g=read('docs/finance-gates.json');
 const sel=read('docs/default-selection.json');
 assert.equal(sel.selectionMode,'user_requested');assert.equal(sel.selected,'D_all_full_1.5_buy_cap_only');
-const selected=sel.candidates.find(x=>x.name===sel.selected);
+const selected=sel.currentEvaluation;
+assert.equal(selected.commission,.0001);
 const defaults=financeBacktest(d,g,0,d.dates.length,{base:'D',gate:'all_full',level:1.5,credit:null});
 assert.ok(Math.abs(defaults.metrics.return_-selected.return_)<1e-8);
 assert.ok(Math.abs(defaults.metrics.mdd5-selected.mdd5)<1e-8);
@@ -58,8 +59,8 @@ console.log(`PASS: ${n} cash/financed fills reconcile before/after exposure; use
 
 const bm=backtest(d,'B',0,d.dates.length),attr=attribution(defaults,bm,d.dates);
 assert.ok(Math.abs((1+attr.preJuly)*(1+attr.postJuly)-defaults.nav.at(-1)/defaults.capital)<1e-10);
-assert.ok(Math.abs(attr.preJuly-7.5063727383)<.000001);
-assert.equal(attr.longestBehind,235);
+assert.ok(Math.abs(attr.preJuly-selected.preJuly)<.000001);
+assert.equal(attr.longestBehind,selected.longestBehind);
 assert.equal(attribution({nav:[110,120],capital:100},{nav:[100,130]},['2026-07-01','2026-07-02']).preJuly,null);
 assert.equal(attribution({nav:[90,100,101],capital:100},{nav:[100,110,100]},['2026-01-01','2026-01-02','2026-01-03']).longestBehind,2);
 console.log('PASS: continuous-account subperiod compounding and cumulative underperformance statistics.');
