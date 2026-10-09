@@ -1,0 +1,65 @@
+{
+  "checkedAt": "2026-10-09T16:32:31.444582+08:00",
+  "sources": [
+    {
+      "symbol": "TTMI",
+      "http": 200,
+      "path": "work/overseas/TTMI.json",
+      "sha256": "fac4a5d5daad5c1e36b006047db61be535432589244f8551c3c855af5eeea6a8",
+      "rows": 1742,
+      "first": "2019-11-01T13:30:00+00:00",
+      "last": "2026-10-08T13:30:00+00:00",
+      "exchange": "America/New_York"
+    },
+    {
+      "symbol": "2368.TW",
+      "http": 200,
+      "path": "work/overseas/2368.TW.json",
+      "sha256": "f69f1b34cae911fc8f8761a3f1fa61a1293e3850dc73cb6b3fb0b5d4b8f05df1",
+      "rows": 1686,
+      "first": "2019-11-01T01:00:00+00:00",
+      "last": "2026-10-08T01:00:00+00:00",
+      "exchange": "Asia/Taipei"
+    },
+    {
+      "symbol": "SMH",
+      "http": 200,
+      "path": "work/overseas/SMH.json",
+      "sha256": "62f3f5df340308c1179e34ead2adb66f1d906e0ba1006600cdc8c9f56b3320a7",
+      "rows": 1742,
+      "first": "2019-11-01T13:30:00+00:00",
+      "last": "2026-10-08T13:30:00+00:00",
+      "exchange": "America/New_York"
+    },
+    {
+      "symbol": "NVDA",
+      "http": 200,
+      "path": "work/overseas/NVDA.json",
+      "sha256": "b32706d395ddc3f1ec4a7f8ccd6b7f2987495f6fc9d9610962a53f50f388828e",
+      "rows": 1742,
+      "first": "2019-11-01T13:30:00+00:00",
+      "last": "2026-10-08T13:30:00+00:00",
+      "exchange": "America/New_York"
+    },
+    {
+      "symbol": "QQQ",
+      "http": 200,
+      "path": "work/overseas/QQQ.json",
+      "sha256": "a218189c1ad023e741a3eb74f846f1f79353bfe1c229324b58d218d23db76c3d",
+      "rows": 1742,
+      "first": "2019-11-01T13:30:00+00:00",
+      "last": "2026-10-08T13:30:00+00:00",
+      "exchange": "America/New_York"
+    },
+    {
+      "symbol": "^TWII",
+      "http": 200,
+      "path": "work/overseas/index_TWII.json",
+      "sha256": "39bf7346f3466035463d5503e64d433973a6126dfd5c45dd0c3380177035de04",
+      "rows": 1686,
+      "first": "2019-11-01T01:00:00+00:00",
+      "last": "2026-10-08T01:00:00+00:00",
+      "exchange": "Asia/Taipei"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+[
+  {
+    "symbol": "TTMI",
+    "rows": 1742,
+    "fromDate": "2019-11-01",
+    "toDate": "2026-10-08",
+    "largeDailyChanges": 0,
+    "missingPriceRows": 0,
+    "missingDates": [],
+    "timezone": "America/New_York"
+  },
+  {
+    "symbol": "2368.TW",
+    "rows": 1686,
+    "fromDate": "2019-11-01",
+    "toDate": "2026-10-08",
+    "largeDailyChanges": 0,
+    "missingPriceRows": 1,
+    "missingDates": [
+      "2025-08-01"
+    ],
+    "timezone": "Asia/Taipei"
+  },
+  {
+    "symbol": "SMH",
+    "rows": 1742,
+    "fromDate": "2019-11-01",
+    "toDate": "2026-10-08",
+    "largeDailyChanges": 0,
+    "missingPriceRows": 0,
+    "missingDates": [],
+    "timezone": "America/New_York"
+  },
+  {
+    "symbol": "NVDA",
+    "rows": 1742,
+    "fromDate": "2019-11-01",
+    "toDate": "2026-10-08",
+    "largeDailyChanges": 0,
+    "missingPriceRows": 0,
+    "missingDates": [],
+    "timezone": "America/New_York"
+  },
+  {
+    "symbol": "QQQ",
+    "rows": 1742,
+    "fromDate": "2019-11-01",
+    "toDate": "2026-10-08",
+    "largeDailyChanges": 0,
+    "missingPriceRows": 0,
+    "missingDates": [],
+    "timezone": "America/New_York"
+  },
+  {
+    "symbol": "^TWII",
+    "rows": 1686,
+    "fromDate": "2019-11-01",
+    "toDate": "2026-10-08",
+    "largeDailyChanges": 0,
+    "missingPriceRows": 0,
+    "missingDates": [],
+    "timezone": "Asia/Taipei"
+  }
+]

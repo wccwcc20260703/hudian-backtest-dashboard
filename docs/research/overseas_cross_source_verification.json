@@ -1,0 +1,15 @@
+{
+  "taiwanOfficialRows": 33,
+  "matchedRows": 32,
+  "maxAbsDifference": 0.0,
+  "missingYahooDates": [
+    "2025-08-01"
+  ],
+  "usIndependentSource": "Stooq TLS connection failed in requests andcurl. No certificate bypass. USseries remain singleYahoo source; record limitation.",
+  "missingHandling": "No fill orzero substitution for missing2368 price. Missing endpointintervals suspend Taiwanpeer rule and are excluded from diagnostic/regression; US-only rules unaffected.",
+  "nasdaqAttempt": {
+    "page": "https://www.nasdaq.com/market-activity/stocks/ttmi/historical",
+    "pageResult": "Data is currently not available",
+    "publicAPIResult": "HTTP/2 INTERNAL_ERROR; no retry or bypass"
+  }
+}

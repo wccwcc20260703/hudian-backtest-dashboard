@@ -1,0 +1,22 @@
+{
+  "recordedAt": "2026-10-09T16:33:54.292416+08:00",
+  "question": "Can prior available overseas PCB/AI/semiconductor returns add tradable intraday information beyond the China open gap and domesticmarket trend?",
+  "universe": {
+    "TTMI": "US PCB peer,QQQ market control",
+    "2368.TW": "GoldCircuit PCB peer,TWII market control",
+    "NVDA": "AI demand proxy,not claimed a confirmeddirectcustomer",
+    "SMH": "semiconductor ETF proxy,not PCBpeer",
+    "QQQ": "US broadtechcontrol",
+    "^TWII": "Taiwan marketcontrol"
+  },
+  "alignment": "Shanghai09:25 cutoff eachChinese tradingday. US regularclose16:00NewYork+30minbuffer, Taiwan13:30Taipei+30minbuffer; timezoneDST via zoneinfo. Accumulate adjustedclose change since the lastChina09:25 cutoff, rather than naively shifting same-date prices. Missing session doesnottrigger; no newoverseasbar neutral. FirstCNday compare precedingdate09:25. Holiday accumulation explicitlylabelled. Exclude foreignsessionnotyetclosed. Returns scale-invariant under splitadjustment; Yahoohistoricaladjustment revisionnotfullyPIT.",
+  "diagnostics": "Chronologicaltrain through2024, validation2025..Jun26,recentJul..Oct8,older2020..Oct2023. Spearman factor correlation separately with Chinaopen gap,opentoclose,10:00toclose,nextsession09:45. TrainOLS10:00toclose using priorChina20dret,volume andopeninggap; compare foreignfeatures addition onlyon laterdata. Fixed15sessionblockbootstrapmean10:00toclose forpositive vsnonpositivepeerresidual; insufficientcounts flagged.",
+  "rules": {
+    "risk": "USmedian cumulative return ofTTMI,SMH,NVDA<-2%, newUSbarexists: cap cash targetat50%,financeat100%, preserveoriginalordertimes. No buypermittedaboveoriginaltarget.",
+    "us_strength": "USmedian raw return>0 andmedianofTTMI-QQQ,SMH-QQQ,NVDA-QQQ>0,newUSbar; profitgatepositive,basecash<50%,10:00completedfirst6barclose>dayopen+VWAP: target50%. Preserveexisting09:45orders; noadditionalborrow.",
+    "peer_strength": "TTMIand2368 bothnewlyavailable rawreturn>0 andbothbeat theirmarketcontrols; same10:00confirmation+profitgate+cashfloor50%. No combine3rules, no thresholdsearch."
+  },
+  "selection": "Cash andcurrentallfull150finance separately. Trainend2024 selectbase+3 using>=10changedtrainingdays,DD<=base+2pp,annualloggrowth-1.5absDD; quarterly2025onward previous252same. Requirelaterbothreturnimprove/DDbudget,10bpsame,oldernotworse,>=2of3fixedannualimprove,independentforward absent. Originalcashgoalunchanged,wealth120separate.",
+  "constraints": "T+1,commission,tax,adverse5/10bpfill,previousbar1%volume,limits,loanbuydebt<=50%netequity. Userdefaultunchanged; frozenforwardunchanged. AllChina historyseen; new externaldata isnotnewunseenmarketperiod.",
+  "forwardSHA256": "5390318b686d5b5f514ec070b03013858b4577437156f4d66eb2055ef515e242"
+}

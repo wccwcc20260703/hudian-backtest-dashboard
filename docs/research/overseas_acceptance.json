@@ -1,0 +1,122 @@
+[
+  {
+    "name": "D_base",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 0,
+    "stressBothBetter": false,
+    "independentEvidence": false,
+    "wealth120Separate": false,
+    "cashFullGoal": true,
+    "cashYearsPassed": 1,
+    "cashOlderGoal": false,
+    "cashStressGoal": true
+  },
+  {
+    "name": "D_risk",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": false,
+    "improvedYears": 1,
+    "stressBothBetter": false,
+    "independentEvidence": false,
+    "wealth120Separate": false,
+    "cashFullGoal": false,
+    "cashYearsPassed": 1,
+    "cashOlderGoal": false,
+    "cashStressGoal": false
+  },
+  {
+    "name": "D_us_strength",
+    "laterBothBetter": false,
+    "laterDDBudget": false,
+    "olderNotWorse": false,
+    "improvedYears": 1,
+    "stressBothBetter": false,
+    "independentEvidence": false,
+    "wealth120Separate": true,
+    "cashFullGoal": true,
+    "cashYearsPassed": 1,
+    "cashOlderGoal": false,
+    "cashStressGoal": true
+  },
+  {
+    "name": "D_peer_strength",
+    "laterBothBetter": true,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 2,
+    "stressBothBetter": true,
+    "independentEvidence": false,
+    "wealth120Separate": false,
+    "cashFullGoal": true,
+    "cashYearsPassed": 1,
+    "cashOlderGoal": false,
+    "cashStressGoal": true
+  },
+  {
+    "name": "L_base",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 0,
+    "stressBothBetter": false,
+    "independentEvidence": false,
+    "wealth120Separate": true
+  },
+  {
+    "name": "L_risk",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": false,
+    "improvedYears": 1,
+    "stressBothBetter": false,
+    "independentEvidence": false,
+    "wealth120Separate": true
+  },
+  {
+    "name": "L_us_strength",
+    "laterBothBetter": false,
+    "laterDDBudget": false,
+    "olderNotWorse": false,
+    "improvedYears": 1,
+    "stressBothBetter": false,
+    "independentEvidence": false,
+    "wealth120Separate": true
+  },
+  {
+    "name": "L_peer_strength",
+    "laterBothBetter": true,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 2,
+    "stressBothBetter": true,
+    "independentEvidence": false,
+    "wealth120Separate": true
+  },
+  {
+    "name": "D_rolling",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 0,
+    "stressBothBetter": false,
+    "independentEvidence": false,
+    "wealth120Separate": false,
+    "cashFullGoal": true,
+    "cashYearsPassed": 1,
+    "cashOlderGoal": false,
+    "cashStressGoal": false
+  },
+  {
+    "name": "L_rolling",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 0,
+    "stressBothBetter": false,
+    "independentEvidence": false,
+    "wealth120Separate": true
+  }
+]
