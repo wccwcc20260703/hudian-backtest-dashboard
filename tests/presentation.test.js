@@ -9,11 +9,11 @@ import {parseMinutes} from '../docs/market.js';
 const read=p=>JSON.parse(fs.readFileSync(p));
 const d=read('docs/data.json'),g=read('docs/finance-gates.json');
 const sel=read('docs/default-selection.json');
-const ranked=sel.candidates.filter(x=>Math.abs(x.mdd5)<=sel.drawdownBudget).sort((a,b)=>b.return_-a.return_);
-assert.equal(ranked[0].name,sel.selected);assert.equal(sel.selected,'D_trend_1.5');
-const defaults=financeBacktest(d,g,0,d.dates.length,{base:'D',gate:'trend',level:1.5,credit:null});
-assert.ok(Math.abs(defaults.metrics.return_-ranked[0].return_)<1e-8);
-assert.ok(Math.abs(defaults.metrics.mdd5-ranked[0].mdd5)<1e-8);
+assert.equal(sel.selectionMode,'user_requested');assert.equal(sel.selected,'D_all_full_1.5');
+const selected=sel.candidates.find(x=>x.name===sel.selected);
+const defaults=financeBacktest(d,g,0,d.dates.length,{base:'D',gate:'all_full',level:1.5,credit:null});
+assert.ok(Math.abs(defaults.metrics.return_-selected.return_)<1e-8);
+assert.ok(Math.abs(defaults.metrics.mdd5-selected.mdd5)<1e-8);
 let n=0,leveraged=0;
 for(const r of [backtest(d,'D',0,d.dates.length),backtest(d,'H',0,d.dates.length),defaults])for(const t of r.trades){
  const p=tradePosition(d,t),mark=d.bars[t[0]][t[1]][0];
@@ -54,12 +54,12 @@ const echarts=await import('echarts');const chart=echarts.init(null,null,{render
 const t=defaults.trades.find(t=>tradePosition(d,t).after>1);
 chart.setOption({xAxis:{type:'category',data:[d.dates[t[0]]]},yAxis:{},series:[{type:'scatter',data:[{value:[d.dates[t[0]],t[4],t[3]],trade:t}]}]});
 assert.deepEqual(chart.getModel().getSeriesByIndex(0).getDataParams(0).data.trade,t);chart.dispose();
-console.log(`PASS: ${n} cash/financed fills reconcile before/after exposure; default ranking matches backtest; live timing, missing data, no lookahead, and per-fill chart metadata.`);
+console.log(`PASS: ${n} cash/financed fills reconcile before/after exposure; user-selected default matches backtest; live timing, missing data, no lookahead, and per-fill chart metadata.`);
 
 const bm=backtest(d,'B',0,d.dates.length),attr=attribution(defaults,bm,d.dates);
 assert.ok(Math.abs((1+attr.preJuly)*(1+attr.postJuly)-defaults.nav.at(-1)/defaults.capital)<1e-10);
-assert.ok(Math.abs(attr.preJuly-4.75223)<.000001);
-assert.equal(attr.longestBehind,277);
+assert.ok(Math.abs(attr.preJuly-7.23813059)<.000001);
+assert.equal(attr.longestBehind,235);
 assert.equal(attribution({nav:[110,120],capital:100},{nav:[100,130]},['2026-07-01','2026-07-02']).preJuly,null);
 assert.equal(attribution({nav:[90,100,101],capital:100},{nav:[100,110,100]},['2026-01-01','2026-01-02','2026-01-03']).longestBehind,2);
 console.log('PASS: continuous-account subperiod compounding and cumulative underperformance statistics.');
@@ -87,6 +87,8 @@ const todayDefault=liveSignal({context:read('docs/live-context.json'),market:{..
  now:Date.parse('2026-10-09T14:51:00+08:00'),model:'L',config:defaults.config,
  previousTarget:d.signals.D.at(-1)[1],portfolio:defaults.daily.at(-1)});
 assert.equal(todayDefault.signals.length,0);assert.equal(todayDefault.replaySignals.length,1);
-assert.equal(todayDefault.replaySignals[0].time,'10:00');assert.equal(todayDefault.replaySignals[0].side,0);
+assert.equal(todayDefault.replaySignals[0].time,'10:00');assert.equal(todayDefault.replaySignals[0].side,-1);
+assert.equal(todayDefault.replaySignals[0].target,1.5);
+assert.ok(todayDefault.replaySignals[0].before>1.535);
 assert.equal(todayDefault.replaySignals[0].price,110.01);
-console.log('PASS: completed buy/sell checks remain visible as replay during outages; no missing/future/wrong-day points; actual default remains hold.');
+console.log('PASS: completed buy/sell checks remain visible as replay during outages; no missing/future/wrong-day points; user-selected financing default rebalances to150% in replay.');

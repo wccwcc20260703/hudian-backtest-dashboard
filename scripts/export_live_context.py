@@ -45,5 +45,11 @@ selection=dict(selected=str(best['name']),drawdownBudget=cashdd+.01,
     capital=1000000,slip=.0005,rate=.06,creditMode='equity50',
     rule='在 D、H 与 24 个条件融资候选中，筛选五分钟最大回撤绝对值不超过无融资 D + 1 个百分点的方案，再按扣费后累计收益降序。该展示偏好在已知结果后设定，不是样本外验证。',
     candidates=rows[rows.name!='constant_150'][['name','return_','mdd5']].to_dict('records'))
-(repo/'docs/default-selection.json').write_text(json.dumps(selection,ensure_ascii=False,indent=2))
-print(json.dumps(context,ensure_ascii=False));print('selected',best['name'],best['return_'],best['mdd5'])
+selection_path=repo/'docs/default-selection.json'
+existing=json.loads(selection_path.read_text()) if selection_path.exists() else {}
+# User-selected defaults persist when refreshing context; do not rank them away.
+if existing.get('selectionMode')=='user_requested':
+    existing['candidates']=selection['candidates']
+    selection=existing
+selection_path.write_text(json.dumps(selection,ensure_ascii=False,indent=2))
+print(json.dumps(context,ensure_ascii=False));print('selected',selection['selected'])

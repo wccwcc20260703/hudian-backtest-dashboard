@@ -1,11 +1,11 @@
 import {backtest,barTime} from './engine.js?v=45e8fd5cb157';
 import {candleValues} from './market.js?v=3a58d356331d';
 import {startLive} from './live.js?v=39237cf4051d';
-import {financeBacktest} from './finance-engine.js?v=6b4653705449';
+import {financeBacktest} from './finance-engine.js?v=3e835a5a1699';
 import {tradePosition} from './positions.js?v=0bef8d272a6e';
 import {attribution} from './attribution.js?v=fb459d2c3f0d';
 import {liveSignal} from './live-signals.js?v=6b9769e6ce7b';
-import {baseHelp,gateHelp} from './strategy-help.js?v=afdcb43d42e5';
+import {baseHelp,gateHelp} from './strategy-help.js?v=9eb43595ba2a';
 const $=id=>document.getElementById(id), names={D:'D · 反转 + 业绩门槛',H:'H · 三状态自适应',B:'全仓持有基准',L:'L · 条件融资'},colors={D:'#078685',H:'#9070cc',B:'#9da9ba',L:'#cf933d'},modeNames=['防御空仓','反转交易','趋势参与'];
 const fmt=(v,n=2)=>Number(v).toLocaleString('zh-CN',{minimumFractionDigits:n,maximumFractionDigits:n}),pct=v=>(v>0?'+':'')+fmt(v*100)+'%',money=v=>fmt(v,2),pctAxis=v=>fmt(v,0)+'%';
 let data,financeGates,results={},active='L',view='equity',start=0,end=727,day=0,zoom=[0,100];
@@ -92,7 +92,7 @@ $('compare-prejuly').onclick=()=>{
  renderStrategyHelp();$('finance-run').click();document.querySelector('[data-view="relative"]').click();
 };
 $('restore-default').onclick=()=>{
- $('finance-base').value='D';$('finance-gate').value='trend';$('finance-level').value='1.5';
+ $('finance-base').value='D';$('finance-gate').value='all_full';$('finance-level').value='1.5';
  $('finance-rate').value='6';$('finance-credit-mode').value='equity50';$('finance-credit').disabled=true;
  renderStrategyHelp();$('finance-run').click();
 };

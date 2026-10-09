@@ -1,0 +1,9 @@
+{
+  "recordedAt": "2026-10-09T16:16:46.526310+08:00",
+  "question": "Do the two previously fixed participation rules improve the user-selected D_all_full150 financing baseline? Compare prior afternoon reentry and rolling research without reranking them into default.",
+  "baseline": "D_all_full_1.5,6%annualinterest,credit50%currentnetequity,1000000initialcash,5bp and10bp adverse fills,T+1,1%priorbarvolume,limits.",
+  "rules": "Reuse exactly retain and morning schedules from outputs/underperformance; replace only base financing condition withall_full. No newthreshold, no blending. Prior open reentry andfactorstabilityrolling reuse saved plans and engines unchanged.",
+  "selection": "Train2023-10-09..2024end amongbase,retain,morning only. >=10changeddays andmaxDD<=base+2pp;annualloggrowth-1.5absDD. Quarterly2025onward previous252 sessions samecriteria. Both latersegments must improve,DD<=base+2pp each,10bp improveboth,oldernotworse,>=2of3fixedyears improve. Independent evidence still absent. Do not change newuserdefault basedon historical ranking.",
+  "known": "All data previously seen. Oldadvancedrolling1312.23%depends onfewdates,notindependentlyvalidated. Userselecteddefault isnot the prior277daybase.",
+  "forwardSHA256": "5390318b686d5b5f514ec070b03013858b4577437156f4d66eb2055ef515e242"
+}

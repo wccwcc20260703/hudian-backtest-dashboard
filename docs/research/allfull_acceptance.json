@@ -1,0 +1,56 @@
+[
+  {
+    "name": "base",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 0,
+    "stressBothBetter": false,
+    "independentEvidence": false
+  },
+  {
+    "name": "retain",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": false,
+    "improvedYears": 1,
+    "stressBothBetter": false,
+    "independentEvidence": false
+  },
+  {
+    "name": "morning",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 2,
+    "stressBothBetter": false,
+    "independentEvidence": false
+  },
+  {
+    "name": "rolling",
+    "laterBothBetter": false,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 1,
+    "stressBothBetter": false,
+    "independentEvidence": false
+  },
+  {
+    "name": "open",
+    "laterBothBetter": true,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 1,
+    "stressBothBetter": true,
+    "independentEvidence": false
+  },
+  {
+    "name": "priorRolling",
+    "laterBothBetter": true,
+    "laterDDBudget": true,
+    "olderNotWorse": true,
+    "improvedYears": 1,
+    "stressBothBetter": true,
+    "independentEvidence": false
+  }
+]

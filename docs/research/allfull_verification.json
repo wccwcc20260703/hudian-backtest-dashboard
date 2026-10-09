@@ -1,0 +1,16 @@
+{
+  "userDefault": "D_all_full_1.5",
+  "frozenTrainingChoice": "morning",
+  "independentLedgerTrades": 8621,
+  "maxLedgerError": 0.0,
+  "maxDailyPnLError": 3.958120942115784e-09,
+  "originalAllFullReproduced": true,
+  "priorRollingReproduced": true,
+  "T1": true,
+  "debtCap": true,
+  "volumeCap": true,
+  "priceLimits": true,
+  "forwardUnchanged": true,
+  "forwardSHA256": "5390318b686d5b5f514ec070b03013858b4577437156f4d66eb2055ef515e242",
+  "priorFeatureVerification": "outputs/underperformance/verification.json:1614prefix+1614futurepoisonchecks,exactfixedrulesreused"
+}

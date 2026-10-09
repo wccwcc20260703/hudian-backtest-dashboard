@@ -1,5 +1,5 @@
 // Financing research simulator. Net cash < 0 denotes debt plus accrued interest.
-export function financeBacktest(data,gates,start,end,{capital=1e6,slip=.0005,rate=.06,credit=null,level=1.5,base='D',gate='edge_morning',ddlimit=1,maintenance=1.5}={}){
+export function financeBacktest(data,gates,start,end,{capital=1e6,slip=.0005,rate=.06,credit=null,level=1.5,base='D',gate='all_full',ddlimit=1,maintenance=1.5}={}){
  if(!(capital>0)||(credit!==null&&credit<0)||rate<0||level<1||level>1.5||end<=start||start<0||end>data.dates.length)throw Error('无效融资参数');
  let cash=capital,shares=0,fees=0,interest=0,tax=0,t1=0,limits=0,caps=0,turnover=0,riskOrders=0,borrowDays=0,peak=capital,prevEq=capital,minRatio=Infinity,maxExposure=0;
  const nav=[],exposure=[],curve=[],drawdown=[],trades=[],daily=[],debt=[],dailyInterest=[],targets=[];let mdd5=0,mdd=0,dailyPeak=capital;

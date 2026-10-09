@@ -1,14 +1,34 @@
 {
-  "selected": "D_trend_1.5",
-  "drawdownBudget": 0.2032016026719677,
-  "referenceDrawdown": 0.1932016026719677,
+  "selected": "D_all_full_1.5",
+  "selectionMode": "user_requested",
+  "requestedAt": "2026-10-09T16:15:18.370952+08:00",
+  "config": {
+    "base": "D",
+    "gate": "all_full",
+    "level": 1.5,
+    "rate": 0.06,
+    "creditMode": "equity50",
+    "credit": null
+  },
   "start": "2023-10-09",
   "end": "2026-10-08",
   "capital": 1000000,
   "slip": 0.0005,
   "rate": 0.06,
   "creditMode": "equity50",
-  "rule": "在 D、H 与 24 个条件融资候选中，筛选五分钟最大回撤绝对值不超过无融资 D + 1 个百分点的方案，再按扣费后累计收益降序。该展示偏好在已知结果后设定，不是样本外验证。",
+  "rule": "用户明确指定 D / 所有满仓信号 / 150% / 年息6% / 每笔融资买入后欠款不超过当前净资产50% 为默认；不是重新排名或已通过独立验证。",
+  "previousSelection": {
+    "selected": "D_trend_1.5",
+    "drawdownBudget": 0.2032016026719677,
+    "referenceDrawdown": 0.1932016026719677,
+    "start": "2023-10-09",
+    "end": "2026-10-08",
+    "capital": 1000000,
+    "slip": 0.0005,
+    "rate": 0.06,
+    "creditMode": "equity50",
+    "rule": "在 D、H 与 24 个条件融资候选中，筛选五分钟最大回撤绝对值不超过无融资 D + 1 个百分点的方案，再按扣费后累计收益降序。该展示偏好在已知结果后设定，不是样本外验证。"
+  },
   "candidates": [
     {
       "name": "D",
