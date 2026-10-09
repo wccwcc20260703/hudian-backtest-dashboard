@@ -16,7 +16,7 @@ function run(){
  if(a<0||z<=a||$('start').value>$('end').value){showError('所选区间没有交易日，请调整开始和结束日期。');return;}
  const options={capital:Number($('capital').value),slip:Number($('slip').value)};
  start=a;end=z;for(const key of ['D','H','B'])results[key]=backtest(data,key,a,z,options);
- results.L=financeBacktest(data,financeGates,a,z,{...options,base:$('finance-base').value,gate:$('finance-gate').value,level:Number($('finance-level').value),rate:Number($('finance-rate').value)/100,credit:Number($('finance-credit').value)});
+ results.L=financeBacktest(data,financeGates,a,z,{...options,base:$('finance-base').value,gate:$('finance-gate').value,level:Number($('finance-level').value),rate:Number($('finance-rate').value)/100,credit:$('finance-credit-mode').value==='equity50'?null:Number($('finance-credit').value)});
  day=Math.max(start,Math.min(day,end-1));zoom=[0,100];
  $('range-note').textContent=`已回测 ${data.dates[start]} → ${data.dates[end-1]} · ${end-start} 个交易日`;
  $('day').min=data.dates[start];$('day').max=data.dates[end-1];
@@ -25,7 +25,7 @@ function run(){
 function renderMetrics(){
  const r=results[active],b=results.B,m=r.metrics,rel=m.return_-b.metrics.return_;
  $('metrics').innerHTML=[['区间累计收益',pct(m.return_),`期末权益 ¥ ${fmt(r.nav.at(-1),0)}`,m.return_>=0?'positive':'negative'],['相对持有基准',(rel>0?'+':'')+fmt(rel*100)+' pp','收益率差 · 百分点',rel>=0?'positive':'negative'],['最大回撤 · 5 分钟',fmt(m.mdd5*100)+'%',`日线收盘回撤 ${fmt(m.mdd*100)}%`,''],['平均持仓比例',fmt(m.exposure*100)+'%',`${m.orders} 笔成交 · 费用 ¥ ${fmt(m.fees,0)}${active==='L'?' · 利息 ¥ '+fmt(m.interest,0):''}`,'']].map(([l,v,d,c])=>`<div class="metric"><div class="label">${l}</div><div class="value ${c}">${v}</div><div class="detail">${d}</div></div>`).join('');
- $('finance-stats').textContent=`已计算 ${results.L.config.base} / ${fmt(results.L.config.level*100,0)}% / 年息 ${fmt(results.L.config.rate*100,1)}% / 额度 ¥ ${fmt(results.L.config.credit,0)}：利息 ¥ ${fmt(results.L.metrics.interest,0)} · 最低维持担保比例 ${results.L.metrics.min_maintenance?fmt(results.L.metrics.min_maintenance*100,1)+'%':'无借款'} · 实际仓位峰值 ${fmt(results.L.metrics.max_exposure*100,1)}% · 使用融资 ${results.L.metrics.borrow_days} 天 · 期末欠款 ¥ ${fmt(results.L.metrics.ending_debt,0)}`;
+ $('finance-stats').textContent=`已计算 ${results.L.config.base} / ${fmt(results.L.config.level*100,0)}% / 年息 ${fmt(results.L.config.rate*100,1)}% / ${results.L.config.creditMode==='equity50'?'融资上限为当前净资产的 50%':'固定额度 ¥ '+fmt(results.L.config.credit,0)}：利息 ¥ ${fmt(results.L.metrics.interest,0)} · 最低维持担保比例 ${results.L.metrics.min_maintenance?fmt(results.L.metrics.min_maintenance*100,1)+'%':'无借款'} · 实际仓位峰值 ${fmt(results.L.metrics.max_exposure*100,1)}% · 使用融资 ${results.L.metrics.borrow_days} 天 · 期末欠款 ¥ ${fmt(results.L.metrics.ending_debt,0)}`;
  $('comparison-body').innerHTML=['D','H','L','B'].map(k=>{const m=results[k].metrics;return `<tr class="${k===active?'selected-row':''}"><td><span class="strategy-dot" style="background:${colors[k]}"></span>${names[k]}</td><td class="${m.return_>=0?'positive':'negative'}">${pct(m.return_)}</td><td>${k==='B'?'—':fmt((m.return_-b.metrics.return_)*100)+' pp'}</td><td>${fmt(m.mdd5*100)}%</td><td>${fmt(m.exposure*100,1)}%</td><td>${m.orders}</td><td>¥ ${fmt(m.fees,0)}${k==='L'?'<br><small>融资利息 ¥ '+fmt(m.interest,0)+'</small>':''}</td></tr>`}).join('');
 }
 function renderPerformance(){
@@ -58,6 +58,7 @@ function renderDay(){
  $('trade-count').textContent=`${trades.length} 笔`;
  $('trades').innerHTML=trades.length?trades.map(t=>`<tr><td>${barTime(t[1])}</td><td class="${t[2]>0?'buy':'sell'}">${t[2]>0?'▲ 买入':'▼ 卖出'}</td><td>¥ ${fmt(t[4])}</td><td>${fmt(t[3],0)}</td><td>¥ ${money(t[5])}</td><td>${fmt(t[7],0)}</td><td>¥ ${money(t[6])}</td></tr>`).join(''):`<tr><td colspan="7" class="empty">该策略当日无成交 · 收盘持有 ${fmt(close.shares,0)} 股，现金 ¥ ${money(close.cash)}</td></tr>`;
 }
+$('finance-credit-mode').onchange=()=>{$('finance-credit').disabled=$('finance-credit-mode').value==='equity50';};
 $('finance-run').onclick=()=>{if(!Array.from($('finance-settings').querySelectorAll('input')).every(i=>i.reportValidity()))return;run();document.querySelector('[data-model="L"]').click();};
 $('form').addEventListener('submit',e=>{e.preventDefault();run();});
 for(const b of document.querySelectorAll('[data-model]'))b.onclick=()=>{if(!data)return;active=b.dataset.model;document.querySelectorAll('[data-model]').forEach(x=>x.classList.toggle('active',x===b));renderMetrics();renderPerformance();renderPrice();renderDay();};

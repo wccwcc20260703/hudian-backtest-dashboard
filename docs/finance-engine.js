@@ -1,6 +1,6 @@
 // Financing research simulator. Net cash < 0 denotes debt plus accrued interest.
-export function financeBacktest(data,gates,start,end,{capital=1e6,slip=.0005,rate=.06,credit=500000,level=1.5,base='D',gate='edge_morning',ddlimit=1,maintenance=1.5}={}){
- if(!(capital>0)||credit<0||rate<0||level<1||level>1.5||end<=start||start<0||end>data.dates.length)throw Error('无效融资参数');
+export function financeBacktest(data,gates,start,end,{capital=1e6,slip=.0005,rate=.06,credit=null,level=1.5,base='D',gate='edge_morning',ddlimit=1,maintenance=1.5}={}){
+ if(!(capital>0)||(credit!==null&&credit<0)||rate<0||level<1||level>1.5||end<=start||start<0||end>data.dates.length)throw Error('无效融资参数');
  let cash=capital,shares=0,fees=0,interest=0,tax=0,t1=0,limits=0,caps=0,turnover=0,riskOrders=0,borrowDays=0,peak=capital,prevEq=capital,minRatio=Infinity,maxExposure=0;
  const nav=[],exposure=[],curve=[],drawdown=[],trades=[],daily=[],debt=[],dailyInterest=[],targets=[];let mdd5=0,mdd=0,dailyPeak=capital;
  for(let d=start;d<end;d++){
@@ -28,8 +28,8 @@ export function financeBacktest(data,gates,start,end,{capital=1e6,slip=.0005,rat
       if(side>0){
        const allowed=Math.min(1.5,Math.max(1,target));let aff;
        if(allowed<=1)aff=Math.max(0,Math.trunc((cash-5)/(fill*(1+.00025+data.transfer[d]))/100)*100);
-       else{const equityFill=cash+shares*fill,budget=allowed*equityFill-shares*fill-allowed*5;aff=Math.max(0,Math.trunc(budget/(fill*(1+allowed*(.00025+data.transfer[d])))/100)*100);}
-       aff=Math.min(aff,Math.max(0,Math.trunc((cash+credit-5)/(fill*(1+.00025+data.transfer[d]))/100)*100));qty=Math.min(qty,aff);
+       else{const budget=allowed*cash+(allowed-1)*shares*px-allowed*5;aff=Math.max(0,Math.trunc(budget/(px+allowed*(fill-px)+allowed*fill*(.00025+data.transfer[d]))/100)*100);}
+       if(credit!==null)aff=Math.min(aff,Math.max(0,Math.trunc((cash+credit-5)/(fill*(1+.00025+data.transfer[d]))/100)*100));qty=Math.min(qty,aff);
       }
       if(qty>0){
        const gross=qty*fill,fee=Math.max(5,gross*.00025)+gross*(data.transfer[d]+(side<0?data.stamp[d]:0)),oldAvail=available,oldShares=shares;
@@ -45,5 +45,5 @@ export function financeBacktest(data,gates,start,end,{capital=1e6,slip=.0005,rat
   }
   const eq=cash+shares*data.close[d];nav.push(eq);exposure.push(shares*data.close[d]/eq);debt.push(Math.max(-cash,0));dailyInterest.push(dayInterest);daily.push({cash,shares});dailyPeak=Math.max(dailyPeak,eq);mdd=Math.min(mdd,eq/dailyPeak-1);if(dayBorrow>0)borrowDays++;
  }
- return {model:'L',config:{base,gate,level,rate,credit},start,end,capital,slip,nav,exposure,curve,drawdown,trades,daily,debt,dailyInterest,targets,metrics:{return_:nav.at(-1)/capital-1,mdd,mdd5,exposure:exposure.reduce((a,b)=>a+b,0)/exposure.length,orders:trades.length,fees,interest,dividend_tax:tax,t1_blocks:t1,limit_blocks:limits,volume_caps:caps,turnover,risk_orders:riskOrders,borrow_days:borrowDays,min_maintenance:Number.isFinite(minRatio)?minRatio:null,max_exposure:maxExposure,ending_debt:debt.at(-1),max_debt:Math.max(...debt)}};
+ return {model:'L',config:{base,gate,level,rate,credit,creditMode:credit===null?'equity50':'fixed'},start,end,capital,slip,nav,exposure,curve,drawdown,trades,daily,debt,dailyInterest,targets,metrics:{return_:nav.at(-1)/capital-1,mdd,mdd5,exposure:exposure.reduce((a,b)=>a+b,0)/exposure.length,orders:trades.length,fees,interest,dividend_tax:tax,t1_blocks:t1,limit_blocks:limits,volume_caps:caps,turnover,risk_orders:riskOrders,borrow_days:borrowDays,min_maintenance:Number.isFinite(minRatio)?minRatio:null,max_exposure:maxExposure,ending_debt:debt.at(-1),max_debt:Math.max(...debt)}};
 }
