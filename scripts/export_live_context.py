@@ -49,7 +49,10 @@ selection_path=repo/'docs/default-selection.json'
 existing=json.loads(selection_path.read_text()) if selection_path.exists() else {}
 # User-selected defaults persist when refreshing context; do not rank them away.
 if existing.get('selectionMode')=='user_requested':
-    existing['candidates']=selection['candidates']
+    existing['candidates']=selection['candidates']+[x for x in existing.get('candidates',[]) if x['name'] not in {r['name'] for r in selection['candidates']}]
     selection=existing
 selection_path.write_text(json.dumps(selection,ensure_ascii=False,indent=2))
 print(json.dumps(context,ensure_ascii=False));print('selected',selection['selected'])
+
+import subprocess
+subprocess.run([sys.executable,str(repo/'scripts/export_opportunity_context.py'),'--workspace',str(ROOT),'--date',args.date],check=True)

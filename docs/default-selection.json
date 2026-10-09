@@ -1,5 +1,5 @@
 {
-  "selected": "D_all_full_1.5",
+  "selected": "D_all_full_1.5_buy_cap_only",
   "selectionMode": "user_requested",
   "requestedAt": "2026-10-09T16:15:18.370952+08:00",
   "config": {
@@ -8,7 +8,8 @@
     "level": 1.5,
     "rate": 0.06,
     "creditMode": "equity50",
-    "credit": null
+    "credit": null,
+    "driftPolicy": "buy_cap_only"
   },
   "start": "2023-10-09",
   "end": "2026-10-08",
@@ -16,7 +17,7 @@
   "slip": 0.0005,
   "rate": 0.06,
   "creditMode": "equity50",
-  "rule": "用户明确指定 D / 所有满仓信号 / 150% / 年息6% / 每笔融资买入后欠款不超过当前净资产50% 为默认；不是重新排名或已通过独立验证。",
+  "rule": "用户指定：融资买入后欠款<=当前净资产50%；持有期间允许被动超仓，不因150%或160%漂移减仓；D策略真正降低目标和模型担保约束仍保留。",
   "previousSelection": {
     "selected": "D_trend_1.5",
     "drawdownBudget": 0.2032016026719677,
@@ -159,6 +160,12 @@
       "name": "H_edge_morning_1.5",
       "return_": 5.849943893715174,
       "mdd5": -0.2310475131913087
+    },
+    {
+      "name": "D_all_full_1.5_buy_cap_only",
+      "return_": 11.852893569539711,
+      "mdd5": -0.2545213732594036
     }
-  ]
+  ],
+  "selectedAt": "2026-10-09T17:32:00.057838+08:00"
 }

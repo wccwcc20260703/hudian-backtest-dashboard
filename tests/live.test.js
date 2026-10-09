@@ -4,6 +4,8 @@ import {startLive} from '../docs/live.js';
 import {signalFreshness} from '../docs/live-signals.js';
 const rawQuote=fs.readFileSync('tests/fixtures/quote.txt','utf8');
 const snapshot=JSON.parse(fs.readFileSync('docs/latest-quote.json'));
+// Fixed early snapshot for recovery scenarios; production snapshot may be newer.
+snapshot.minutes.points=snapshot.minutes.points.filter(p=>p.time<='13:39');
 const updates=[],memory=new Map();let tick,minuteMode='fail',quoteMode='ok',releaseMinute;
 let quoteDate='20261009',minuteDate='20261009';
 let minuteRequests=0,quoteRequests=0;

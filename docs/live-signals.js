@@ -42,16 +42,17 @@ function scheduledSignal({context,market,model,config,previousTarget,portfolio})
  if(!(equity>0))return empty('模型账户净资产非正，暂停普通目标信号。');
  const before=portfolio.shares*at.price/equity;
  const tolerance=target===1?.004:.035;
- const side=Math.abs(target-before)<=tolerance?0:(target>before?1:-1);
- const signal={time:scheduled,price:at.price,before,target,side,gate,gateMissing};
- return {signals:[signal],message:gateMissing?'融资条件数据不完整，仅显示基础目标；融资信号暂停。':(side===0?'计划检查：模型仓位已接近目标，无加减仓提示。':'已生成计划调仓提示；目标仓位不等于成交后仓位。')};
+ const passiveDrift=model==='L'&&(config.driftPolicy??'buy_cap_only')==='buy_cap_only'&&target>1&&before>target;
+ const side=passiveDrift||Math.abs(target-before)<=tolerance?0:(target>before?1:-1);
+ const signal={time:scheduled,price:at.price,before,target,side,gate,gateMissing,passiveDrift};
+ return {signals:[signal],message:gateMissing?'融资条件数据不完整，仅显示基础目标；融资信号暂停。':(passiveDrift?'持仓比例被动高于目标，按新规则不因此减仓；额度不足时不追加融资。':side===0?'计划检查：模型仓位已接近目标，无加减仓提示。':'已生成计划调仓提示；目标仓位不等于成交后仓位。')};
 }
 
 // An outage stops new live advice, but does not erase completed, reproducible checks.
 // Replay is computed with the selected settings, never represented as an alert sent then.
 export function liveSignal(options){
  const {market,cached=false,now=Date.now()}=options;
- const freshness=signalFreshness(market,cached,now);
+ const freshness=signalFreshness(market,cached,now)||(now>=Date.parse(`${market.quote.date}T15:00:00+08:00`)?'今日已收盘，以下仅展示计划点回看。':null);
  if(!freshness)return scheduledSignal(options);
  const empty={message:freshness,signals:[],replaySignals:[]};
  const today=new Date(now+8*3600000).toISOString().slice(0,10),q=market.quote;
@@ -64,5 +65,5 @@ export function liveSignal(options){
  const result=scheduledSignal({...options,market:{...market,minutes:{...market.minutes,points}}});
  if(!result.signals.length)return {...empty,message:`${freshness} ${result.message}`};
  return {...empty,replaySignals:result.signals,
-  message:`分时截至 ${points.at(-1).time}；显示已完成时点的策略回看，按当前设置重算，非当前买卖提示。${result.signals[0].side===0?'该时点接近目标仓位，无买卖操作。':'图中买卖点为计划参考点，不代表已经成交。'}`};
+  message:`分时截至 ${points.at(-1).time}；显示已完成时点的策略回看，按当前设置重算，非当前买卖提示。${result.signals[0].side===0?(result.signals[0].passiveDrift?'该时点为被动超仓，按规则持有，不因比例升高减仓。':'该时点接近目标仓位，无买卖操作。'):'图中买卖点为计划参考点，不代表已经成交。'}`};
 }

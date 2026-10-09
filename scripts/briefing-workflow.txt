@@ -21,3 +21,5 @@ Python /Users/taowang/Documents/Codex/2026-10-09/3-100/work/venv/bin/python
 盘前validUntil当天09:30；盘后validUntil下一已核验交易日15:30。deadline是目标，不是保证已发布；generatedAt用实际生成时间，late由脚本自动计算。sources保留原始出处链接与源时间。网络端点不能代表历史版本已永久保留，原始证据另存work/briefings/<date>/。
 执行 python scripts/publish-briefing.py /abs/path/input.json，脚本写docs/daily-briefings.json及docs/briefings/<date>/<kind>.json/html。node tests/briefings.test.js、git diff --check；直接阅读生成报告核对数字及日期。提交仅本次报告，推送main，检查Pages部署commit并远端读取json/html比对。把成功commit、源状态、实际发布时间、是否超时写入work/research-checkpoint.json的dailyBriefings。
 如果运行中依赖失败，优先发布partial，再记录准确原因。通知仅在发布完成、有意义补全、失败或需要用户处理时；没有变化保持安静。不要发送邮件或聊天给其他人。
+
+2026-10-09用户新指令：默认融资采用buy_cap_only，按用户授权持有期间忽略被动150%/160%超仓；买入后的净资产50%贷款上限和真正策略减仓、担保约束保留。盘前/盘后另外列独立机会观察，与账户能否执行分开；复用opportunities.js及opportunity-context.json，月线当前月份只能加入实时价，不可用未来月末收盘。观察规则尚未验证，不纳入策略收益，不倒标最低/最高价。更新live-context时export_live_context.py会导出机会月线背景；对应交易日不匹配应暂停观察。
