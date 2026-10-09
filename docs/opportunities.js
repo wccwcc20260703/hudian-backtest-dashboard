@@ -1,3 +1,4 @@
+import {strengthAt} from './signal-strength.js?v=66213aa0a05f';
 import {signalFreshness} from './live-signals.js?v=c76ec1fd76c8';
 // Observation rules have no account input. Signals are emitted at confirmation time,
 // never moved backwards to an earlier low/high after later prices become available.
@@ -19,13 +20,13 @@ export function opportunitySignals({context,market,cached=false,now=Date.now()})
  const replay=!!signalFreshness(market,cached,now)||new Date(now+8*3600000).toISOString().slice(11,16)>='15:00';
  const signals=[];let touched=-1,supportConfirmed=false,broken=false,lastVWAP=-Infinity,vwapLong=false;
  const continuous=(a,z)=>a>=0&&points.slice(a+1,z+1).every((p,j)=>p.sec-points[a+j].sec===60000);
- const add=(p,side,kind,title,reason,invalidation)=>signals.push({time:p.time,price:p.price,side,kind,title,reason,invalidation,level:p.level,replay,ruleVersion:context.ruleVersion});
+ const add=(p,side,kind,title,reason,invalidation)=>{const parent=kind==='vwap-invalidated'?signals.findLast(s=>s.kind==='vwap-reclaim'):null;const signal={id:kind+'-'+p.time,time:p.time,confirmedAt:new Date(p.sec+60000+8*3600000).toISOString().slice(11,16),price:p.price,open:market.quote.open,side,kind,title,reason,invalidation,level:p.level,replay,ruleVersion:context.ruleVersion,parentId:parent?.id??null};signal.strength=strengthAt(signal,points.filter(x=>x.sec<=p.sec));signals.push(signal);};
  for(let i=0;i<points.length;i++){
   const p=points[i];
   if(touched<0&&Math.abs(p.price/p.level-1)<=.005){touched=i;add(p,0,'support-touch','月线支撑观察',`价格进入动态10个月均线±0.5%区域；该时点均线${p.level.toFixed(2)}元。触及本身不是买入确认。`,'继续下破时支撑可能失败；等待连续分钟重新站上均线。');}
   if(touched>=0&&!supportConfirmed&&!broken&&i>=touched+2&&p.sec-points[touched].sec<=30*60000&&continuous(i-2,i)&&points.slice(i-2,i+1).every(v=>v.price>=v.level)&&p.price>points[i-1].price&&p.price>points[i-2].price){supportConfirmed=true;add(p,1,'support-reclaim','支撑回升 · 买入观察','触及月线区域后，连续3个已完成分钟站上动态10个月均线，且本分钟价格高于前2分钟。此刻才确认，不倒标最低点。','若连续2个已完成分钟低于动态均线1%，本支撑预案失效。');}
   if(touched>=0&&!broken&&i>touched&&continuous(i-1,i)&&points.slice(i-1,i+1).every(v=>v.price<v.level*.99)){broken=true;add(p,-1,'support-failure','支撑失效 · 减仓观察','触及支撑后，连续2个已完成分钟低于动态10个月均线1%；原支撑预案失效。','后续重新站稳需要重新评估；不代表任何账户已经卖出。');}
-  if(vwapLong&&i>=1&&continuous(i-1,i)&&points.slice(i-1,i+1).every(v=>v.vwap>0&&v.price<v.vwap*.999)){vwapLong=false;lastVWAP=p.sec;add(p,-1,'vwap-invalidated','均价回升失效 · 减仓观察','先前均价收复信号之后，连续2个已完成分钟重新低于均价0.1%；记录失败信号，不等30分钟冷却。','后续买入观察需重新满足确认条件；本点不是实际卖出。');}
+  if(vwapLong&&i>=1&&continuous(i-1,i)&&points.slice(i-1,i+1).every(v=>v.vwap>0&&v.price<v.vwap*.999)){vwapLong=false;lastVWAP=p.sec;add(p,-1,'vwap-invalidated','原买入观察失效 · 风险提示','同一VWAP规则的失效检查：先前收复后，连续2个已完成分钟重新低于均价0.1%。撤销原买入观察，并非另一套策略要求反向交易；不隐藏失败，也不等30分钟冷却。','后续买入观察需重新确认；当日新买股票不能T+0卖出，风险提示只能用于取消未执行买入或评估可卖老仓。');}
   if(i>=5&&continuous(i-5,i)&&p.sec-lastVWAP>=30*60000){
    const before=points.slice(i-5,i-2),after=points.slice(i-2,i+1),all=[...before,...after];
    if(all.every(v=>v.vwap>0&&Math.abs(v.price/v.vwap-1)<.15)){
