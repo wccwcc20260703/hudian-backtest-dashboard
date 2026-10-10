@@ -81,14 +81,15 @@ function tradeScatter(trades,side,intraday=false){
  itemStyle:{color:side>0?'#e25562':'#168d75',borderColor:'#fff',borderWidth:1,opacity:1},data:points,
  tooltip:{trigger:'item',formatter:p=>`${data.dates[p.data.trade[0]]}<br>${fillDetail(p.data.trade)}`}};
 }
-function stateAreas(){let runs=[],a=start;for(let i=start+1;i<=end;i++)if(i===end||data.state[i]!==data.state[a]){runs.push([{xAxis:data.dates[a],itemStyle:{color:['#9faebe14','#9671d511','#58ab8015'][data.state[a]]}},{xAxis:data.dates[i-1]}]);a=i;}return runs;}
+function stateAreas(){if(!$('show-h-mode').checked)return [];let runs=[],a=start;for(let i=start+1;i<=end;i++)if(i===end||data.state[i]!==data.state[a]){runs.push([{xAxis:data.dates[a],itemStyle:{color:['#9faebe14','#9671d511','#58ab8015'][data.state[a]]}},{xAxis:data.dates[i-1]}]);a=i;}return runs;}
 function candleTooltip(params){return params.map(p=>{if(p.seriesType==='candlestick'){const v=candleValues(p);const d=data.dates.indexOf(p.axisValue),q=liveMarket?.quote,change=d>=0?dayChange(data,d):q&&p.axisValue===q.date?q.price/q.previous-1:null;return `${p.axisValue}${change===null?'':' · 日涨跌 '+pct(change)}<br>开 ${fmt(v[0])}　收 ${fmt(v[1])}<br>低 ${fmt(v[2])}　高 ${fmt(v[3])}`;}if(p.seriesType==='scatter'&&p.data.trade)return `${p.marker}${fillDetail(p.data.trade)}`;return '';}).filter(Boolean).join('<br>');}
 function renderPrice(){
+ $('regime-caption').hidden=!$('show-h-mode').checked;
  const r=results[active],ds=data.dates.slice(start,end), candles=data.daily.slice(start,end).map(v=>[v[0],v[3],v[2],v[1]]);
  const quote=liveMarket?.quote, includeLive=quote&&end===data.dates.length&&quote.date>data.dates.at(-1)&&$('show-live').checked;
  if(includeLive){ds.push(quote.date);candles.push([quote.open,quote.price,quote.low,quote.high]);}
  $('live-candle-note').textContent=includeLive?`已附加 ${quote.date} 盘中 K 线（未纳入回测） · 不复权价格`: '历史日线为不复权价格 · 买卖标记为含滑点的模拟成交价';
- stableChart('price',{animation:false,grid:{left:68,right:35,top:28,bottom:62},tooltip:{...tooltip,formatter:candleTooltip},xAxis:{...axis,type:'category',data:ds,axisPointer:{type:'shadow'},axisLabel:{...axis.axisLabel,hideOverlap:true}},yAxis:{...axis,scale:true,name:'元',nameTextStyle:{color:'#9ca7b5'},axisLabel:{...axis.axisLabel,formatter:v=>fmt(v,1)}},dataZoom:[{type:'inside',start:zoom[0],end:zoom[1]},{type:'slider',start:zoom[0],end:zoom[1],bottom:13,height:22,borderColor:'#edf1f6',fillerColor:'#13898812',handleStyle:{color:'#799aab'},textStyle:{color:'#8b9bad',fontSize:10}}],series:[{name:'日线',type:'candlestick',data:candles,itemStyle:{color:'#df6570',color0:'#4a9a8c',borderColor:'#df6570',borderColor0:'#4a9a8c'},markArea:{silent:true,data:stateAreas()},markPoint:includeLive?{symbol:'pin',symbolSize:36,itemStyle:{color:'#d89b48'},label:{formatter:'盘中',fontSize:10},data:[{coord:[quote.date,quote.high]}]}:undefined},tradeScatter(r.trades,1),tradeScatter(r.trades,-1)]},JSON.stringify([active,start,end,zoom,ds,candles,r.trades]));
+ stableChart('price',{animation:false,grid:{left:68,right:35,top:28,bottom:62},tooltip:{...tooltip,formatter:candleTooltip},xAxis:{...axis,type:'category',data:ds,axisPointer:{type:'shadow'},axisLabel:{...axis.axisLabel,hideOverlap:true}},yAxis:{...axis,scale:true,name:'元',nameTextStyle:{color:'#9ca7b5'},axisLabel:{...axis.axisLabel,formatter:v=>fmt(v,1)}},dataZoom:[{type:'inside',start:zoom[0],end:zoom[1]},{type:'slider',start:zoom[0],end:zoom[1],bottom:13,height:22,borderColor:'#edf1f6',fillerColor:'#13898812',handleStyle:{color:'#799aab'},textStyle:{color:'#8b9bad',fontSize:10}}],series:[{name:'日线',type:'candlestick',data:candles,itemStyle:{color:'#df6570',color0:'#4a9a8c',borderColor:'#df6570',borderColor0:'#4a9a8c'},markArea:{silent:true,data:stateAreas()},markPoint:includeLive?{symbol:'pin',symbolSize:36,itemStyle:{color:'#d89b48'},label:{formatter:'盘中',fontSize:10},data:[{coord:[quote.date,quote.high]}]}:undefined},tradeScatter(r.trades,1),tradeScatter(r.trades,-1)]},JSON.stringify([active,start,end,zoom,ds,candles,r.trades,$('show-h-mode').checked]));
 }
 function liveDayAvailable(){return !!(liveMarket?.quote?.date>data.dates.at(-1)&&liveMarket.quote.time>='09:30:00');}
 function renderDay(){
@@ -212,6 +213,7 @@ async function init(){try{
  liveController=startLive({onUpdate:renderLive,onStatus:text=>$('live-status').textContent=text});
  $('refresh-live').onclick=()=>liveController.refresh();
  $('show-live').onchange=()=>renderPrice();
+ $('show-h-mode').onchange=()=>renderPrice();
  window.addEventListener('resize',()=>Object.values(charts).forEach(c=>c.resize()));
  }catch(e){showError('看板未能载入：'+e.message+'。请刷新页面重试。');$('run').textContent='载入失败';$('range-note').textContent='行情数据尚未就绪';}}
 startBriefings();
