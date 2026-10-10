@@ -3,7 +3,7 @@ import {backtest} from '../docs/engine.js';import {financeBacktest} from '../doc
 const d=JSON.parse(fs.readFileSync('docs/data.json')),g=JSON.parse(fs.readFileSync('docs/finance-gates.json'));
 const expected=JSON.parse(fs.readFileSync('tests/actual-fee-fixtures.json'));let count=0;let parity=0;
 for(const model of ['D','H','B','L']){
- const r=model==='L'?financeBacktest(d,g,0,d.dates.length):backtest(d,model,0,d.dates.length);
+ const r=model==='L'?financeBacktest(d,g,0,d.dates.length):backtest(d,model,0,d.dates.length,{benchmarkMode:'legacy'});
  assert.equal(r.commission,.0001);
  assert.equal(r.trades.length,expected[model].trades.length);r.nav.forEach((v,i)=>{assert.ok(Math.abs(v-expected[model].nav[i])<1e-6);parity++;});r.trades.forEach((t,i)=>t.forEach((v,j)=>{assert.ok(Math.abs(v-expected[model].trades[i][j])<1e-6);parity++;}));
  for(const t of r.trades){const gross=t[3]*t[4],fee=Math.max(5,gross*.0001)+gross*(d.transfer[t[0]]+(t[2]<0?d.stamp[t[0]]:0));assert.ok(Math.abs(fee-t[5])<1e-8);assert.ok(t[8]>=0);if(model==='L'&&t[2]>0)assert.ok(-t[6]<=(t[6]+t[7]*d.bars[t[0]][t[1]][0])*.5+1e-6);count++;}

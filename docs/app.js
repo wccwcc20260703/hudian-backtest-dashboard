@@ -1,9 +1,9 @@
-import {historicalObservations,historyLines,tradeReason,dayChange} from './replay.js?v=1d14cd0999b4';
+import {historicalObservations,historyLines,tradeReason,dayChange} from './replay.js?v=ebed49527908';
 import {strengthExplanation} from './signal-strength.js?v=01d4074be540';
 import {orderEstimate,hoverStableUpdater,actionableSignals} from './live-presentation.js?v=71e80230a188';
 import {opportunitySignals} from './opportunities.js?v=6bc2afa727e7';
 import {startBriefings} from './briefings.js?v=6f9223565966';
-import {backtest,barTime} from './engine.js?v=40d6edac7cb0';
+import {backtest,barTime} from './engine.js?v=a18b9052067f';
 import {candleValues} from './market.js?v=3a58d356331d';
 import {startLive} from './live.js?v=39237cf4051d';
 import {financeBacktest} from './finance-engine.js?v=bf7a904c52a3';
@@ -11,7 +11,7 @@ import {tradePosition} from './positions.js?v=0bef8d272a6e';
 import {attribution} from './attribution.js?v=fb459d2c3f0d';
 import {liveSignal} from './live-signals.js?v=c76ec1fd76c8';
 import {baseHelp,gateHelp} from './strategy-help.js?v=9eb43595ba2a';
-const $=id=>document.getElementById(id), names={D:'D · 反转 + 业绩门槛',H:'H · 三状态自适应',B:'全仓持有基准',L:'L · 条件融资'},colors={D:'#078685',H:'#9070cc',B:'#9da9ba',L:'#cf933d'},modeNames=['防御空仓','反转交易','趋势参与'];
+const $=id=>document.getElementById(id), names={D:'D · 反转 + 业绩门槛',H:'H · 三状态自适应',B:'持有基准 · 持续建仓',L:'L · 条件融资'},colors={D:'#078685',H:'#9070cc',B:'#9da9ba',L:'#cf933d'},modeNames=['防御空仓','反转交易','趋势参与'];
 const fmt=(v,n=2)=>Number(v).toLocaleString('zh-CN',{minimumFractionDigits:n,maximumFractionDigits:n}),pct=v=>(v>0?'+':'')+fmt(v*100)+'%',money=v=>fmt(v,2),pctAxis=v=>fmt(v,0)+'%';
 let data,financeGates,results={},active='L',view='equity',start=0,end=727,day=0,zoom=[0,100];
 const historicalTradeHead=$('trade-columns').innerHTML;
@@ -30,6 +30,7 @@ function run(){
  const a=indexAt($('start').value),last=data.dates.findLastIndex(x=>x<=$('end').value),z=last+1;
  if(a<0||z<=a||$('start').value>$('end').value){showError('所选区间没有交易日，请调整开始和结束日期。');return;}
  const options={capital:Number($('capital').value),slip:Number($('slip').value)};
+ results.ideal=backtest(data,'B',a,z,{...options,benchmarkMode:'ideal'});
  start=a;end=z;for(const key of ['D','H','B'])results[key]=backtest(data,key,a,z,options);
  results.L=financeBacktest(data,financeGates,a,z,{...options,base:$('finance-base').value,gate:$('finance-gate').value,driftPolicy:$('finance-drift').value,level:Number($('finance-level').value),rate:Number($('finance-rate').value)/100,credit:$('finance-credit-mode').value==='equity50'?null:Number($('finance-credit').value)});
  day=Math.max(start,Math.min(day,end-1));zoom=[0,100];$('finance-pending').hidden=true;
@@ -58,6 +59,9 @@ function renderAttribution(){
 function renderMetrics(){
  renderAttribution();
  const r=results[active],b=results.B,m=r.metrics,rel=m.return_-b.metrics.return_;
+ const bm=b.benchmark,cp=bm.completion;
+ $('benchmark-note').textContent=`基准v2：持续使用初始本金建仓，受同样费用、滑点、整手、上一根成交量1%和涨停约束；首日仓位 ${fmt(bm.firstDayExposure*100)}%，${cp?'建仓结束 '+cp.date+' '+barTime(cp.bar):'区间结束仍未完成建仓'}，剩余初始预算 ¥ ${fmt(bm.initialBudgetRemaining,0)}。分红留现金，不再投入。理想全仓参考（同起点09:35、可买零股、无费用及容量限制、税前分红留现金）：收益 ${pct(results.ideal.metrics.return_)} / 5分钟回撤 ${fmt(-results.ideal.metrics.mdd5*100)}%；仅作参考，不是模拟成交或主对照。`;
+
  $('metrics').innerHTML=[['区间累计收益',pct(m.return_),`期末权益 ¥ ${fmt(r.nav.at(-1),0)}`,m.return_>=0?'positive':'negative'],['相对持有基准',(rel>0?'+':'')+fmt(rel*100)+' pp','收益率差 · 百分点',rel>=0?'positive':'negative'],['最大回撤 · 5 分钟',fmt(m.mdd5*100)+'%',`日线收盘回撤 ${fmt(m.mdd*100)}%`,''],['平均持仓比例',fmt(m.exposure*100)+'%',`${m.orders} 笔成交 · 费用 ¥ ${fmt(m.fees,0)}${active==='L'?' · 利息 ¥ '+fmt(m.interest,0):''}`,'']].map(([l,v,d,c])=>`<div class="metric"><div class="label">${l}</div><div class="value ${c}">${v}</div><div class="detail">${d}</div></div>`).join('');
  $('finance-stats').textContent=`已计算 ${results.L.config.base} / ${fmt(results.L.config.level*100,0)}% / 年息 ${fmt(results.L.config.rate*100,1)}% / ${results.L.config.creditMode==='equity50'?'融资上限为当前净资产的 50%':'固定额度 ¥ '+fmt(results.L.config.credit,0)}：利息 ¥ ${fmt(results.L.metrics.interest,0)} · 最低维持担保比例 ${results.L.metrics.min_maintenance?fmt(results.L.metrics.min_maintenance*100,1)+'%':'无借款'} · ${results.L.config.driftPolicy==='buy_cap_only'?'允许被动超仓':'原回调规则'} · 实际仓位峰值 ${fmt(results.L.metrics.max_exposure*100,1)}% · 使用融资 ${results.L.metrics.borrow_days} 天 · 期末欠款 ¥ ${fmt(results.L.metrics.ending_debt,0)}`;
  $('comparison-body').innerHTML=['D','H','L','B'].map(k=>{const m=results[k].metrics;return `<tr class="${k===active?'selected-row':''}"><td><span class="strategy-dot" style="background:${colors[k]}"></span>${names[k]}</td><td class="${m.return_>=0?'positive':'negative'}">${pct(m.return_)}</td><td>${k==='B'?'—':fmt((m.return_-b.metrics.return_)*100)+' pp'}</td><td>${fmt(m.mdd5*100)}%</td><td>${fmt(m.exposure*100,1)}%</td><td>${m.orders}</td><td>¥ ${fmt(m.fees,0)}${k==='L'?'<br><small>融资利息 ¥ '+fmt(m.interest,0)+'</small>':''}</td></tr>`}).join('');

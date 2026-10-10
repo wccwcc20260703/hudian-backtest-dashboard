@@ -1,5 +1,5 @@
 import {opportunitySignals} from './opportunities.js?v=6bc2afa727e7';
-import {barTime} from './engine.js?v=40d6edac7cb0';
+import {barTime} from './engine.js?v=a18b9052067f';
 import {tradePosition} from './positions.js?v=0bef8d272a6e';
 export const barEnd=j=>j===23?'11:30':j===47?'15:00':barTime(j+1);
 export const dayChange=(data,d)=>data.close[d]/data.reference[d]-1;
@@ -19,7 +19,7 @@ const percent=v=>(v*100).toFixed(2)+'%';
 const gateLabels={all_full:'所有满仓信号',trend:'趋势支持',edge_morning:'反转有效且早盘转强',deep_rsi20:'RSI低于20',edge:'反转环境有效',strong_edge:'高反转收益门槛'};
 export function tradeReason(data,result,t){
  const d=t[0],model=result.model,base=model==='L'?result.config.base:model,pos=tradePosition(data,t),rsi=data.rsi[d],growth=data.growth[d],original=base==='B'?null:data.signals[base][d];
- if(model==='B')return '全仓持有基准首次建仓；按区间起点计划分批执行，与S/R观察点无关。';
+ if(model==='B')return result.benchmark?.version==='continuous-v2'?'持有基准v2：继续使用尚未用完的初始本金建仓，受成交量、费用和涨停约束；分红不再投入，与S/R观察点无关。':'旧版持有基准首次建仓；按区间起点计划分批执行，与S/R观察点无关。';
  let why;
  if(model==='L'&&t[15])why=t[10]===0?'融资维持担保比例触及模型清仓线，尝试卖出可卖老仓':'模型风险约束触发降仓（原超仓回调或设置的回撤约束），目标降至100%';
  else{

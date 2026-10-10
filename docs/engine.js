@@ -1,9 +1,12 @@
+import {holdBenchmark} from './benchmark.js?v=3c1cfe1f0e88';
 import {STOCK_COMMISSION,MIN_COMMISSION,FEE_VERSION} from './fees.js?v=74745f12a7da';
 // Causal execution model. Frozen pre-open targets; cash account resets on each run.
 export const barTime=j=>{const m=j<24?570+j*5:780+(j-24)*5;return `${Math.floor(m/60).toString().padStart(2,'0')}:${(m%60).toString().padStart(2,'0')}`};
-export function backtest(data,model,start,end,{capital=1e6,commission=STOCK_COMMISSION,minCommission=MIN_COMMISSION,slip=.0005}={}) {
+export function backtest(data,model,start,end,{capital=1e6,commission=STOCK_COMMISSION,minCommission=MIN_COMMISSION,slip=.0005,benchmarkMode='continuous'}={}) {
  if(!Number.isFinite(commission)||commission<0||!Number.isFinite(minCommission)||minCommission<0)throw Error('无效佣金参数');
  if(!Number.isInteger(start)||!Number.isInteger(end)||start<0||end>data.dates.length||end<=start||!(capital>0)||slip<0)throw Error('无效回测范围或参数');
+ if(!['continuous','legacy','ideal'].includes(benchmarkMode))throw Error('无效基准版本');
+ if(model==='B'&&benchmarkMode!=='legacy')return holdBenchmark(data,start,end,{capital,commission,minCommission,slip,ideal:benchmarkMode==='ideal'});
  let cash=capital,shares=0,fees=0,dividendTax=0,t1Blocks=0,limitBlocks=0,volumeCaps=0,turnover=0,peak=capital,mdd5=0,dailyPeak=capital,mdd=0;
  const nav=[],exposure=[],curve=[],drawdown=[],trades=[],daily=[];
  for(let d=start;d<end;d++){
