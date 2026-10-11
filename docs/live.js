@@ -1,6 +1,6 @@
 import {parseQuote,parseMinutes} from './market.js?v=3a58d356331d';
 const quoteURL='https://qt.gtimg.cn/q=sz002463',minuteURL='https://web.ifzq.gtimg.cn/appstock/app/minute/query?code=sz002463';
-const cacheKey='hudian-intraday-v1',minuteInterval=30000;
+const cacheKey='hudian-intraday-v1',refreshInterval=5000,minuteInterval=refreshInterval;
 function validMinutes(value){
  return /^\d{4}-\d{2}-\d{2}$/.test(value?.date)&&Array.isArray(value.points)&&value.points.length>0&&value.points.every((p,i)=>
   /^(09|10|11|13|14|15):[0-5]\d$/.test(p.time)&&Number.isFinite(p.price)&&p.price>0&&(!i||p.time>value.points[i-1].time));
@@ -40,7 +40,7 @@ export function startLive({onUpdate,onStatus}){
    if(!response.ok)throw Error('报价请求失败');
    const quote=parseQuote(new TextDecoder('gb18030').decode(await response.arrayBuffer()));
    latest={quote,fetchedAt:new Date().toISOString()};quoteCached=false;publish();
-   status('报价已连接 · 每 1 秒刷新');
+   status('报价已连接 · 每 5 秒刷新');
   }catch{
    quoteCached=true;publish();status('报价连接暂不可用 · 请以源时间为准');
   }finally{quoteBusy=false;}
@@ -61,7 +61,7 @@ export function startLive({onUpdate,onStatus}){
   }finally{minuteBusy=false;publish();}
  }
  const tick=()=>Promise.allSettled([refreshQuote(),refreshMinutes()]);
- const timer=setInterval(tick,1000),visible=()=>{if(!document.hidden)tick();};
+ const timer=setInterval(tick,refreshInterval),visible=()=>{if(!document.hidden)tick();};
  document.addEventListener('visibilitychange',visible);loadSnapshot();tick();
  return {refresh:()=>Promise.allSettled([refreshQuote(),refreshMinutes(true)]),stop(){stopped=true;clearInterval(timer);document.removeEventListener('visibilitychange',visible);}};
 }

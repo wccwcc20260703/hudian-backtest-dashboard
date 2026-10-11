@@ -5,7 +5,7 @@ import {opportunitySignals} from './opportunities.js?v=6bc2afa727e7';
 import {startBriefings} from './briefings.js?v=6f9223565966';
 import {backtest,barTime} from './engine.js?v=a18b9052067f';
 import {candleValues} from './market.js?v=3a58d356331d';
-import {startLive} from './live.js?v=39237cf4051d';
+import {startLive} from './live.js?v=4a77ebe65a1d';
 import {financeBacktest} from './finance-engine.js?v=bf7a904c52a3';
 import {tradePosition} from './positions.js?v=0bef8d272a6e';
 import {attribution} from './attribution.js?v=fb459d2c3f0d';
@@ -189,7 +189,7 @@ function renderLiveDay(){
  $('intraday').setAttribute('aria-label','最新交易日分时曲线、独立观察和模型计划');htmlIfChanged('trade-columns','<tr><th>分钟点</th><th>观察 / 计划与强度</th><th>参考价格</th><th>数量试算（非成交）</th><th colspan="5">依据与风险说明</th></tr>');
  $('day').value=q.date;$('day-title').textContent=q.date+' · 最新行情';$('prev').disabled=false;$('next').disabled=true;$('next-trade').disabled=true;$('export').disabled=true;
  $('replay-footnote').hidden=true;$('day-live-status').hidden=false;
- $('day-live-status').textContent=`报价截至 ${q.date} ${q.time}，分钟源截至 ${last}${liveMarket.minutesCached?'（保留缓存）':''}。此页为分时曲线与观察/计划，不是已核验5分钟成交复盘；报价每秒、分时每30秒更新。已完成回测仍至 ${data.dates.at(-1)}。`;
+ $('day-live-status').textContent=`报价截至 ${q.date} ${q.time}，分钟源截至 ${last}${liveMarket.minutesCached?'（保留缓存）':''}。此页为分时曲线与观察/计划，不是已核验5分钟成交复盘；报价与分时每5秒请求更新。已完成回测仍至 ${data.dates.at(-1)}。`;
  htmlIfChanged('day-summary',`<span>最新价<b>¥ ${fmt(q.price)}</b></span><span>今日开盘<b>¥ ${fmt(q.open)}</b></span><span>最高 / 最低<b>${fmt(q.high)} / ${fmt(q.low)}</b></span><span>日涨跌<b>${pct(q.price/q.previous-1)}</b></span><span>观察信号<b>${signals.length} 个</b></span><span>模型计划<b>${plans.length} 个 · 未生成成交</b></span>`);
  stableChart('intraday',v.option,'live-'+v.key);
  $('trade-heading-label').textContent='当日观察与计划 ';$('trade-count').textContent=`${signals.length} 个观察 / ${plans.length} 个计划 · 非成交记录`;

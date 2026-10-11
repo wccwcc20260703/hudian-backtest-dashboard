@@ -6,12 +6,13 @@ const rawQuote=fs.readFileSync('tests/fixtures/quote.txt','utf8');
 const snapshot=JSON.parse(fs.readFileSync('docs/latest-quote.json'));
 // Fixed early snapshot for recovery scenarios; production snapshot may be newer.
 snapshot.minutes.points=snapshot.minutes.points.filter(p=>p.time<='13:39');
-const updates=[],memory=new Map();let tick,minuteMode='fail',quoteMode='ok',releaseMinute;
+const updates=[],memory=new Map();let tick,timerInterval,minuteMode='fail',quoteMode='ok',releaseMinute;
 let quoteDate='20261009',minuteDate='20261009';
 let minuteRequests=0,quoteRequests=0;
 globalThis.document={hidden:false,addEventListener(){},removeEventListener(){}};
 globalThis.localStorage={getItem:k=>memory.get(k)??null,setItem:(k,v)=>memory.set(k,v)};
-globalThis.setInterval=fn=>{tick=fn;return 1;};globalThis.clearInterval=()=>{};
+let clock=Date.now();const originalNow=Date.now;Date.now=()=>clock;
+globalThis.setInterval=(fn,interval)=>{tick=fn;timerInterval=interval;return 1;};globalThis.clearInterval=()=>{};
 const networkMinutes=()=>({data:{sz002463:{data:{date:minuteDate,data:minuteMode==='empty'?[]:['0930 113.14 100 1131400','1450 112.60 200 2257400']}}}});
 globalThis.fetch=async url=>{
  if(url.includes('qt.gtimg')){
@@ -35,7 +36,10 @@ assert.equal(last().market.minutes.points.length,snapshot.minutes.points.length,
 assert.equal(last().market.minutesCached,true);assert.equal(last().cached,false);
 assert.match(signalFreshness(last().market,false),/暂停/);
 const initialRequests=minuteRequests;await tick();
-assert.equal(minuteRequests,initialRequests,'one-second quote tick does not hammer failed minute source');
+assert.equal(timerInterval,5000,'quote timer uses five-second cadence');
+assert.equal(minuteRequests,initialRequests,'minute requests are throttled within five seconds');
+clock+=4999;await tick();assert.equal(minuteRequests,initialRequests);
+clock+=1;await tick();assert.equal(minuteRequests,initialRequests+1,'minute refresh is eligible at five seconds');
 minuteMode='ok';await controller.refresh();
 assert.equal(last().market.minutes.points.at(-1).time,'14:50');
 assert.equal(last().market.minutesCached,false);assert.equal(memory.size,1);
@@ -58,4 +62,5 @@ controller.stop();quoteMode='ok';minuteMode='fail';
 const reloaded=startLive({onUpdate:(market,cached)=>updates.push({market,cached}),onStatus(){}});await flush();
 assert.equal(last().market.minutes.points.at(-1).time,'14:50','reload preserves newer local curve over older server snapshot');
 assert.equal(last().market.minutesCached,true);reloaded.stop();
-console.log('PASS: minute outage/empty response/reload recovery, trading-day isolation, stale signal pause, independent one-second quotes.');
+Date.now=originalNow;
+console.log('PASS: five-second quote/minute cadence, outage/empty response/reload recovery, trading-day isolation, stale signal pause, independent quotes.');
