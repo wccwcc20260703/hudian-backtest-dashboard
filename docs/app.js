@@ -1,3 +1,4 @@
+import {positionView,startPositionFeed} from './live-position.js?v=73377a974da5';
 import {historicalObservations,historyLines,tradeReason,dayChange} from './replay.js?v=ebed49527908';
 import {strengthExplanation} from './signal-strength.js?v=01d4074be540';
 import {orderEstimate,hoverStableUpdater,actionableSignals} from './live-presentation.js?v=71e80230a188';
@@ -17,6 +18,7 @@ let data,financeGates,results={},active='L',view='equity',start=0,end=727,day=0,
 const historicalTradeHead=$('trade-columns').innerHTML;
 let liveDaySelected=false,daySelectionTouched=false,liveReplayPresentation=null;
 let liveMarket=null,liveController=null,liveContext=null,liveResults={},liveCached=false;
+let positionSnapshot=null,positionFeed=null,positionFeedError=null;
 const chartUpdates={};
 function stableChart(id,option,key){chartUpdates[id]??=hoverStableUpdater(charts[id]);chartUpdates[id](option,key);}
 const htmlCache=new Map();
@@ -143,8 +145,23 @@ $('next-trade').onclick=()=>{const next=results[active].trades.find(t=>t[0]>day)
 $('day').onchange=()=>{daySelectionTouched=true;if(liveDayAvailable()&&$('day').value===liveMarket.quote.date){liveDaySelected=true;renderDay();return;}const i=indexAt($('day').value);if(i>=start&&i<end){liveDaySelected=false;day=i;renderDay();}else $('day').value=data.dates[day];};
 $('apply-zoom').onclick=()=>{const ds=charts.price.getOption().xAxis[0].data,n=ds.length-1,visible=ds.slice(Math.ceil(n*zoom[0]/100),Math.floor(n*zoom[1]/100)+1).filter(d=>d<=data.dates.at(-1));if(!visible.length){showError('当前只包含盘中行情，尚不能用于完整交易日回测。');return;}$('start').value=visible[0];$('end').value=visible.at(-1);run();};
 $('export').onclick=()=>{const r=results[active],rows=[['日期','时间','方向','数量','成交价','交易费用','成交后净现金（负数为欠款）','成交后持股','当日可卖','目标仓位','成交前持股','成交前仓位百分比','成交后仓位百分比','仓位估值价格','成交原因'],...r.trades.map(t=>[data.dates[t[0]],barTime(t[1]),t[2]>0?'买入':'卖出',t[3],t[4],t[5].toFixed(4),t[6].toFixed(4),t[7],t[8],t[10],t[12],(tradePosition(data,t).before*100).toFixed(6),(tradePosition(data,t).after*100).toFixed(6),tradePosition(data,t).mark,tradeReason(data,r,t)])];const blob=new Blob(['\ufeff'+rows.map(r=>r.join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`沪电股份_${active}_${data.dates[start]}_${data.dates[end-1]}_成交.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+function renderPosition(){
+ const state=positionView(positionSnapshot,liveMarket,{cached:liveCached});
+ $('position-state').textContent=state.message;
+ $('position-state').className='position-state '+state.status;
+ $('position-accepted').textContent=state.acceptedMessage??'';
+ $('position-model').textContent=state.modelLabel??'默认 D · 条件融资';
+ const m=state.metrics;
+ htmlIfChanged('position-values',m?[
+  ['持股数量',fmt(m.shares,0)+' 股'],['可卖老仓'+(state.status==='conditional'?'（条件值）':''),fmt(m.available,0)+' 股'],
+  ['仓位比例',m.weight===null?'净资产非正':fmt(m.weight*100)+'%'],['持仓市值','¥ '+money(m.marketValue)],
+  [state.todayInterestPosted?'净资产':'净资产（今日息前）','¥ '+money(m.equity)],['可用现金','¥ '+money(m.cash)],['融资欠款','¥ '+money(m.debt)],['周末估算利息','¥ '+money(m.carryInterest)]
+ ].map(([label,value])=>`<div><span>${label}</span><b>${value}</b></div>`).join(''):'<p class="footnote">持股、可卖数量、仓位比例、现金及欠款等待有效账户资料。</p>');
+ $('position-time').textContent=m?`持仓来源：${state.sourceSession} · 账户资料发布：${new Date(state.publishedAt).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false})} · ${state.stale?'最近报价估值（非实时）':'估值报价'}：${state.quoteTime}（北京时间）。` : '';
+ $('position-notes').textContent=[positionFeedError,...(state.assumptions??[]),...(state.limitations??[])].filter(Boolean).join(' ');
+}
 function renderLive(market,cached){
- liveMarket=market;liveCached=cached;void refreshOpportunityContext();const q=market.quote,minute=market.minutes,change=q.price/q.previous-1;
+ liveMarket=market;liveCached=cached;renderPosition();void refreshOpportunityContext();const q=market.quote,minute=market.minutes,change=q.price/q.previous-1;
  $('live-date').textContent=q.date;
  $('live-values').innerHTML=[['最新价',`¥ ${fmt(q.price)}`,change>=0?'buy':'sell'],['涨跌幅',pct(change),change>=0?'buy':'sell'],['今日开盘',`¥ ${fmt(q.open)}`,''],['最高 / 最低',`${fmt(q.high)} / ${fmt(q.low)}`,''],['昨日收盘',`¥ ${fmt(q.previous)}`,'']].map(([label,value,color])=>`<div><span>${label}</span><b class="${color}">${value}</b></div>`).join('');
  $('quote-time').textContent=`${cached?'缓存快照 · ':''}腾讯源时间 ${q.date} ${q.time}（北京时间）${minute?.points.length?' · 分时截至 '+minute.points.at(-1).time+(market.minutesCached?'（保留最近有效曲线，等待更新）':''):''}`;
@@ -225,8 +242,9 @@ async function init(){try{
  for(const id of ['start','end']){$(id).min=data.dates[0];$(id).max=data.dates.at(-1);}
  $('start').value=data.dates[0];$('end').value=data.dates.at(-1);$('run').disabled=false;$('run').textContent='重新回测 ↗';
  day=data.dates.length-1;renderStrategyHelp();run();
+ positionFeed=startPositionFeed({onUpdate:(snapshot,error)=>{if(snapshot)positionSnapshot=snapshot;positionFeedError=error;renderPosition();}});
  liveController=startLive({onUpdate:renderLive,onStatus:text=>$('live-status').textContent=text});
- $('refresh-live').onclick=()=>liveController.refresh();
+ $('refresh-live').onclick=()=>{liveController.refresh();positionFeed.refresh();};
  $('show-live').onchange=()=>renderPrice();
  $('show-h-mode').onchange=()=>renderPrice();
  window.addEventListener('resize',()=>Object.values(charts).forEach(c=>c.resize()));

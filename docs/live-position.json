@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "symbol": "002463",
+  "model": "D_all_full_1.5_buy_cap_only",
+  "modelLabel": "默认 D · 条件融资",
+  "valuationDate": "2026-10-12",
+  "publishedAt": "2026-10-12T10:57:25.207230+08:00",
+  "acceptedAccount": null,
+  "conditionalAccount": {
+    "status": "conditional",
+    "sourceSession": "2026-10-09",
+    "shares": 175700,
+    "available": 175700,
+    "cash": -7098554.395975726,
+    "carryInterest": 2333.0042931559133,
+    "carryDays": 2,
+    "todayInterestPosted": false,
+    "assumptions": [
+      "沿用10月9日条件衔接股数，假设此后无新增买卖。",
+      "现金已扣周末两天估算利息，未写入已验收账户；今日融资利息尚未入账。",
+      "可卖数量为全部持股均属老仓的条件值，尚未验收。"
+    ],
+    "evidenceHashes": {
+      "conditionalBridge": "3d627f64fe1e77b5a125dcb93a2c60cd3b0e0e51a8683102d8de01823cd944c6",
+      "carryCalculation": "14da6da72b56cc0c59965c63edc1347a391094d491cb61e3bba1d76c2549de7b"
+    }
+  },
+  "limitations": [
+    "10月9日分钟与日线极值差异、连续账户及执行窗口仍待验收。",
+    "估值随报价更新；股数和欠款只随账户资料更新，不由观察信号推演成交。"
+  ]
+}
