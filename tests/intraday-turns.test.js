@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {intradayTurns} from '../docs/intraday-turns.js';
+const prices=[103,102,101,100,100.1,100.2,100.4,100.8];
+const market={quote:{date:'2026-10-13',time:'09:38:00'},minutes:{date:'2026-10-13',points:prices.map((price,i)=>({time:`09:${30+i}`,price}))}};
+const at=t=>Date.parse('2026-10-13T'+t+'+08:00');
+assert.equal(intradayTurns({market,now:at('09:36:59')}).signals.length,0);
+const r=intradayTurns({market,now:at('09:38:00')});assert.equal(r.signals.length,1);assert.equal(r.signals[0].confirmedAt,'09:37');assert.equal(r.signals[0].pivotTime,'09:33');assert.equal(r.signals[0].time,'09:36');
+assert.equal(intradayTurns({market:{...market,account:null,minutes:{...market.minutes,points:market.minutes.points.filter((_,i)=>i!==4)}},now:at('09:38:00')}).signals.length,0);
+const later=structuredClone(market);later.minutes.points.push({time:'09:38',price:99});later.quote.time='09:39:00';assert.deepEqual(intradayTurns({market:later,now:at('09:39:00')}).signals[0],r.signals[0]);
+const lunch=structuredClone(market);lunch.minutes.points.forEach((p,i)=>p.time=i<4?`11:${26+i}`:`13:0${i-4}`);lunch.quote.time='13:05:00';assert.equal(intradayTurns({market:lunch,now:at('13:05:00')}).signals.length,0);
+assert.equal(intradayTurns({market,now:at('09:38:00'),cached:true}).replay,true);
+console.log('intraday turns: causal confirmation, immutable past, gaps, lunch and replay passed');
+const early=structuredClone(market);early.quote.time='09:36:59';assert.equal(intradayTurns({market:early,now:at('09:36:59')}).signals.length,0,'unfinished confirmation minute cannot trigger');
+assert.deepEqual(intradayTurns({market:{...market,account:null,executionReady:false},now:at('09:38:00')}),r,'unavailable account cannot suppress observation');
+const highs=structuredClone(market);highs.minutes.points.forEach(p=>p.price=210-p.price);assert.equal(intradayTurns({market:highs,now:at('09:38:00')}).signals[0].kind,'high');
