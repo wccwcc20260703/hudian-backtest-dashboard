@@ -2,7 +2,7 @@
 """Validate and save a supplied, evidence-backed briefing. Does not infer market data or push Git."""
 from pathlib import Path
 from datetime import datetime
-import json,sys,html,os
+import json,sys,html,os,subprocess
 ROOT=Path(__file__).resolve().parents[1];DOCS=ROOT/'docs'
 def save(path,obj):
  tmp=path.with_suffix(path.suffix+'.tmp');tmp.write_text(json.dumps(obj,ensure_ascii=False,indent=2));os.replace(tmp,path)
@@ -23,4 +23,7 @@ def publish(path):
  p=DOCS/'daily-briefings.json';all=json.loads(p.read_text()) if p.exists() else {'schemaVersion':1,'timezone':'Asia/Shanghai'}
  if all.get(kind) and all[kind]['tradeDate']>r['tradeDate']:raise ValueError('Refuse replacing newer briefing with older date')
  all[kind]=r;save(p,all);print(kind,r['tradeDate'],r['status'])
-if __name__=='__main__':publish(sys.argv[1])
+if __name__=='__main__':
+ publish(sys.argv[1])
+ # Retain sourced market sessions when advancing the latest daily report.
+ subprocess.run([sys.executable,str(ROOT/'scripts/export-session-archive.py')],check=True)

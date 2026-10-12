@@ -1,3 +1,4 @@
+import {evidenceSessions,replayDates,freshnessText} from './session-archive.js?v=092746e2843e';
 import {createPositionStart,startSnapshot} from './position-start.js?v=1367215c2c19';
 import {positionView,startPositionFeed} from './live-position.js?v=73377a974da5';
 import {historicalObservations,historyLines,tradeReason,dayChange} from './replay.js?v=ebed49527908';
@@ -18,6 +19,7 @@ const fmt=(v,n=2)=>Number(v).toLocaleString('zh-CN',{minimumFractionDigits:n,max
 let data,financeGates,results={},active='L',view='equity',start=0,end=727,day=0,zoom=[0,100];
 const historicalTradeHead=$('trade-columns').innerHTML;
 let liveDaySelected=false,daySelectionTouched=false,liveReplayPresentation=null;
+let sessionArchive={sessions:{}},archiveDay=null;
 let liveMarket=null,liveController=null,liveContext=null,liveResults={},liveCached=false;
 let positionSnapshot=null,positionFeed=null,positionFeedError=null,positionSelection=null;
 const positionStorageKey='hudian-position-start-v1';
@@ -39,7 +41,7 @@ function run(){
  results.L=financeBacktest(data,financeGates,a,z,{...options,base:$('finance-base').value,gate:$('finance-gate').value,driftPolicy:$('finance-drift').value,level:Number($('finance-level').value),rate:Number($('finance-rate').value)/100,credit:$('finance-credit-mode').value==='equity50'?null:Number($('finance-credit').value)});
  day=Math.max(start,Math.min(day,end-1));zoom=[0,100];$('finance-pending').hidden=true;
  $('range-note').textContent=`已回测 ${data.dates[start]} → ${data.dates[end-1]} · ${end-start} 个交易日`;
- $('day').min=data.dates[start];$('day').max=data.dates[end-1];
+ $('day').min=data.dates[start];$('day').max=availableReplayDates().at(-1);if(end!==data.dates.length){archiveDay=null;liveDaySelected=false;}
  renderMetrics();renderPerformance();renderPrice();renderDay();
  // Live hints always inherit the full historical model account, independent of range selection.
  for(const k of ['D','H','B'])liveResults[k]=start===0&&end===data.dates.length?results[k]:backtest(data,k,0,data.dates.length,options);
@@ -71,10 +73,11 @@ function renderMetrics(){
  $('comparison-body').innerHTML=['D','H','L','B'].map(k=>{const m=results[k].metrics;return `<tr class="${k===active?'selected-row':''}"><td><span class="strategy-dot" style="background:${colors[k]}"></span>${names[k]}</td><td class="${m.return_>=0?'positive':'negative'}">${pct(m.return_)}</td><td>${k==='B'?'—':fmt((m.return_-b.metrics.return_)*100)+' pp'}</td><td>${fmt(m.mdd5*100)}%</td><td>${fmt(m.exposure*100,1)}%</td><td>${m.orders}</td><td>¥ ${fmt(m.fees,0)}${k==='L'?'<br><small>融资利息 ¥ '+fmt(m.interest,0)+'</small>':''}</td></tr>`}).join('');
 }
 function renderPerformance(){
+ $('performance-freshness').textContent=freshnessText(data,start,end,sessionArchive);
  const dd=view==='drawdown',relative=view==='relative',dates=dd?['区间起点',...data.dates.slice(start,end).flatMap(d=>Array.from({length:48},(_,j)=>d+' '+(j===47?'15:00':barTime(j+1===24?24:j+1))))]:['区间起点',...data.dates.slice(start,end)];
  // The final morning bar is marked 11:30, not 13:00.
  if(dd)for(let d=0;d<end-start;d++)dates[1+d*48+23]=data.dates[start+d]+' 11:30';
- charts.performance.setOption({animation:false,grid:{left:68,right:35,top:48,bottom:45},legend:{top:12,right:25,icon:'roundRect',itemWidth:16,itemHeight:3,textStyle:{fontSize:11,color:'#718199'}},tooltip:{...tooltip,valueFormatter:v=>fmt(v)+'%'},xAxis:{...axis,type:'category',data:dates,boundaryGap:false,axisLabel:{...axis.axisLabel,formatter:v=>v.slice(0,10),hideOverlap:true}},yAxis:{...axis,type:'value',axisLabel:{...axis.axisLabel,formatter:pctAxis}},series:['D','H','L','B'].map(k=>({name:names[k],type:'line',showSymbol:false,sampling:dd?'min':'lttb',lineStyle:{width:k===active?2.5:1.7,type:k==='B'?'dashed':'solid'},itemStyle:{color:colors[k]},data:dd?[0,...results[k].drawdown]:[0,...results[k].nav.map((v,i)=>relative?(v/results.B.nav[i]-1)*100:(v/results[k].capital-1)*100)]}))},true);
+ charts.performance.setOption({animation:false,grid:{left:68,right:35,top:48,bottom:45},legend:{top:12,right:25,icon:'roundRect',itemWidth:16,itemHeight:3,textStyle:{fontSize:11,color:'#718199'}},tooltip:{...tooltip,valueFormatter:v=>fmt(v)+'%'},xAxis:{...axis,type:'category',data:dates,boundaryGap:false,axisLabel:{...axis.axisLabel,formatter:v=>v.slice(0,10),hideOverlap:true,showMaxLabel:true}},yAxis:{...axis,type:'value',axisLabel:{...axis.axisLabel,formatter:pctAxis}},series:['D','H','L','B'].map(k=>({name:names[k],type:'line',showSymbol:false,sampling:dd?'min':'lttb',lineStyle:{width:k===active?2.5:1.7,type:k==='B'?'dashed':'solid'},itemStyle:{color:colors[k]},data:dd?[0,...results[k].drawdown]:[0,...results[k].nav.map((v,i)=>relative?(v/results.B.nav[i]-1)*100:(v/results[k].capital-1)*100)]}))},true);
 }
 function positionText(t){const p=tradePosition(data,t);return `${fmt(p.before*100,2)}% → ${fmt(p.after*100,2)}%`;}
 function fillDetail(t){return `${barTime(t[1])} ${t[2]>0?'买入':'卖出'} ${fmt(t[3],0)} 股 @ ¥ ${fmt(t[4])}<br>实际仓位 ${positionText(t)}<br>${tradeReason(data,results[active],t)}<br>历史模拟成交；S/R强弱不是本订单评分`;}
@@ -86,23 +89,24 @@ function tradeScatter(trades,side,intraday=false){
  tooltip:{trigger:'item',formatter:p=>`${data.dates[p.data.trade[0]]}<br>${fillDetail(p.data.trade)}`}};
 }
 function stateAreas(){if(!$('show-h-mode').checked)return [];let runs=[],a=start;for(let i=start+1;i<=end;i++)if(i===end||data.state[i]!==data.state[a]){runs.push([{xAxis:data.dates[a],itemStyle:{color:['#9faebe14','#9671d511','#58ab8015'][data.state[a]]}},{xAxis:data.dates[i-1]}]);a=i;}return runs;}
-function candleTooltip(params){return params.map(p=>{if(p.seriesType==='candlestick'){const v=candleValues(p);const d=data.dates.indexOf(p.axisValue),q=liveMarket?.quote,change=d>=0?dayChange(data,d):q&&p.axisValue===q.date?q.price/q.previous-1:null;return `${p.axisValue}${change===null?'':' · 日涨跌 '+pct(change)}<br>开 ${fmt(v[0])}　收 ${fmt(v[1])}<br>低 ${fmt(v[2])}　高 ${fmt(v[3])}`;}if(p.seriesType==='scatter'&&p.data.trade)return `${p.marker}${fillDetail(p.data.trade)}`;return '';}).filter(Boolean).join('<br>');}
+function candleTooltip(params){return params.map(p=>{if(p.seriesType==='candlestick'){const v=candleValues(p);const d=data.dates.indexOf(p.axisValue),q=liveMarket?.quote?.date===p.axisValue?liveMarket.quote:sessionArchive.sessions[p.axisValue]?.market.quote,change=d>=0?dayChange(data,d):q&&p.axisValue===q.date?q.price/q.previous-1:null;return `${p.axisValue}${change===null?'':' · 日涨跌 '+pct(change)}<br>开 ${fmt(v[0])}　收 ${fmt(v[1])}<br>低 ${fmt(v[2])}　高 ${fmt(v[3])}`;}if(p.seriesType==='scatter'&&p.data.trade)return `${p.marker}${fillDetail(p.data.trade)}`;return '';}).filter(Boolean).join('<br>');}
 function renderPrice(){
  $('regime-caption').hidden=!$('show-h-mode').checked;
  const r=results[active],ds=data.dates.slice(start,end), candles=data.daily.slice(start,end).map(v=>[v[0],v[3],v[2],v[1]]);
- const quote=liveMarket?.quote, includeLive=quote&&end===data.dates.length&&quote.date>data.dates.at(-1)&&$('show-live').checked;
- if(includeLive){ds.push(quote.date);candles.push([quote.open,quote.price,quote.low,quote.high]);}
- $('live-candle-note').textContent=includeLive?`已附加 ${quote.date} 盘中 K 线（未纳入回测） · 不复权价格`: '历史日线为不复权价格 · 买卖标记为含滑点的模拟成交价';
+ const quote=liveMarket?.quote, extras=end===data.dates.length&&$('show-live').checked?evidenceSessions(data,sessionArchive,liveMarket):[],includeLive=extras.some(([,v])=>v.live);
+ for(const [date,v] of extras){const q=v.market.quote;ds.push(date);candles.push([q.open,q.price,q.low,q.high]);}
+ $('live-candle-note').textContent=extras.length?`行情留存：${extras.map(([d])=>d).join('、')}（未纳入回测，可点击回看） · 完整回测截至 ${data.dates.at(-1)}`:'历史日线为不复权价格 · 买卖标记为含滑点的模拟成交价';
  stableChart('price',{animation:false,grid:{left:68,right:35,top:28,bottom:62},tooltip:{...tooltip,formatter:candleTooltip},xAxis:{...axis,type:'category',data:ds,axisPointer:{type:'shadow'},axisLabel:{...axis.axisLabel,hideOverlap:true}},yAxis:{...axis,scale:true,name:'元',nameTextStyle:{color:'#9ca7b5'},axisLabel:{...axis.axisLabel,formatter:v=>fmt(v,1)}},dataZoom:[{type:'inside',start:zoom[0],end:zoom[1]},{type:'slider',start:zoom[0],end:zoom[1],bottom:13,height:22,borderColor:'#edf1f6',fillerColor:'#13898812',handleStyle:{color:'#799aab'},textStyle:{color:'#8b9bad',fontSize:10}}],series:[{name:'日线',type:'candlestick',data:candles,itemStyle:{color:'#df6570',color0:'#4a9a8c',borderColor:'#df6570',borderColor0:'#4a9a8c'},markArea:{silent:true,data:stateAreas()},markPoint:includeLive?{symbol:'pin',symbolSize:36,itemStyle:{color:'#d89b48'},label:{formatter:'盘中',fontSize:10},data:[{coord:[quote.date,quote.high]}]}:undefined},tradeScatter(r.trades,1),tradeScatter(r.trades,-1)]},JSON.stringify([active,start,end,zoom,ds,candles,r.trades,$('show-h-mode').checked]));
 }
 function liveDayAvailable(){return !!(liveMarket?.quote?.date>data.dates.at(-1)&&liveMarket.quote.time>='09:30:00');}
 function renderDay(){
+ if(archiveDay&&sessionArchive.sessions[archiveDay])return renderArchivedDay();
  if(liveDaySelected&&liveDayAvailable())return renderLiveDay();
  for(const id of ['day-summary','trades','daily-trades'])htmlCache.delete(id);
  $('history-observations').hidden=false;$('intraday').setAttribute('aria-label','历史5分钟分时线、S/R观察点与模拟成交');htmlIfChanged('trade-columns',historicalTradeHead);
  $('export').disabled=false;$('trade-heading-label').textContent='当日成交记录 ';$('replay-footnote').hidden=false;$('day-live-status').hidden=true;
  const r=results[active],ds=data.dates[day],local=day-start,trades=r.trades.filter(t=>t[0]===day),close=r.daily[local];
- $('day').value=ds;$('day-title').textContent=ds;$('prev').disabled=day===start;$('next').disabled=day===end-1&&!(end===data.dates.length&&liveDayAvailable());
+ $('day').value=ds;$('day-title').textContent=ds;$('prev').disabled=day===start;$('next').disabled=day===end-1&&evidenceSessions(data,sessionArchive,liveMarket).length===0;
  $('next-trade').disabled=!r.trades.some(t=>t[0]>day);
  const observation=historicalObservations(data,day,replayContexts[ds]),path=historyLines(data,day,observation);
  const signal=active==='B'?null:(active==='L'?r.targets[local]:data.signals[active][day]);
@@ -141,10 +145,19 @@ for(const b of document.querySelectorAll('[data-model]'))b.onclick=()=>{if(!data
 for(const b of document.querySelectorAll('[data-view]'))b.onclick=()=>{if(!data)return;view=b.dataset.view;document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x===b));renderPerformance();};
 for(const b of document.querySelectorAll('[data-months]'))b.onclick=()=>{if(!data)return;const dt=new Date(data.dates.at(-1)+'T12:00:00Z');dt.setUTCMonth(dt.getUTCMonth()-Number(b.dataset.months));$('start').value=b.dataset.months==='0'?data.dates[0]:dt.toISOString().slice(0,10);$('end').value=data.dates.at(-1);document.querySelectorAll('[data-months]').forEach(x=>x.classList.toggle('selected',x===b));run();};
 for(const id of ['start','end'])$(id).onchange=()=>document.querySelectorAll('[data-months]').forEach(x=>x.classList.remove('selected'));
-$('prev').onclick=()=>{daySelectionTouched=true;if(liveDaySelected){liveDaySelected=false;day=end-1;renderDay();}else if(day>start){day--;renderDay();}};$('next').onclick=()=>{daySelectionTouched=true;if(day<end-1){day++;renderDay();}else if(end===data.dates.length&&liveDayAvailable()){liveDaySelected=true;renderDay();}};
-$('today-replay').onclick=()=>{daySelectionTouched=true;if(liveDayAvailable()){liveDaySelected=true;renderDay();}};
-$('next-trade').onclick=()=>{const next=results[active].trades.find(t=>t[0]>day);if(next){daySelectionTouched=true;liveDaySelected=false;day=next[0];renderDay();}};
-$('day').onchange=()=>{daySelectionTouched=true;if(liveDayAvailable()&&$('day').value===liveMarket.quote.date){liveDaySelected=true;renderDay();return;}const i=indexAt($('day').value);if(i>=start&&i<end){liveDaySelected=false;day=i;renderDay();}else $('day').value=data.dates[day];};
+function availableReplayDates(){return replayDates(data,start,end,sessionArchive,liveMarket);}
+function selectedReplayDate(){return archiveDay??(liveDaySelected?liveMarket?.quote.date:data.dates[day]);}
+function selectReplayDate(date){
+ daySelectionTouched=true;archiveDay=null;liveDaySelected=false;
+ if(liveDayAvailable()&&date===liveMarket.quote.date)liveDaySelected=true;
+ else if(date>data.dates.at(-1)&&sessionArchive.sessions[date])archiveDay=date;
+ else {const i=data.dates.indexOf(date);if(i<start||i>=end)return;day=i;}
+ renderDay();
+}
+for(const [id,step] of [['prev',-1],['next',1]])$(id).onclick=()=>{const dates=availableReplayDates(),i=dates.indexOf(selectedReplayDate());if(dates[i+step])selectReplayDate(dates[i+step]);};
+$('today-replay').onclick=()=>{const date=availableReplayDates().at(-1);if(date)selectReplayDate(date);};
+$('next-trade').onclick=()=>{const next=results[active].trades.find(t=>data.dates[t[0]]>selectedReplayDate());if(next)selectReplayDate(data.dates[next[0]]);};
+$('day').onchange=()=>{const date=$('day').value;if(availableReplayDates().includes(date))selectReplayDate(date);else $('day').value=selectedReplayDate();};
 $('apply-zoom').onclick=()=>{const ds=charts.price.getOption().xAxis[0].data,n=ds.length-1,visible=ds.slice(Math.ceil(n*zoom[0]/100),Math.floor(n*zoom[1]/100)+1).filter(d=>d<=data.dates.at(-1));if(!visible.length){showError('当前只包含盘中行情，尚不能用于完整交易日回测。');return;}$('start').value=visible[0];$('end').value=visible.at(-1);run();};
 $('export').onclick=()=>{const r=results[active],rows=[['日期','时间','方向','数量','成交价','交易费用','成交后净现金（负数为欠款）','成交后持股','当日可卖','目标仓位','成交前持股','成交前仓位百分比','成交后仓位百分比','仓位估值价格','成交原因'],...r.trades.map(t=>[data.dates[t[0]],barTime(t[1]),t[2]>0?'买入':'卖出',t[3],t[4],t[5].toFixed(4),t[6].toFixed(4),t[7],t[8],t[10],t[12],(tradePosition(data,t).before*100).toFixed(6),(tradePosition(data,t).after*100).toFixed(6),tradePosition(data,t).mark,tradeReason(data,r,t)])];const blob=new Blob(['\ufeff'+rows.map(r=>r.join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`沪电股份_${active}_${data.dates[start]}_${data.dates[end-1]}_成交.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 function renderPosition(){
@@ -202,11 +215,24 @@ function renderLive(market,cached){
  const option={animation:false,grid:{left:68,right:35,top:20,bottom:30},tooltip:{...tooltip,hideDelay:150,extraCssText:tooltip.extraCssText+';max-width:460px;white-space:normal;line-height:1.7',valueFormatter:v=>v==null?'未发生':`¥ ${fmt(v)}`},xAxis:{...axis,type:'category',data:times,boundaryGap:false,axisLabel:{...axis.axisLabel,interval:(i,v)=>v.endsWith(':00')||v.endsWith(':30'),hideOverlap:true}},yAxis:{...axis,scale:true,axisLabel:{...axis.axisLabel,formatter:v=>fmt(v)}},series:[{id:'minutes',name:'分钟最新价',type:'line',showSymbol:false,connectNulls:false,itemStyle:{color:'#147f9d'},lineStyle:{width:1.7},areaStyle:{color:'#1a92b310'},data:times.map(t=>prices.get(t)??null),markLine:{silent:true,symbol:'none',label:{formatter:'昨收',position:'insideEndTop'},lineStyle:{type:'dashed',color:'#acb7c5',width:1},data:[{yAxis:q.previous}]}},monthlyLine,...signalSeries,...oppSeries]};
  stableChart('live',option,JSON.stringify([q.date,q.previous,points,opportunity.levels,oppSeries,signalSeries]));
  liveReplayPresentation={option,key:JSON.stringify([q.date,q.previous,points,opportunity.levels,oppSeries,signalSeries]),opportunity,displaySignals,estimateText,sizing,opportunitySizing,trialQuantity};
- if(liveDayAvailable()){$('today-replay').hidden=false;$('today-replay').textContent='最新行情 · '+q.date;$('day').max=q.date;if(!daySelectionTouched)liveDaySelected=true;}
- if(liveDaySelected)renderDay();else if(day===end-1&&end===data.dates.length)$('next').disabled=!liveDayAvailable();
+ if(liveDayAvailable()){$('today-replay').hidden=false;$('today-replay').textContent='最新行情 · '+q.date;$('day').max=q.date;if(!daySelectionTouched){archiveDay=null;liveDaySelected=true;}}
+ if(liveDaySelected)renderDay();else if(!archiveDay&&day===end-1&&end===data.dates.length)$('next').disabled=!liveDayAvailable();
  $('live-empty').hidden=points.length>0;
  renderPrice();
 }
+function renderArchivedDay(){
+ const entry=sessionArchive.sessions[archiveDay],m=entry.market,q=m.quote,points=m.minutes.points,dates=availableReplayDates(),i=dates.indexOf(archiveDay);
+ $('history-observations').hidden=true;$('export').disabled=true;$('replay-footnote').hidden=true;$('day-live-status').hidden=false;
+ $('day').value=archiveDay;$('day').max=dates.at(-1);$('day-title').textContent=archiveDay+' · 行情留存';$('prev').disabled=i<=0;$('next').disabled=i===dates.length-1;$('next-trade').disabled=true;
+ $('day-live-status').textContent=`${entry.reason} 报价源时钟 ${q.date} ${q.time}，分钟截至 ${points.at(-1)?.time??'缺失'}；留存行情不会随最新交易日切换而消失。`;
+ $('intraday').setAttribute('aria-label','留存交易日分钟价格与累计成交均价，未验收模拟成交');
+ htmlIfChanged('day-summary',`<span>收盘快照<b>¥ ${fmt(q.price)}</b></span><span>开 / 高 / 低<b>${fmt(q.open)} / ${fmt(q.high)} / ${fmt(q.low)}</b></span><span>日涨跌<b>${pct(q.price/q.previous-1)}</b></span><span>执行与收益<b>待验收，未计入回测</b></span><span>当日报告<b><a href="${entry.report}">盘后复盘 ↗</a></b></span>`);
+ stableChart('intraday',{animation:false,grid:{left:68,right:35,top:42,bottom:38},legend:{top:5},tooltip:{...tooltip,valueFormatter:v=>v==null?'缺失':'¥ '+fmt(v)},xAxis:{...axis,type:'category',data:points.map(p=>p.time),boundaryGap:false,axisLabel:{...axis.axisLabel,showMaxLabel:true}},yAxis:{...axis,scale:true,name:'元'},series:[{name:'分钟价格（留存）',type:'line',showSymbol:false,data:points.map(p=>p.price),lineStyle:{color:'#148eab',width:2}},{name:'累计成交均价',type:'line',showSymbol:false,data:points.map(p=>p.volume>0&&p.amount>0?p.amount/p.volume:null),lineStyle:{color:'#9aaabb',type:'dotted'}}]},'archive-'+archiveDay+'-'+entry.sourceSHA256);
+ $('trade-heading-label').textContent='成交验收状态 ';$('trade-count').textContent='行情留存 · 不补造成交';htmlIfChanged('trade-columns',historicalTradeHead);
+ htmlIfChanged('trades','<tr><td colspan="10" class="empty">该日账户与模拟成交尚未验收。不能把无已核验记录解释成策略无需操作；买卖、持仓及收益留空。</td></tr>');
+ $('daily-trade-date').textContent=archiveDay+' · 行情留存';htmlIfChanged('daily-trades',`<tr><td colspan="6" class="empty">${entry.reason} <a href="${entry.report}">查看当日复盘</a></td></tr>`);
+}
+
 function renderLiveDay(){
  $('history-observations').hidden=true;
  if(!liveReplayPresentation)return;
@@ -224,10 +250,20 @@ function renderLiveDay(){
 }
 let opportunityContext=null,replayContexts={};
 let opportunityContextRequestedAt=0,opportunityContextLoading=false;
+async function refreshSessionArchive(){
+ try{
+  const response=await fetch('./session-archive.json',{cache:'no-store',signal:AbortSignal.timeout(10000)});
+  if(!response.ok)return;const next=await response.json();
+  if(next.schemaVersion!==1||!next.sessions||JSON.stringify(next)===JSON.stringify(sessionArchive))return;
+  sessionArchive=next;
+  if(results[active]){renderPerformance();renderPrice();$('day').max=availableReplayDates().at(-1);if(archiveDay)renderDay();}
+ }catch{}
+}
 async function refreshOpportunityContext(){
  const now=Date.now();
  if(opportunityContextLoading||now-opportunityContextRequestedAt<60000)return;
  opportunityContextLoading=true;opportunityContextRequestedAt=now;
+ if(data)void refreshSessionArchive();
  try{
   const response=await fetch(`./opportunity-context.json?v=${Math.floor(now/60000)}`,{cache:'no-store',signal:AbortSignal.timeout(10000)});
   if(!response.ok)return;
@@ -252,17 +288,19 @@ function initPositionStart(){
  $('position-reset').onclick=()=>{positionSelection=null;try{localStorage.removeItem(positionStorageKey);}catch{}renderPosition();};
 }
 async function init(){try{
- const response=await fetch('./data.json');if(!response.ok)throw Error(`行情文件加载失败 (${response.status})`);data=await response.json();
+ const response=await fetch('./data.json',{cache:'no-store'});if(!response.ok)throw Error(`行情文件加载失败 (${response.status})`);data=await response.json();
+ try{const a=await fetch('./session-archive.json',{cache:'no-store'});if(a.ok)sessionArchive=await a.json();}catch{}
  try{const c=await fetch('./live-context.json');if(c.ok)liveContext=await c.json();}catch{}
  await refreshOpportunityContext();
  try{const c=await fetch('./replay-context.json');if(c.ok)replayContexts=(await c.json()).contexts;}catch{}
- const gateResponse=await fetch('./finance-gates.json');if(!gateResponse.ok)throw Error('融资条件数据加载失败');financeGates=await gateResponse.json();
+ const gateResponse=await fetch('./finance-gates.json',{cache:'no-store'});if(!gateResponse.ok)throw Error('融资条件数据加载失败');financeGates=await gateResponse.json();
  for(const id of ['performance','price','intraday'])charts[id]=echarts.init($(id),null,{renderer:'canvas'});
- charts.price.on('click',p=>{if(p.componentType!=='series')return;const date=p.seriesType==='candlestick'?p.name:p.value[0];const i=data.dates.indexOf(date);if(i>=start&&i<end){daySelectionTouched=true;liveDaySelected=false;day=i;renderDay();}else if(date===liveMarket?.quote.date){daySelectionTouched=true;liveDaySelected=true;renderDay();$('day-summary').scrollIntoView({behavior:'smooth',block:'start'});}});
+ charts.price.on('click',p=>{if(p.componentType!=='series')return;const date=p.seriesType==='candlestick'?p.name:p.value[0];if(availableReplayDates().includes(date)){selectReplayDate(date);$('day-summary').scrollIntoView({behavior:'smooth',block:'start'});}});
  charts.price.on('datazoom',()=>{const o=charts.price.getOption().dataZoom[0];zoom=[o.start,o.end];});
  for(const id of ['start','end']){$(id).min=data.dates[0];$(id).max=data.dates.at(-1);}
  $('start').value=data.dates[0];$('end').value=data.dates.at(-1);$('run').disabled=false;$('run').textContent='重新回测 ↗';
  day=data.dates.length-1;renderStrategyHelp();run();initPositionStart();
+ const latestArchive=evidenceSessions(data,sessionArchive,null).at(-1)?.[0];if(latestArchive){archiveDay=latestArchive;$('day').max=latestArchive;renderDay();$('today-replay').hidden=false;$('today-replay').textContent='最新行情 · '+latestArchive;}
  positionFeed=startPositionFeed({onUpdate:(snapshot,error)=>{if(snapshot)positionSnapshot=snapshot;positionFeedError=error;renderPosition();}});
  liveController=startLive({onUpdate:renderLive,onStatus:text=>$('live-status').textContent=text});
  $('refresh-live').onclick=()=>{liveController.refresh();positionFeed.refresh();};
