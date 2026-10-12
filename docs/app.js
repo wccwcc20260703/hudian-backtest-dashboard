@@ -144,7 +144,7 @@ $('day').onchange=()=>{daySelectionTouched=true;if(liveDayAvailable()&&$('day').
 $('apply-zoom').onclick=()=>{const ds=charts.price.getOption().xAxis[0].data,n=ds.length-1,visible=ds.slice(Math.ceil(n*zoom[0]/100),Math.floor(n*zoom[1]/100)+1).filter(d=>d<=data.dates.at(-1));if(!visible.length){showError('当前只包含盘中行情，尚不能用于完整交易日回测。');return;}$('start').value=visible[0];$('end').value=visible.at(-1);run();};
 $('export').onclick=()=>{const r=results[active],rows=[['日期','时间','方向','数量','成交价','交易费用','成交后净现金（负数为欠款）','成交后持股','当日可卖','目标仓位','成交前持股','成交前仓位百分比','成交后仓位百分比','仓位估值价格','成交原因'],...r.trades.map(t=>[data.dates[t[0]],barTime(t[1]),t[2]>0?'买入':'卖出',t[3],t[4],t[5].toFixed(4),t[6].toFixed(4),t[7],t[8],t[10],t[12],(tradePosition(data,t).before*100).toFixed(6),(tradePosition(data,t).after*100).toFixed(6),tradePosition(data,t).mark,tradeReason(data,r,t)])];const blob=new Blob(['\ufeff'+rows.map(r=>r.join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`沪电股份_${active}_${data.dates[start]}_${data.dates[end-1]}_成交.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 function renderLive(market,cached){
- liveMarket=market;liveCached=cached;const q=market.quote,minute=market.minutes,change=q.price/q.previous-1;
+ liveMarket=market;liveCached=cached;void refreshOpportunityContext();const q=market.quote,minute=market.minutes,change=q.price/q.previous-1;
  $('live-date').textContent=q.date;
  $('live-values').innerHTML=[['最新价',`¥ ${fmt(q.price)}`,change>=0?'buy':'sell'],['涨跌幅',pct(change),change>=0?'buy':'sell'],['今日开盘',`¥ ${fmt(q.open)}`,''],['最高 / 最低',`${fmt(q.high)} / ${fmt(q.low)}`,''],['昨日收盘',`¥ ${fmt(q.previous)}`,'']].map(([label,value,color])=>`<div><span>${label}</span><b class="${color}">${value}</b></div>`).join('');
  $('quote-time').textContent=`${cached?'缓存快照 · ':''}腾讯源时间 ${q.date} ${q.time}（北京时间）${minute?.points.length?' · 分时截至 '+minute.points.at(-1).time+(market.minutesCached?'（保留最近有效曲线，等待更新）':''):''}`;
@@ -198,10 +198,25 @@ function renderLiveDay(){
  $('daily-trade-date').textContent=q.date+' · 实时观察';htmlIfChanged('daily-trades','<tr><td colspan="6" class="empty">今日行情已接入下方逐日复盘，观察与模型计划实时更新；尚未追加已核验模拟成交。</td></tr>');
 }
 let opportunityContext=null,replayContexts={};
+let opportunityContextRequestedAt=0,opportunityContextLoading=false;
+async function refreshOpportunityContext(){
+ const now=Date.now();
+ if(opportunityContextLoading||now-opportunityContextRequestedAt<60000)return;
+ opportunityContextLoading=true;opportunityContextRequestedAt=now;
+ try{
+  const response=await fetch(`./opportunity-context.json?v=${Math.floor(now/60000)}`,{cache:'no-store',signal:AbortSignal.timeout(10000)});
+  if(!response.ok)return;
+  const next=await response.json();
+  if(JSON.stringify(next)!==JSON.stringify(opportunityContext)){
+   opportunityContext=next;
+   if(liveMarket)renderLive(liveMarket,liveCached);
+  }
+ }catch{}finally{opportunityContextLoading=false;}
+}
 async function init(){try{
  const response=await fetch('./data.json');if(!response.ok)throw Error(`行情文件加载失败 (${response.status})`);data=await response.json();
  try{const c=await fetch('./live-context.json');if(c.ok)liveContext=await c.json();}catch{}
- try{const c=await fetch('./opportunity-context.json');if(c.ok)opportunityContext=await c.json();}catch{}
+ await refreshOpportunityContext();
  try{const c=await fetch('./replay-context.json');if(c.ok)replayContexts=(await c.json()).contexts;}catch{}
  const gateResponse=await fetch('./finance-gates.json');if(!gateResponse.ok)throw Error('融资条件数据加载失败');financeGates=await gateResponse.json();
  for(const id of ['performance','price','intraday'])charts[id]=echarts.init($(id),null,{renderer:'canvas'});
