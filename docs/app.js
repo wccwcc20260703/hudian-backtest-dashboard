@@ -1,3 +1,4 @@
+import {createPositionStart,startSnapshot} from './position-start.js?v=1367215c2c19';
 import {positionView,startPositionFeed} from './live-position.js?v=73377a974da5';
 import {historicalObservations,historyLines,tradeReason,dayChange} from './replay.js?v=ebed49527908';
 import {strengthExplanation} from './signal-strength.js?v=01d4074be540';
@@ -7,7 +8,7 @@ import {startBriefings} from './briefings.js?v=6f9223565966';
 import {backtest,barTime} from './engine.js?v=a18b9052067f';
 import {candleValues} from './market.js?v=3a58d356331d';
 import {startLive} from './live.js?v=4a77ebe65a1d';
-import {financeBacktest} from './finance-engine.js?v=bf7a904c52a3';
+import {financeBacktest} from './finance-engine.js?v=e756fad09daa';
 import {tradePosition} from './positions.js?v=0bef8d272a6e';
 import {attribution} from './attribution.js?v=fb459d2c3f0d';
 import {liveSignal} from './live-signals.js?v=c76ec1fd76c8';
@@ -18,7 +19,8 @@ let data,financeGates,results={},active='L',view='equity',start=0,end=727,day=0,
 const historicalTradeHead=$('trade-columns').innerHTML;
 let liveDaySelected=false,daySelectionTouched=false,liveReplayPresentation=null;
 let liveMarket=null,liveController=null,liveContext=null,liveResults={},liveCached=false;
-let positionSnapshot=null,positionFeed=null,positionFeedError=null;
+let positionSnapshot=null,positionFeed=null,positionFeedError=null,positionSelection=null;
+const positionStorageKey='hudian-position-start-v1';
 const chartUpdates={};
 function stableChart(id,option,key){chartUpdates[id]??=hoverStableUpdater(charts[id]);chartUpdates[id](option,key);}
 const htmlCache=new Map();
@@ -146,7 +148,13 @@ $('day').onchange=()=>{daySelectionTouched=true;if(liveDayAvailable()&&$('day').
 $('apply-zoom').onclick=()=>{const ds=charts.price.getOption().xAxis[0].data,n=ds.length-1,visible=ds.slice(Math.ceil(n*zoom[0]/100),Math.floor(n*zoom[1]/100)+1).filter(d=>d<=data.dates.at(-1));if(!visible.length){showError('当前只包含盘中行情，尚不能用于完整交易日回测。');return;}$('start').value=visible[0];$('end').value=visible.at(-1);run();};
 $('export').onclick=()=>{const r=results[active],rows=[['日期','时间','方向','数量','成交价','交易费用','成交后净现金（负数为欠款）','成交后持股','当日可卖','目标仓位','成交前持股','成交前仓位百分比','成交后仓位百分比','仓位估值价格','成交原因'],...r.trades.map(t=>[data.dates[t[0]],barTime(t[1]),t[2]>0?'买入':'卖出',t[3],t[4],t[5].toFixed(4),t[6].toFixed(4),t[7],t[8],t[10],t[12],(tradePosition(data,t).before*100).toFixed(6),(tradePosition(data,t).after*100).toFixed(6),tradePosition(data,t).mark,tradeReason(data,r,t)])];const blob=new Blob(['\ufeff'+rows.map(r=>r.join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`沪电股份_${active}_${data.dates[start]}_${data.dates[end-1]}_成交.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 function renderPosition(){
- const state=positionView(positionSnapshot,liveMarket,{cached:liveCached});
+ const state=positionView(positionSelection?startSnapshot(positionSelection,liveMarket?.quote):positionSnapshot,liveMarket,{cached:liveCached});
+ if(positionSelection){
+  state.modelLabel='自选起点 · 默认 D';
+  state.message=positionSelection.pending?'等待起算行情':state.metrics?'自选起点情景 · 条件估值':'等待起算时点之后的有效报价';
+  state.acceptedMessage='独立模拟账户，起始净资产100万元；当日自动执行尚未验收。';
+  $('position-selection').textContent=`已选择 ${positionSelection.settings.date} · 起始持股 ${fmt(positionSelection.settings.weight*100,0)}% · ${positionSelection.settings.holding==='old'?'可卖老仓':'当日新仓'}。`+(positionSelection.pending?positionSelection.message:`实际起算：${positionSelection.actualStart}。`);
+ }else $('position-selection').textContent='当前显示原连续模型；选择条件并点击按钮后切换，设置仅保存在此浏览器。';
  $('position-state').textContent=state.message;
  $('position-state').className='position-state '+state.status;
  $('position-accepted').textContent=state.acceptedMessage??'';
@@ -155,9 +163,9 @@ function renderPosition(){
  htmlIfChanged('position-values',m?[
   ['持股数量',fmt(m.shares,0)+' 股'],['可卖老仓'+(state.status==='conditional'?'（条件值）':''),fmt(m.available,0)+' 股'],
   ['仓位比例',m.weight===null?'净资产非正':fmt(m.weight*100)+'%'],['持仓市值','¥ '+money(m.marketValue)],
-  [state.todayInterestPosted?'净资产':'净资产（今日息前）','¥ '+money(m.equity)],['可用现金','¥ '+money(m.cash)],['融资欠款','¥ '+money(m.debt)],['周末估算利息','¥ '+money(m.carryInterest)]
+  [state.todayInterestPosted?'净资产':'净资产（今日息前）','¥ '+money(m.equity)],['可用现金','¥ '+money(m.cash)],['融资欠款','¥ '+money(m.debt)],[positionSelection?'缺口期利息':'周末估算利息',positionSelection?'未入账':'¥ '+money(m.carryInterest)]
  ].map(([label,value])=>`<div><span>${label}</span><b>${value}</b></div>`).join(''):'<p class="footnote">持股、可卖数量、仓位比例、现金及欠款等待有效账户资料。</p>');
- $('position-time').textContent=m?`持仓来源：${state.sourceSession} · 账户资料发布：${new Date(state.publishedAt).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false})} · ${state.stale?'最近报价估值（非实时）':'估值报价'}：${state.quoteTime}（北京时间）。` : '';
+ $('position-time').textContent=m?`持仓来源：${state.sourceSession} · 账户资料时间：${new Date(state.publishedAt).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false})} · ${state.stale?'最近报价估值（非实时）':'估值报价'}：${state.quoteTime}（北京时间）。` : '';
  $('position-notes').textContent=[positionFeedError,...(state.assumptions??[]),...(state.limitations??[])].filter(Boolean).join(' ');
 }
 function renderLive(market,cached){
@@ -230,6 +238,19 @@ async function refreshOpportunityContext(){
   }
  }catch{}finally{opportunityContextLoading=false;}
 }
+function initPositionStart(){
+ const date=$('position-start-date'),weight=$('position-start-weight'),holding=$('position-start-holding');
+ date.min=data.dates[0];date.value=new Date(Date.now()+8*3600000).toISOString().slice(0,10);
+ function controls(){const custom=weight.value==='custom';$('position-custom-weight').disabled=!custom;$('position-custom-label').hidden=!custom;$('position-custom-weight').required=custom;$('position-holding-label').hidden=weight.value==='0';}
+ weight.onchange=controls;controls();
+ try{const saved=JSON.parse(localStorage.getItem(positionStorageKey));if(saved?.settings&&saved.createdAt&&(saved.pending||(Number.isInteger(saved.account?.shares)&&Number.isFinite(saved.account?.cash)))){positionSelection=saved;date.value=saved.settings.date;weight.value=['0','0.5','1'].includes(String(saved.settings.weight))?String(saved.settings.weight):'custom';$('position-custom-weight').value=saved.settings.weight*100;holding.value=saved.settings.holding;controls();}}catch{}
+ $('position-start-form').onsubmit=event=>{
+  event.preventDefault();if(!event.currentTarget.reportValidity())return;
+  try{const next=createPositionStart(data,financeGates,{date:date.value,weight:weight.value==='custom'?Number($('position-custom-weight').value)/100:Number(weight.value),holding:holding.value},liveMarket?.quote,{cached:liveCached});positionSelection=next;try{localStorage.setItem(positionStorageKey,JSON.stringify(next));}catch{}renderPosition();}
+  catch(error){$('position-selection').textContent=error.message;}
+ };
+ $('position-reset').onclick=()=>{positionSelection=null;try{localStorage.removeItem(positionStorageKey);}catch{}renderPosition();};
+}
 async function init(){try{
  const response=await fetch('./data.json');if(!response.ok)throw Error(`行情文件加载失败 (${response.status})`);data=await response.json();
  try{const c=await fetch('./live-context.json');if(c.ok)liveContext=await c.json();}catch{}
@@ -241,7 +262,7 @@ async function init(){try{
  charts.price.on('datazoom',()=>{const o=charts.price.getOption().dataZoom[0];zoom=[o.start,o.end];});
  for(const id of ['start','end']){$(id).min=data.dates[0];$(id).max=data.dates.at(-1);}
  $('start').value=data.dates[0];$('end').value=data.dates.at(-1);$('run').disabled=false;$('run').textContent='重新回测 ↗';
- day=data.dates.length-1;renderStrategyHelp();run();
+ day=data.dates.length-1;renderStrategyHelp();run();initPositionStart();
  positionFeed=startPositionFeed({onUpdate:(snapshot,error)=>{if(snapshot)positionSnapshot=snapshot;positionFeedError=error;renderPosition();}});
  liveController=startLive({onUpdate:renderLive,onStatus:text=>$('live-status').textContent=text});
  $('refresh-live').onclick=()=>{liveController.refresh();positionFeed.refresh();};

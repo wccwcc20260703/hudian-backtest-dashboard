@@ -1,16 +1,19 @@
 import {STOCK_COMMISSION,MIN_COMMISSION,FEE_VERSION} from './fees.js?v=74745f12a7da';
 // Financing research simulator. Net cash < 0 denotes debt plus accrued interest.
-export function financeBacktest(data,gates,start,end,{capital=1e6,commission=STOCK_COMMISSION,minCommission=MIN_COMMISSION,slip=.0005,rate=.06,credit=null,level=1.5,base='D',gate='all_full',driftPolicy='buy_cap_only',ddlimit=1,maintenance=1.5}={}){
+export function financeBacktest(data,gates,start,end,{capital=1e6,commission=STOCK_COMMISSION,minCommission=MIN_COMMISSION,slip=.0005,rate=.06,credit=null,level=1.5,base='D',gate='all_full',driftPolicy='buy_cap_only',ddlimit=1,maintenance=1.5,initialWeight=0,initialHolding='old'}={}){
  if(!Number.isFinite(commission)||commission<0||!Number.isFinite(minCommission)||minCommission<0)throw Error('无效佣金参数');
  if(!['rebalance','buy_cap_only'].includes(driftPolicy))throw Error('无效仓位漂移规则');
  if(!(capital>0)||(credit!==null&&credit<0)||rate<0||level<1||level>1.5||end<=start||start<0||end>data.dates.length)throw Error('无效融资参数');
- let cash=capital,shares=0,fees=0,interest=0,tax=0,t1=0,limits=0,caps=0,turnover=0,riskOrders=0,borrowDays=0,peak=capital,prevEq=capital,minRatio=Infinity,maxExposure=0;
+ if(!Number.isFinite(initialWeight)||initialWeight<0||initialWeight>1||!['old','new'].includes(initialHolding))throw Error('无效起始仓位');
+ const initialPrice=data.bars[start][0][0],initialShares=Math.floor(capital*initialWeight/initialPrice/100)*100;
+ let cash=capital-initialShares*initialPrice,shares=initialShares,fees=0,interest=0,tax=0,t1=0,limits=0,caps=0,turnover=0,riskOrders=0,borrowDays=0,peak=capital,prevEq=capital,minRatio=Infinity,maxExposure=0;
  const nav=[],exposure=[],curve=[],drawdown=[],trades=[],daily=[],debt=[],dailyInterest=[],targets=[];let mdd5=0,mdd=0,dailyPeak=capital;
  for(let d=start;d<end;d++){
   const carry=d>start?Math.max(0,(Date.parse(data.dates[d])-Date.parse(data.dates[d-1]))/86400000-1):0;
   const cost=Math.max(-cash,0)*rate/365*carry;cash-=cost;interest+=cost;
-  cash+=shares*data.dividend[d]*.8;tax+=shares*data.dividend[d]*.2;if(data.bonus[d]>0)shares=Math.round(shares*(1+data.bonus[d]));
-  let available=shares,pending=false,deadline=-1,target=0,dayBorrow=Math.max(-cash,0),dayInterest=cost,forced=false;
+  // Seeded holdings are an opening balance at the start-session price, after that session's corporate action.
+  if(d>start||initialShares===0){cash+=shares*data.dividend[d]*.8;tax+=shares*data.dividend[d]*.2;if(data.bonus[d]>0)shares=Math.round(shares*(1+data.bonus[d]));}
+  let available=d===start&&initialHolding==='new'?0:shares,pending=false,deadline=-1,target=0,dayBorrow=Math.max(-cash,0),dayInterest=cost,forced=false;
   const orig=data.signals[base][d],plan=[orig[0],orig[1]===1&&gates[base][gate][d]?level:orig[1]];targets.push(plan);
   for(let j=0;j<48;j++){
    const bar=data.bars[d][j],sig=plan[0]===j?plan[1]:-1;
@@ -46,7 +49,7 @@ export function financeBacktest(data,gates,start,end,{capital=1e6,commission=STO
    const mark=j===47?data.close[d]:bar[3],eq=cash+shares*mark;curve.push(eq);prevEq=eq;peak=Math.max(peak,eq);const dd=eq/peak-1;mdd5=Math.min(mdd5,dd);drawdown.push(dd*100);
    if(eq>0)maxExposure=Math.max(maxExposure,shares*mark/eq);if(cash<0)minRatio=Math.min(minRatio,shares*mark/(-cash));
   }
-  const eq=cash+shares*data.close[d];nav.push(eq);exposure.push(shares*data.close[d]/eq);debt.push(Math.max(-cash,0));dailyInterest.push(dayInterest);daily.push({cash,shares});dailyPeak=Math.max(dailyPeak,eq);mdd=Math.min(mdd,eq/dailyPeak-1);if(dayBorrow>0)borrowDays++;
+  const eq=cash+shares*data.close[d];nav.push(eq);exposure.push(shares*data.close[d]/eq);debt.push(Math.max(-cash,0));dailyInterest.push(dayInterest);daily.push({cash,shares,available});dailyPeak=Math.max(dailyPeak,eq);mdd=Math.min(mdd,eq/dailyPeak-1);if(dayBorrow>0)borrowDays++;
  }
  return {commission,minCommission,feeVersion:commission===STOCK_COMMISSION&&minCommission===MIN_COMMISSION?FEE_VERSION:'custom',model:'L',config:{commission,minCommission,base,gate,level,rate,credit,driftPolicy,creditMode:credit===null?'equity50':'fixed'},start,end,capital,slip,nav,exposure,curve,drawdown,trades,daily,debt,dailyInterest,targets,metrics:{return_:nav.at(-1)/capital-1,mdd,mdd5,exposure:exposure.reduce((a,b)=>a+b,0)/exposure.length,orders:trades.length,fees,interest,dividend_tax:tax,t1_blocks:t1,limit_blocks:limits,volume_caps:caps,turnover,risk_orders:riskOrders,borrow_days:borrowDays,min_maintenance:Number.isFinite(minRatio)?minRatio:null,max_exposure:maxExposure,ending_debt:debt.at(-1),max_debt:Math.max(...debt)}};
 }
