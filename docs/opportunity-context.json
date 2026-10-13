@@ -1,6 +1,6 @@
 {
-  "date": "2026-10-12",
-  "asOf": "2026-10-09",
+  "date": "2026-10-13",
+  "asOf": "2026-10-12",
   "source": "BaoStock历史前复权月末收盘，换算至上一完整交易日的价格尺度",
   "adjustment": "前复权（保持与历史研究口径一致）；不同供应商复权算法可有小差异",
   "completedMonths": [
@@ -58,12 +58,13 @@
     "cooldownMinutes": 30
   },
   "note": "触及支撑只作观察；使用截至确认分钟的连续数据，不倒标日内最低价。独立于模型仓位，不纳入默认策略收益。",
-  "verifiedAt": "2026-10-12T09:46:56.486741+08:00",
+  "verifiedAt": "2026-10-13T08:10:20.485015+08:00",
   "verification": {
-    "lastSourceSession": "2026-10-09",
+    "lastSourceSession": "2026-10-12",
     "completedMonthsChecked": 10,
-    "previousSessionClose": 112.29,
-    "rawQfqBasis": 1,
-    "evidenceSHA256": "83205b0e2f164b038a56264a5849ac4c0671eb3dd451012e2c014108987da12b"
+    "previousSessionClose": 109.62,
+    "rawQfqBasis": 1.0,
+    "evidenceSHA256": "6d77325fa71148235c6cc8a66ce85edfb14eae09b1602f67424a54c1ab754d7d",
+    "announcementReviewSHA256": "572bea29d9ad5496bac8f2cb1cca1f1eb89905d57113987e0712778919d87949"
   }
 }
