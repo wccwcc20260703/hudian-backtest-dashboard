@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "date": "2026-10-13",
-  "publishedAt": "2026-10-13T00:10:47.088Z",
+  "publishedAt": "2026-10-13T01:31:31.168Z",
   "category": "模拟成交",
   "accountEstablished": true,
-  "message": "10/13 盘前账户已建立\n等待09:30新行情；09:32验收执行",
+  "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
   "fills": [],
   "rejectedEvidence": 0,
   "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
