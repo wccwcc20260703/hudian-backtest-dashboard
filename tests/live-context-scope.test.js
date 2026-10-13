@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {liveSignal} from '../docs/live-signals.js';
+const context={date:'2026-10-13',asOf:'2026-10-12',target:{D:1},rsi:2.7454,verifiedFinancingGates:['all_full']};
+const market={quote:{date:'2026-10-13',time:'10:01:00',price:110,open:110},minutes:{date:'2026-10-13',points:[{time:'10:00',price:110,volume:100000,amount:11000000}]}};
+const options={context,market,model:'L',config:{base:'D',gate:'all_full',level:1.5,driftPolicy:'buy_cap_only'},previousTarget:1,portfolio:{cash:0,shares:100},now:Date.parse('2026-10-13T10:01:00+08:00')};
+assert.equal(liveSignal(options).signals[0].target,1.5);
+assert.equal(liveSignal({...options,model:'H'}).signals.length,0);
+assert.match(liveSignal({...options,model:'H'}).message,/尚未验收/);
+assert.equal(liveSignal({...options,config:{...options.config,gate:'trend'}}).signals.length,0);
+assert.equal(liveSignal({...options,context:{...context,date:'2026-10-12'}}).signals.length,0);
+console.log('Scoped context: default retained; unverified strategy, gate and wrong date withheld');

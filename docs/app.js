@@ -13,7 +13,7 @@ import {startLive} from './live.js?v=4a77ebe65a1d';
 import {financeBacktest} from './finance-engine.js?v=e756fad09daa';
 import {tradePosition} from './positions.js?v=0bef8d272a6e';
 import {attribution} from './attribution.js?v=fb459d2c3f0d';
-import {liveSignal} from './live-signals.js?v=c76ec1fd76c8';
+import {liveSignal} from './live-signals.js?v=20261013-scoped';
 import {baseHelp,gateHelp} from './strategy-help.js?v=9eb43595ba2a';
 const $=id=>document.getElementById(id), names={D:'D · 反转 + 业绩门槛',H:'H · 三状态自适应',B:'持有基准 · 持续建仓',L:'L · 条件融资'},colors={D:'#078685',H:'#9070cc',B:'#9da9ba',L:'#cf933d'},modeNames=['防御空仓','反转交易','趋势参与'];
 const fmt=(v,n=2)=>Number(v).toLocaleString('zh-CN',{minimumFractionDigits:n,maximumFractionDigits:n}),pct=v=>(v>0?'+':'')+fmt(v*100)+'%',money=v=>fmt(v,2),pctAxis=v=>fmt(v,0)+'%';
@@ -302,7 +302,7 @@ function initPositionStart(){
 async function init(){try{
  const response=await fetch('./data.json',{cache:'no-store'});if(!response.ok)throw Error(`行情文件加载失败 (${response.status})`);data=await response.json();
  try{const a=await fetch('./session-archive.json',{cache:'no-store'});if(a.ok)sessionArchive=await a.json();}catch{}
- try{const c=await fetch('./live-context.json');if(c.ok)liveContext=await c.json();}catch{}
+ try{const c=await fetch('./live-context.json',{cache:'no-store'});if(c.ok)liveContext=await c.json();}catch{}
  await refreshOpportunityContext();
  try{const c=await fetch('./replay-context.json');if(c.ok)replayContexts=(await c.json()).contexts;}catch{}
  const gateResponse=await fetch('./finance-gates.json',{cache:'no-store'});if(!gateResponse.ok)throw Error('融资条件数据加载失败');financeGates=await gateResponse.json();

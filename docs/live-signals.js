@@ -22,6 +22,8 @@ function scheduledSignal({context,market,model,config,previousTarget,portfolio})
  if(!points.length)return empty('等待当日分时数据，暂不生成信号。');
  const base=model==='L'?config.base:model;
  let target=context.target[base];
+ if(!Number.isFinite(target))return empty('该策略的当日指标尚未验收，暂停计划提示；已核验的默认策略和独立观察不受影响。');
+ if(model==='L'&&context.verifiedFinancingGates&&!context.verifiedFinancingGates.includes(config.gate))return empty('该融资条件的当日指标尚未验收，暂停该方案计划提示。');
  const scheduled=target<previousTarget?'09:45':'10:00';
  if(points.at(-1).time<scheduled)return empty(`等待 ${scheduled} 完成数据，基础目标 ${(target*100).toFixed(0)}%。`);
  const at=points.find(p=>p.time===scheduled);

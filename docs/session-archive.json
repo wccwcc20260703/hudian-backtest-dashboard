@@ -1626,7 +1626,7 @@
       "status": "market_only",
       "sourceSHA256": "0dabc1ce060039b4d81a80ecfdbbd38e006469a45789bf5024ba50d2680f63f0",
       "sourceReceivedAt": null,
-      "archivedAt": "2026-10-12T17:29:42.089835+08:00",
+      "archivedAt": "2026-10-13T08:33:41.285283+08:00",
       "report": "briefings/2026-10-09/post.html",
       "reason": "行情留存，尚未接入完整账户回测；没有已核验模拟成交、收益或成交后仓位。已取得48根五分钟，但日线与分钟高低口径差异及连续账户衔接待验收。"
     },
@@ -3105,11 +3105,11 @@
       "status": "market_only",
       "sourceSHA256": "51f823b4ec360b847f9bb1785b4b290c63103e9900c3443a783b8bc70bb2b35b",
       "sourceReceivedAt": "2026-10-12T07:01:28.249Z",
-      "archivedAt": "2026-10-12T17:29:42.090553+08:00",
+      "archivedAt": "2026-10-13T08:33:41.285938+08:00",
       "report": "briefings/2026-10-12/post.html",
       "reason": "行情留存，尚未接入完整账户回测；没有已核验模拟成交、收益或成交后仓位。"
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-10-12T17:29:42.090587+08:00"
+  "updatedAt": "2026-10-13T08:33:41.285959+08:00"
 }

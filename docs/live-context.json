@@ -1,20 +1,17 @@
 {
-  "date": "2026-10-09",
-  "asOf": "2026-10-08",
-  "rsi": 17.453712818918532,
+  "date": "2026-10-13",
+  "asOf": "2026-10-12",
+  "rsi": 2.745457457853419,
   "growth": 0.741724,
-  "trend": false,
-  "mode": 1,
-  "lowMean": 0.01790002243641802,
-  "highMean": -0.008332443787956048,
-  "lowCount": 42,
-  "highCount": 60,
-  "strongEdge": true,
-  "target": {
-    "D": 1,
-    "H": 1
-  },
   "publication": "2026-08-26",
-  "latestOutcomeStart": "2026-09-30",
-  "source": "复用历史研究指标；只使用截至前一完整交易日的行情和已披露业绩。"
+  "target": {
+    "D": 1
+  },
+  "scope": "Default D/all_full only; H and other factor strategies not refreshed",
+  "derivedAt": "2026-10-12T17:18:51.385333+08:00",
+  "verifiedFinancingGates": [
+    "all_full"
+  ],
+  "source": "默认D：已核验至2026-10-12日线收盘及已披露盈利输入；其余策略及融资条件未更新，暂停相关计划。",
+  "verifiedAt": "2026-10-13T08:31:58.462495+08:00"
 }
