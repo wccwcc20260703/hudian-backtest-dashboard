@@ -1,5 +1,5 @@
 import {strengthAt} from './signal-strength.js?v=01d4074be540';
-import {signalFreshness} from './live-signals.js?v=c76ec1fd76c8';
+import {signalFreshness} from './live-signals.js?v=1b90a32c6ba1';
 // Observation rules have no account input. Signals are emitted at confirmation time,
 // never moved backwards to an earlier low/high after later prices become available.
 export function opportunitySignals({context,market,cached=false,now=Date.now(),intervalMinutes=1}){

@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {executionPosition,executionFills} from '../docs/execution-view.js';
+import {positionView} from '../docs/live-position.js';
+const v=JSON.parse(fs.readFileSync(new URL('../docs/execution-snapshot.json',import.meta.url)));
+const fills=executionFills(v,v.date);assert(fills.some(e=>e.fill_time.includes('09:45:00')&&e.side==='sell'&&e.quantity===15700&&e.price===116.39));
+assert.equal(executionFills(v,'2026-10-13').length,0);assert.equal(executionPosition(v,'2026-10-13'),null);
+assert.equal(executionPosition({...v,rejectedEvidence:1},v.date),null);
+const position=executionPosition(v,v.date);assert(position);
+const view=positionView(position,{quote:{date:v.date,time:'09:50:03',price:116.79}},{now:Date.parse('2026-10-14T09:50:04+08:00')});
+assert.equal(view.status,'verified');assert.equal(view.metrics.shares,v.account.shares);assert.equal(view.metrics.netCash,v.account.cash);
+assert.equal(view.metrics.equity,v.account.shares*116.79+v.account.cash);
+const app=fs.readFileSync(new URL('../docs/app.js',import.meta.url),'utf8');assert(app.includes('signalSeries.push(...fillSeries)'));assert(app.includes('executionSnapshot=v'));assert(app.includes('executionPosition(executionSnapshot'));
+console.log('PASS: 09:45 verified fill, date isolation, rejected evidence, continuous-account valuation and chart wiring');
