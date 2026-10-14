@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import {execFileSync} from 'node:child_process';
+import {fillResult,fillResultText} from '../docs/fill-result.js';
+const events=JSON.parse(fs.readFileSync(new URL('../../../outputs/hudian-desktop/account-2026-10-14.json',import.meta.url))).events;
+const cases=[...events,{side:'buy',quantity:100,price:10,before:{shares:0,cash:2000},after:{shares:100,cash:995}},{side:'sell',quantity:100,price:10,before:{shares:100,cash:-1000},after:{shares:0,cash:-5}},{side:'buy',quantity:100,price:10,before:{shares:100,cash:1000},after:{shares:200,cash:-5}}];
+const python=execFileSync('python3',['-c',"import sys,json;sys.path.insert(0,'work/pcb_realtime');from fill_result import fill_result;print(json.dumps([fill_result(e) for e in json.load(sys.stdin)]))"],{cwd:new URL('../../..',import.meta.url),input:JSON.stringify(cases),encoding:'utf8'});
+const actual=cases.map(fillResult),other=JSON.parse(python);
+actual.forEach((r,i)=>Object.keys(r).forEach(k=>typeof r[k]==='number'?assert(Math.abs(r[k]-other[i][k])<1e-9):assert.equal(r[k],other[i][k])));
+assert(actual[0].beforeWeightPct>100);assert(actual[0].changePoints<0);assert.equal(actual.at(-3).shareChangePct,null);assert.equal(actual.at(-2).afterWeightPct,null);assert(actual.at(-1).changePoints>0);assert(fillResultText(events[0]).includes('个百分点'));
+assert.equal(fillResult({...events[0],after:{shares:1,cash:0}}),null);
+console.log('PASS: real fills, cash buy, leveraged buy/sell, zero equity, zero starting shares, invalid positions; Python/JS parity');
+console.log(fillResultText(events[0]));
