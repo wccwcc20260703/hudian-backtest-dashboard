@@ -1,11 +1,22 @@
 {
   "schemaVersion": 1,
   "date": "2026-10-14",
-  "publishedAt": "2026-10-14T01:30:51.016Z",
+  "publishedAt": "2026-10-14T01:46:19.435Z",
   "category": "模拟成交",
   "accountEstablished": true,
   "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
-  "fills": [],
+  "fills": [
+    {
+      "event_id": "2026-10-14:desktop-fill:b291395c3e85:3",
+      "side": "sell",
+      "quantity": 15700,
+      "price": 116.39,
+      "fill_time": "2026-10-14T09:45:00+08:00",
+      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+      "reason": "D策略目标仓位调整至0%；实时快照加滑点的模拟成交，不是真实交易",
+      "fee": 1114.66703
+    }
+  ],
   "rejectedEvidence": 0,
   "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
 }
