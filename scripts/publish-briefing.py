@@ -9,7 +9,7 @@ def save(path,obj):
 def publish(path):
  r=json.loads(Path(path).read_text());kind=r['kind'];assert kind in ['pre','post'];assert r['status'] in ['pending','partial','complete'];datetime.strptime(r['tradeDate'],'%Y-%m-%d')
  deadline=datetime.fromisoformat(r['deadline']);valid=datetime.fromisoformat(r['validUntil']);assert deadline.tzinfo and valid.tzinfo and valid>deadline
- assert str(deadline.date())==r['tradeDate'];assert deadline.strftime('%H:%M')==('09:00' if kind=='pre' else '15:30')
+ assert str(deadline.date())==r['tradeDate'];assert deadline.strftime('%H:%M') in (['09:00','09:15'] if kind=='pre' else ['15:30'])
  if r['status']!='pending':
   generated=datetime.fromisoformat(r['generatedAt']);assert generated.tzinfo;r['late']=generated>deadline
   assert r['sources'] and r['items'] and r['asOf'];assert r['summary']
