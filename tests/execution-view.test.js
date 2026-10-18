@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {executionPosition,executionFills} from '../docs/execution-view.js';
 import {positionView} from '../docs/live-position.js';
-const v=JSON.parse(fs.readFileSync(new URL('../docs/execution-snapshot.json',import.meta.url)));
+const v=JSON.parse(fs.readFileSync(new URL('../docs/session-archive.json',import.meta.url))).sessions['2026-10-14'].execution;
 const fills=executionFills(v,v.date);assert(fills.some(e=>e.fill_time.includes('09:45:00')&&e.side==='sell'&&e.quantity===15700&&e.price===116.39));
 assert.equal(executionFills(v,'2026-10-13').length,0);assert.equal(executionPosition(v,'2026-10-13'),null);
 assert.equal(executionPosition({...v,rejectedEvidence:1},v.date),null);
