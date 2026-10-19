@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "date": "2026-10-19",
-  "publishedAt": "2026-10-19T02:10:01.879Z",
+  "publishedAt": "2026-10-19T02:15:01.982Z",
   "category": "模拟成交",
   "accountEstablished": true,
   "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
@@ -65,15 +65,35 @@
         "afterWeightPct": 131.80892020428288,
         "changePoints": 13.821863918785727
       }
+    },
+    {
+      "event_id": "2026-10-19:desktop-fill:a87632558574:9",
+      "side": "buy",
+      "quantity": 20800,
+      "price": 106.72,
+      "fill_time": "2026-10-19T10:15:00+08:00",
+      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+      "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
+      "fee": 244.17536,
+      "positionResult": {
+        "basis": "fill-price-after-fees-v1",
+        "markPrice": 106.72,
+        "beforeShares": 152600,
+        "afterShares": 173400,
+        "shareChangePct": 13.630406290956751,
+        "beforeWeightPct": 131.9662554400006,
+        "afterWeightPct": 149.95675931143094,
+        "changePoints": 17.99050387143033
+      }
     }
   ],
   "rejectedEvidence": 0,
   "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
   "account": {
-    "shares": 152600,
+    "shares": 173400,
     "available": 100100,
-    "cash": -3944838.4450801155,
-    "asOf": "2026-10-19T02:10:01.879Z",
+    "cash": -6164858.620440116,
+    "asOf": "2026-10-19T02:15:01.982Z",
     "sourceSession": "2026-10-19",
     "todayInterestPosted": false
   }
