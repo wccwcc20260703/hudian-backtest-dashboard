@@ -9053,14 +9053,14 @@
       "market": {
         "quote": {
           "date": "2026-10-19",
-          "time": "10:00:00",
-          "price": 108.47,
+          "time": "10:01:00",
+          "price": 108.54,
           "previous": 113.38,
           "open": 112.2,
           "high": 113.32,
-          "low": 108.43,
-          "volume": 14264100,
-          "amount": 1578910000,
+          "low": 108.4,
+          "volume": 14713200,
+          "amount": 1627640000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -9248,23 +9248,29 @@
             },
             {
               "time": "10:00",
-              "price": 108.51,
-              "volume": 14242200,
-              "amount": 1576536731.67
+              "price": 108.5,
+              "volume": 14255200,
+              "amount": 1577947259.66
             },
             {
               "time": "10:01",
-              "price": 108.47,
-              "volume": 14264100,
-              "amount": 1578912061
+              "price": 108.56,
+              "volume": 14692800,
+              "amount": 1625430885.34
+            },
+            {
+              "time": "10:02",
+              "price": 108.54,
+              "volume": 14713200,
+              "amount": 1627644565
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "4d7699629862d44a318e328ed16a4760f468ff307e65ae465163f9a9c08e3c2a",
-      "sourceReceivedAt": "2026-10-19T02:00:01.446Z",
-      "archivedAt": "2026-10-19T02:00:01.716Z",
+      "sourceSHA256": "8240386c0f505c6b3fb9978b0a5b02e15b4109fa70686909c2e228acd9dc5ecb",
+      "sourceReceivedAt": "2026-10-19T02:01:01.472Z",
+      "archivedAt": "2026-10-19T02:01:02.427Z",
       "report": "briefings/2026-10-19/post.html",
       "reason": "当日账户已建立，1笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -9308,5 +9314,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-10-19T02:00:01.732Z"
+  "updatedAt": "2026-10-19T02:01:02.441Z"
 }
