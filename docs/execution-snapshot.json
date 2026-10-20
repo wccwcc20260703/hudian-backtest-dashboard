@@ -1,120 +1,19 @@
 {
   "schemaVersion": 1,
-  "date": "2026-10-19",
-  "publishedAt": "2026-10-19T07:07:28.956Z",
+  "date": "2026-10-20",
+  "publishedAt": "2026-10-20T01:15:03.273Z",
   "category": "模拟成交",
   "accountEstablished": true,
-  "message": "10/19 模拟账户已日结 · 5笔已核验模拟成交",
-  "fills": [
-    {
-      "event_id": "2026-10-19:desktop-fill:a87632558574:6",
-      "side": "buy",
-      "quantity": 18800,
-      "price": 108.53,
-      "fill_time": "2026-10-19T10:00:00+08:00",
-      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
-      "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
-      "fee": 224.44004,
-      "positionResult": {
-        "basis": "fill-price-after-fees-v1",
-        "markPrice": 108.53,
-        "beforeShares": 100100,
-        "afterShares": 118900,
-        "shareChangePct": 18.78121878121878,
-        "beforeWeightPct": 86.16995392489352,
-        "afterWeightPct": 102.35554364336383,
-        "changePoints": 16.185589718470318
-      }
-    },
-    {
-      "event_id": "2026-10-19:desktop-fill:a87632558574:7",
-      "side": "buy",
-      "quantity": 17700,
-      "price": 109.24,
-      "fill_time": "2026-10-19T10:05:00+08:00",
-      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
-      "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
-      "fee": 212.69028,
-      "positionResult": {
-        "basis": "fill-price-after-fees-v1",
-        "markPrice": 109.24,
-        "beforeShares": 118900,
-        "afterShares": 136600,
-        "shareChangePct": 14.88645920941968,
-        "beforeWeightPct": 102.33987567458303,
-        "afterWeightPct": 117.57662990184687,
-        "changePoints": 15.236754227263848
-      }
-    },
-    {
-      "event_id": "2026-10-19:desktop-fill:a87632558574:8",
-      "side": "buy",
-      "quantity": 16000,
-      "price": 107.12,
-      "fill_time": "2026-10-19T10:10:00+08:00",
-      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
-      "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
-      "fee": 188.5312,
-      "positionResult": {
-        "basis": "fill-price-after-fees-v1",
-        "markPrice": 107.12,
-        "beforeShares": 136600,
-        "afterShares": 152600,
-        "shareChangePct": 11.71303074670571,
-        "beforeWeightPct": 117.98705628549715,
-        "afterWeightPct": 131.80892020428288,
-        "changePoints": 13.821863918785727
-      }
-    },
-    {
-      "event_id": "2026-10-19:desktop-fill:a87632558574:9",
-      "side": "buy",
-      "quantity": 20800,
-      "price": 106.72,
-      "fill_time": "2026-10-19T10:15:00+08:00",
-      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
-      "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
-      "fee": 244.17536,
-      "positionResult": {
-        "basis": "fill-price-after-fees-v1",
-        "markPrice": 106.72,
-        "beforeShares": 152600,
-        "afterShares": 173400,
-        "shareChangePct": 13.630406290956751,
-        "beforeWeightPct": 131.9662554400006,
-        "afterWeightPct": 149.95675931143094,
-        "changePoints": 17.99050387143033
-      }
-    },
-    {
-      "event_id": "2026-10-19:desktop-fill:a87632558574:10",
-      "side": "buy",
-      "quantity": 900,
-      "price": 107.88,
-      "fill_time": "2026-10-19T10:20:00+08:00",
-      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
-      "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
-      "fee": 10.68012,
-      "positionResult": {
-        "basis": "fill-price-after-fees-v1",
-        "markPrice": 107.88,
-        "beforeShares": 173400,
-        "afterShares": 174300,
-        "shareChangePct": 0.5190311418685121,
-        "beforeWeightPct": 149.15554130316764,
-        "afterWeightPct": 149.92983268961257,
-        "changePoints": 0.7742913864449363
-      }
-    }
-  ],
+  "message": "10/20 盘前账户已建立\n等待09:30新行情；09:32验收执行",
+  "fills": [],
   "rejectedEvidence": 0,
   "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
   "account": {
     "shares": 174300,
-    "available": 100100,
+    "available": 174300,
     "cash": -6262990.664061578,
-    "asOf": "2026-10-19T07:07:28.956Z",
-    "sourceSession": "2026-10-19",
-    "todayInterestPosted": true
+    "asOf": "2026-10-20T01:15:03.273Z",
+    "sourceSession": "2026-10-20",
+    "todayInterestPosted": false
   }
 }
