@@ -13684,14 +13684,14 @@
       "market": {
         "quote": {
           "date": "2026-10-22",
-          "time": "10:00:00",
-          "price": 111.83,
+          "time": "10:05:00",
+          "price": 111.19,
           "previous": 114.97,
           "open": 114.47,
           "high": 114.97,
-          "low": 111.6,
-          "volume": 12904800,
-          "amount": 1456700000,
+          "low": 110.87,
+          "volume": 15187400,
+          "amount": 1710440000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -13879,25 +13879,55 @@
             },
             {
               "time": "10:00",
-              "price": 111.6,
-              "volume": 12846500,
-              "amount": 1450178951.37
+              "price": 111.85,
+              "volume": 12885600,
+              "amount": 1454550508.42
             },
             {
               "time": "10:01",
-              "price": 111.83,
-              "volume": 12904800,
-              "amount": 1456699342
+              "price": 111.16,
+              "volume": 13471200,
+              "amount": 1519778215.4
+            },
+            {
+              "time": "10:02",
+              "price": 111.42,
+              "volume": 13803200,
+              "amount": 1556711175.8
+            },
+            {
+              "time": "10:03",
+              "price": 111.11,
+              "volume": 14529200,
+              "amount": 1637353361.56
+            },
+            {
+              "time": "10:04",
+              "price": 111,
+              "volume": 14886400,
+              "amount": 1676996653.76
+            },
+            {
+              "time": "10:05",
+              "price": 111.04,
+              "volume": 15101900,
+              "amount": 1700933619.42
+            },
+            {
+              "time": "10:06",
+              "price": 111.19,
+              "volume": 15187400,
+              "amount": 1710436325
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "100077ef2f4dee4f2186b95f0cb047c9c5e0774c31ad2a0ed665975ed52f24c9",
-      "sourceReceivedAt": "2026-10-22T02:00:02.874Z",
-      "archivedAt": "2026-10-22T02:00:03.205Z",
+      "sourceSHA256": "f3f95246db74d7c5ee395d40a65c7f4d38b5e6bb0e4f62a5539e6874c14bdd30",
+      "sourceReceivedAt": "2026-10-22T02:05:02.975Z",
+      "archivedAt": "2026-10-22T02:05:03.276Z",
       "report": "briefings/2026-10-22/post.html",
-      "reason": "当日账户已建立，4笔有原始凭据的模拟成交；历史记录，非实时提醒。",
+      "reason": "当日账户已建立，5笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
         "schemaVersion": 1,
         "date": "2026-10-22",
@@ -13984,14 +14014,34 @@
               "afterWeightPct": 94.23440604253953,
               "changePoints": -12.922367530511226
             }
+          },
+          {
+            "event_id": "2026-10-22:desktop-fill:236632843930:7",
+            "side": "sell",
+            "quantity": 22200,
+            "price": 111.13,
+            "fill_time": "2026-10-22T10:05:00+08:00",
+            "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+            "reason": "D策略目标仓位调整至0%；实时快照加滑点的模拟成交，不是真实交易",
+            "fee": 1504.92246,
+            "positionResult": {
+              "basis": "fill-price-after-fees-v1",
+              "markPrice": 111.13,
+              "beforeShares": 111500,
+              "afterShares": 89300,
+              "shareChangePct": 19.91031390134529,
+              "beforeWeightPct": 94.20312667010563,
+              "afterWeightPct": 75.45562150721338,
+              "changePoints": -18.747505162892253
+            }
           }
         ],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
         "account": {
-          "shares": 111500,
-          "available": 111500,
-          "cash": 762490.9170785372,
+          "shares": 89300,
+          "available": 89300,
+          "cash": 3228071.994618537,
           "sourceSession": "2026-10-22",
           "todayInterestPosted": false
         }
@@ -13999,5 +14049,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-10-22T02:00:03.236Z"
+  "updatedAt": "2026-10-22T02:05:03.302Z"
 }
