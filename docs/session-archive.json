@@ -15276,8 +15276,265 @@
           "todayInterestPosted": true
         }
       }
+    },
+    "2026-10-23": {
+      "market": {
+        "quote": {
+          "date": "2026-10-23",
+          "time": "10:00:03",
+          "price": 100.78,
+          "previous": 106.96,
+          "open": 103.5,
+          "high": 103.88,
+          "low": 100.06,
+          "volume": 19167600,
+          "amount": 1950510000,
+          "source": "腾讯行情"
+        },
+        "minutes": {
+          "date": "2026-10-23",
+          "points": [
+            {
+              "time": "09:30",
+              "price": 103.5,
+              "volume": 409100,
+              "amount": 42341850
+            },
+            {
+              "time": "09:31",
+              "price": 102.79,
+              "volume": 2362100,
+              "amount": 243117761.79
+            },
+            {
+              "time": "09:32",
+              "price": 103,
+              "volume": 3525300,
+              "amount": 362646946.38
+            },
+            {
+              "time": "09:33",
+              "price": 101.8,
+              "volume": 4605600,
+              "amount": 473408964.18
+            },
+            {
+              "time": "09:34",
+              "price": 102.09,
+              "volume": 6092200,
+              "amount": 624859486.9
+            },
+            {
+              "time": "09:35",
+              "price": 102.63,
+              "volume": 6683800,
+              "amount": 685309712.17
+            },
+            {
+              "time": "09:36",
+              "price": 102.1,
+              "volume": 7381100,
+              "amount": 756706718.5
+            },
+            {
+              "time": "09:37",
+              "price": 102.06,
+              "volume": 8172000,
+              "amount": 837480094.7
+            },
+            {
+              "time": "09:38",
+              "price": 102.17,
+              "volume": 8759000,
+              "amount": 897421350.04
+            },
+            {
+              "time": "09:39",
+              "price": 101.5,
+              "volume": 9464600,
+              "amount": 969168692.77
+            },
+            {
+              "time": "09:40",
+              "price": 102.14,
+              "volume": 9958200,
+              "amount": 1019439944.55
+            },
+            {
+              "time": "09:41",
+              "price": 101.66,
+              "volume": 10345700,
+              "amount": 1058859731.1
+            },
+            {
+              "time": "09:42",
+              "price": 101.16,
+              "volume": 10887200,
+              "amount": 1113795771.26
+            },
+            {
+              "time": "09:43",
+              "price": 101.8,
+              "volume": 11692100,
+              "amount": 1195273313.18
+            },
+            {
+              "time": "09:44",
+              "price": 102.2,
+              "volume": 12300500,
+              "amount": 1257315239.16
+            },
+            {
+              "time": "09:45",
+              "price": 101.7,
+              "volume": 12730800,
+              "amount": 1301329093.09
+            },
+            {
+              "time": "09:46",
+              "price": 101.88,
+              "volume": 13017800,
+              "amount": 1330511491.45
+            },
+            {
+              "time": "09:47",
+              "price": 101.16,
+              "volume": 13518900,
+              "amount": 1381390005.2
+            },
+            {
+              "time": "09:48",
+              "price": 101.3,
+              "volume": 13834800,
+              "amount": 1413385355.81
+            },
+            {
+              "time": "09:49",
+              "price": 100.56,
+              "volume": 14583200,
+              "amount": 1488877968.35
+            },
+            {
+              "time": "09:50",
+              "price": 100.68,
+              "volume": 15329100,
+              "amount": 1563911733.36
+            },
+            {
+              "time": "09:51",
+              "price": 100.99,
+              "volume": 15819300,
+              "amount": 1613317527.87
+            },
+            {
+              "time": "09:52",
+              "price": 100.71,
+              "volume": 16309100,
+              "amount": 1662692154.52
+            },
+            {
+              "time": "09:53",
+              "price": 100.09,
+              "volume": 17081900,
+              "amount": 1740262216.43
+            },
+            {
+              "time": "09:54",
+              "price": 101.06,
+              "volume": 17599600,
+              "amount": 1792230433.34
+            },
+            {
+              "time": "09:55",
+              "price": 101.15,
+              "volume": 17941200,
+              "amount": 1826801891.23
+            },
+            {
+              "time": "09:56",
+              "price": 100.9,
+              "volume": 18136300,
+              "amount": 1846518698.83
+            },
+            {
+              "time": "09:57",
+              "price": 100.79,
+              "volume": 18345600,
+              "amount": 1867636544.37
+            },
+            {
+              "time": "09:58",
+              "price": 100.56,
+              "volume": 18581500,
+              "amount": 1891429275.61
+            },
+            {
+              "time": "09:59",
+              "price": 100.77,
+              "volume": 18847600,
+              "amount": 1918185040.96
+            },
+            {
+              "time": "10:00",
+              "price": 100.97,
+              "volume": 19152200,
+              "amount": 1948958330.2
+            },
+            {
+              "time": "10:01",
+              "price": 100.78,
+              "volume": 19167600,
+              "amount": 1950513660
+            }
+          ]
+        }
+      },
+      "status": "market_only",
+      "sourceSHA256": "823f9dc5c8c4c5ddb4b4c6bbbd1f8b741ff8e3118208bb1a2e76172caee3ca95",
+      "sourceReceivedAt": "2026-10-23T02:00:06.183Z",
+      "archivedAt": "2026-10-23T02:00:06.893Z",
+      "report": "briefings/2026-10-23/post.html",
+      "reason": "当日账户已建立，1笔有原始凭据的模拟成交；历史记录，非实时提醒。",
+      "execution": {
+        "schemaVersion": 1,
+        "date": "2026-10-23",
+        "category": "模拟成交",
+        "accountEstablished": true,
+        "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
+        "fills": [
+          {
+            "event_id": "2026-10-23:desktop-fill:6b6e274c791b:6",
+            "side": "buy",
+            "quantity": 11700,
+            "price": 100.84,
+            "fill_time": "2026-10-23T10:00:03+08:00",
+            "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+            "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
+            "fee": 129.78108,
+            "positionResult": {
+              "basis": "fill-price-after-fees-v1",
+              "markPrice": 100.84,
+              "beforeShares": 89300,
+              "afterShares": 101000,
+              "shareChangePct": 13.101903695408733,
+              "beforeWeightPct": 73.61899424135153,
+              "afterWeightPct": 83.26536741715256,
+              "changePoints": 9.646373175801026
+            }
+          }
+        ],
+        "rejectedEvidence": 0,
+        "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
+        "account": {
+          "shares": 101000,
+          "available": 89300,
+          "cash": 2046944.132981483,
+          "sourceSession": "2026-10-23",
+          "todayInterestPosted": false
+        }
+      }
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-10-23T01:15:03.937Z"
+  "updatedAt": "2026-10-23T02:00:07.092Z"
 }
