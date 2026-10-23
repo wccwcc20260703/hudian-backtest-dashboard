@@ -15281,14 +15281,14 @@
       "market": {
         "quote": {
           "date": "2026-10-23",
-          "time": "10:05:03",
-          "price": 101.11,
+          "time": "10:10:03",
+          "price": 100.75,
           "previous": 106.96,
           "open": 103.5,
           "high": 103.88,
           "low": 100.06,
-          "volume": 20208700,
-          "amount": 2055840000,
+          "volume": 21095500,
+          "amount": 2145090000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -15507,24 +15507,54 @@
             {
               "time": "10:05",
               "price": 101.39,
-              "volume": 20154100,
-              "amount": 2050307213.41
+              "volume": 20159300,
+              "amount": 2050834432.41
             },
             {
               "time": "10:06",
-              "price": 101.11,
-              "volume": 20208700,
-              "amount": 2055840882
+              "price": 100.7,
+              "volume": 20332800,
+              "amount": 2068349596.5
+            },
+            {
+              "time": "10:07",
+              "price": 100.45,
+              "volume": 20527400,
+              "amount": 2087921435.66
+            },
+            {
+              "time": "10:08",
+              "price": 100.58,
+              "volume": 20728600,
+              "amount": 2108153765.69
+            },
+            {
+              "time": "10:09",
+              "price": 100.71,
+              "volume": 20943200,
+              "amount": 2129743673.96
+            },
+            {
+              "time": "10:10",
+              "price": 100.73,
+              "volume": 21071400,
+              "amount": 2142663331.09
+            },
+            {
+              "time": "10:11",
+              "price": 100.75,
+              "volume": 21078600,
+              "amount": 2143391060
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "f48f2e1562516c32d2f4be0f705af0c7990bfb996db7db19b725695b11f1402d",
-      "sourceReceivedAt": "2026-10-23T02:05:06.337Z",
-      "archivedAt": "2026-10-23T02:05:06.804Z",
+      "sourceSHA256": "b7e455e14181cf7e1275adf8ccc94bc7dd2601d29d6bbbe883a65052a0502df3",
+      "sourceReceivedAt": "2026-10-23T02:10:06.366Z",
+      "archivedAt": "2026-10-23T02:10:06.736Z",
       "report": "briefings/2026-10-23/post.html",
-      "reason": "当日账户已建立，2笔有原始凭据的模拟成交；历史记录，非实时提醒。",
+      "reason": "当日账户已建立，3笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
         "schemaVersion": 1,
         "date": "2026-10-23",
@@ -15571,14 +15601,34 @@
               "afterWeightPct": 91.47777724036412,
               "changePoints": 8.16693406995408
             }
+          },
+          {
+            "event_id": "2026-10-23:desktop-fill:6b6e274c791b:8",
+            "side": "buy",
+            "quantity": 8600,
+            "price": 100.81,
+            "fill_time": "2026-10-23T10:10:03+08:00",
+            "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+            "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
+            "fee": 95.36626000000001,
+            "positionResult": {
+              "basis": "fill-price-after-fees-v1",
+              "markPrice": 100.81,
+              "beforeShares": 110900,
+              "afterShares": 119500,
+              "shareChangePct": 7.75473399458972,
+              "beforeWeightPct": 91.44994582964117,
+              "afterWeightPct": 98.54241458349593,
+              "changePoints": 7.092468753854764
+            }
           }
         ],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
         "account": {
-          "shares": 110900,
+          "shares": 119500,
           "available": 89300,
-          "cash": 1045250.9588514828,
+          "cash": 178189.5925914828,
           "sourceSession": "2026-10-23",
           "todayInterestPosted": false
         }
@@ -15586,5 +15636,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-10-23T02:05:06.838Z"
+  "updatedAt": "2026-10-23T02:10:06.770Z"
 }
