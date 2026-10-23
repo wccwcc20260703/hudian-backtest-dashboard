@@ -15281,14 +15281,14 @@
       "market": {
         "quote": {
           "date": "2026-10-23",
-          "time": "10:10:03",
-          "price": 100.75,
+          "time": "10:15:03",
+          "price": 100.02,
           "previous": 106.96,
           "open": 103.5,
           "high": 103.88,
-          "low": 100.06,
-          "volume": 21095500,
-          "amount": 2145090000,
+          "low": 100.01,
+          "volume": 22232900,
+          "amount": 2259470000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -15542,19 +15542,49 @@
             },
             {
               "time": "10:11",
-              "price": 100.75,
-              "volume": 21078600,
-              "amount": 2143391060
+              "price": 101.52,
+              "volume": 21299700,
+              "amount": 2165725312.26
+            },
+            {
+              "time": "10:12",
+              "price": 101.08,
+              "volume": 21497700,
+              "amount": 2185769270.36
+            },
+            {
+              "time": "10:13",
+              "price": 100.5,
+              "volume": 21627100,
+              "amount": 2198790779.51
+            },
+            {
+              "time": "10:14",
+              "price": 100.09,
+              "volume": 21881600,
+              "amount": 2224303962.91
+            },
+            {
+              "time": "10:15",
+              "price": 100.05,
+              "volume": 22205400,
+              "amount": 2256715517.45
+            },
+            {
+              "time": "10:16",
+              "price": 100.02,
+              "volume": 22232900,
+              "amount": 2259468461
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "b7e455e14181cf7e1275adf8ccc94bc7dd2601d29d6bbbe883a65052a0502df3",
-      "sourceReceivedAt": "2026-10-23T02:10:06.366Z",
-      "archivedAt": "2026-10-23T02:10:06.736Z",
+      "sourceSHA256": "bb334f034db795b2127e02b24daa69338ac66e72baa425185ae19720d9cde9a7",
+      "sourceReceivedAt": "2026-10-23T02:15:06.504Z",
+      "archivedAt": "2026-10-23T02:15:07.690Z",
       "report": "briefings/2026-10-23/post.html",
-      "reason": "当日账户已建立，3笔有原始凭据的模拟成交；历史记录，非实时提醒。",
+      "reason": "当日账户已建立，4笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
         "schemaVersion": 1,
         "date": "2026-10-23",
@@ -15621,14 +15651,34 @@
               "afterWeightPct": 98.54241458349593,
               "changePoints": 7.092468753854764
             }
+          },
+          {
+            "event_id": "2026-10-23:desktop-fill:6b6e274c791b:9",
+            "side": "buy",
+            "quantity": 11000,
+            "price": 100.08,
+            "fill_time": "2026-10-23T10:15:03+08:00",
+            "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+            "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
+            "fee": 121.0968,
+            "positionResult": {
+              "basis": "fill-price-after-fees-v1",
+              "markPrice": 100.08,
+              "beforeShares": 119500,
+              "afterShares": 130500,
+              "shareChangePct": 9.205020920502092,
+              "beforeWeightPct": 98.53193879777974,
+              "afterWeightPct": 107.60289791806106,
+              "changePoints": 9.07095912028132
+            }
           }
         ],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
         "account": {
-          "shares": 119500,
+          "shares": 130500,
           "available": 89300,
-          "cash": 178189.5925914828,
+          "cash": -922811.5042085171,
           "sourceSession": "2026-10-23",
           "todayInterestPosted": false
         }
@@ -15636,5 +15686,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-10-23T02:10:06.770Z"
+  "updatedAt": "2026-10-23T02:15:07.799Z"
 }
