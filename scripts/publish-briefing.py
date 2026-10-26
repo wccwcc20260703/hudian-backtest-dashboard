@@ -7,7 +7,11 @@ ROOT=Path(__file__).resolve().parents[1];DOCS=ROOT/'docs'
 def save(path,obj):
  tmp=path.with_suffix(path.suffix+'.tmp');tmp.write_text(json.dumps(obj,ensure_ascii=False,indent=2));os.replace(tmp,path)
 def publish(path):
- r=json.loads(Path(path).read_text());kind=r['kind'];assert kind in ['pre','post'];assert r['status'] in ['pending','partial','complete'];datetime.strptime(r['tradeDate'],'%Y-%m-%d')
+ r=json.loads(Path(path).read_text());
+ if r.get('status')!='pending':
+  node=str(Path.home()/'.nvm/versions/node/v22.22.1/bin/node')
+  r=json.loads(subprocess.check_output([node,str(ROOT.parent/'hudian-desktop/enrich-briefing.mjs'),str(Path(path).resolve())],text=True,timeout=30))
+ kind=r['kind'];assert kind in ['pre','post'];assert r['status'] in ['pending','partial','complete'];datetime.strptime(r['tradeDate'],'%Y-%m-%d')
  deadline=datetime.fromisoformat(r['deadline']);valid=datetime.fromisoformat(r['validUntil']);assert deadline.tzinfo and valid.tzinfo and valid>deadline
  assert str(deadline.date())==r['tradeDate'];assert deadline.strftime('%H:%M') in (['09:00','09:15'] if kind=='pre' else ['15:30'])
  if r['status']!='pending':
@@ -18,7 +22,7 @@ def publish(path):
  target=DOCS/'briefings'/r['tradeDate'];target.mkdir(parents=True,exist_ok=True);r['archive']='briefings/'+r['tradeDate']+'/'+kind+'.html'
  save(target/(kind+'.json'),r)
  esc=lambda x:html.escape(str(x));items=''.join('<h2>'+esc(x['label'])+'</h2><p>'+esc(x['text'])+'</p>' for x in r['items']);facts=' · '.join(esc(x['label'])+' '+esc(x['value']) for x in r.get('facts',[]));sources=''.join('<li><a href="'+esc(x['url'])+'">'+esc(x['name'])+'</a> · '+esc(x.get('asOf',''))+'</li>' for x in r.get('sources',[]))
- page='<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(r['title'])+'</title><style>body{background:#f4f7fa;color:#1b304a;font:16px/1.9 system-ui}main{max-width:900px;margin:30px auto;padding:30px;background:white;border-radius:16px}h2{font-size:20px;margin-top:28px}a{color:#147d83}.meta{color:#8295a9;font-size:14px}</style><main><a href="../../index.html">← 返回看板</a><h1>'+esc(r['tradeDate']+' '+r['title'])+'</h1><p>'+esc(r['summary'])+'</p><p>'+facts+'</p><p class="meta">生成 '+esc(r.get('generatedAt') or '待生成')+' · 截止 '+esc(r['deadline'])+' · 适用至 '+esc(r['validUntil'])+'</p>'+('<p>本期为晚于截止时间的补发。</p>' if r.get('late') else '')+items+'<h2>来源及缺失</h2><ul>'+sources+'</ul><p>'+esc(r.get('limitations',''))+'</p><p class="meta">模型研究记录，不代表真实账户持仓或成交。历史规划过期后仅供回看。</p></main></html>'
+ page='<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(r['title'])+'</title><style>body{background:#f4f7fa;color:#1b304a;font:16px/1.9 system-ui}main{max-width:900px;margin:30px auto;padding:30px;background:white;border-radius:16px}p{white-space:pre-line}h2{font-size:20px;margin-top:28px}a{color:#147d83}.meta{color:#8295a9;font-size:14px}</style><main><a href="../../index.html">← 返回看板</a><h1>'+esc(r['tradeDate']+' '+r['title'])+'</h1><p>'+esc(r['summary'])+'</p><p>'+facts+'</p><p class="meta">生成 '+esc(r.get('generatedAt') or '待生成')+' · 截止 '+esc(r['deadline'])+' · 适用至 '+esc(r['validUntil'])+'</p>'+('<p>本期为晚于截止时间的补发。</p>' if r.get('late') else '')+items+'<h2>来源及缺失</h2><ul>'+sources+'</ul><p>'+esc(r.get('limitations',''))+'</p><p class="meta">模型研究记录，不代表真实账户持仓或成交。历史规划过期后仅供回看。</p></main></html>'
  (target/(kind+'.html')).write_text(page)
  p=DOCS/'daily-briefings.json';all=json.loads(p.read_text()) if p.exists() else {'schemaVersion':1,'timezone':'Asia/Shanghai'}
  if all.get(kind) and all[kind]['tradeDate']>r['tradeDate']:raise ValueError('Refuse replacing newer briefing with older date')

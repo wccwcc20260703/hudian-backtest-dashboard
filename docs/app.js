@@ -1,3 +1,4 @@
+import {explanationText,explanationHTML,explanationDetails} from './fill-explanation-view.js?v=1';
 import {fillResultText} from './fill-result.js?v=27d3a8c7509e';
 import {executionPosition,executionFills} from './execution-view.js?v=a1eaa4fe72d8';
 import {monitoringPolicy} from './monitoring-policy.js?v=5b472db5ba98';
@@ -214,7 +215,7 @@ function renderLive(market,cached){
  htmlIfChanged('opportunity-signals',opportunity.signals.map(v=>`<details class="signal-card opportunity-card"><summary><strong class="${v.side>0?'buy':v.side<0?'sell':''}">${v.time} · ${v.title} · ${v.strength.label}${v.replay?'（回放）':''}</strong></summary><span>分钟点 ${v.time}，完成后最早 ${v.confirmedAt} 可确认 · 参考价 ¥ ${fmt(v.price)}</span><span>${v.strength.label} · 依据：${v.strength.evidence.join('、')||'仅触及'}。非胜率评分。</span><span>${v.reason}</span><span>失效条件：${v.invalidation}</span><span>${opportunitySizing(v)}</span></details>`).join('')||(opportunity.points?.length?'<p class="footnote">当前完整数据中尚无条件触发，不补造买卖点。</p>':''));
  $('strength-explanation').textContent='S0为触及观察，S1/S2为规则确认等级，R为转弱或失效风险；不是胜率，不给出账户数量，也不自动生成模拟成交。';
  const signalSeries=(monitoringPolicy.fillsOnly?[]:actionableSignals(displaySignals)).map(v=>({id:'plan-'+v.time,name:replay?'当日计划点回看':'计划调仓提示',type:'scatter',symbol:'triangle',symbolRotate:v.side<0?180:0,symbolSize:18,z:10,itemStyle:{color:v.side>0?'#e25562':'#168d75'},label:{show:false},data:[[v.time,v.price]],tooltip:{trigger:'item',formatter:`${v.time} ${replay?'计划点回看（非当前提示）':'策略提示'}<br>参考价 ¥ ${fmt(v.price)}<br>模型仓位 ${fmt(v.before*100)}% → 目标 ${fmt(v.target*100,0)}%<br>原模型规则执行 · 无独立强度评级；目标150%不代表强信号。<br>${estimateText(v)}<br>依据上日模型持仓独立试算，未生成成交；成交量、今日公司行动及借款利息尚待完整数据核对。`}}));
- const fillSeries=executionFills(snapshotForDate(q.date),q.date).map(e=>({id:e.event_id,name:'已核验模拟成交',type:'scatter',symbol:'triangle',symbolRotate:e.side==='sell'?180:0,symbolSize:19,z:20,itemStyle:{color:e.side==='buy'?'#e25562':'#168d75'},label:{show:true,formatter:e.side==='buy'?'买':'卖',position:e.side==='buy'?'bottom':'top'},data:[[e.fill_time.slice(11,16),e.price]],tooltip:{trigger:'item',formatter:()=>`${e.fill_time.slice(11,19)} · 已核验模拟${e.side==='buy'?'买入':'卖出'}<br>${fillResultText(e)}<br>模拟成交价 ¥ ${fmt(e.price)}<br>费用 ¥ ${fmt(e.fee??0)}<br>网页截至已发布版本；非真实交易`}}));
+ const fillSeries=executionFills(snapshotForDate(q.date),q.date).map(e=>({id:e.event_id,name:'已核验模拟成交',type:'scatter',symbol:'triangle',symbolRotate:e.side==='sell'?180:0,symbolSize:19,z:20,itemStyle:{color:e.side==='buy'?'#e25562':'#168d75'},label:{show:true,formatter:e.side==='buy'?'买':'卖',position:e.side==='buy'?'bottom':'top'},data:[[e.fill_time.slice(11,16),e.price]],tooltip:{trigger:'item',formatter:()=>`${e.fill_time.slice(11,19)} · 已核验模拟${e.side==='buy'?'买入':'卖出'}<br>${fillResultText(e)}<br>${explanationHTML(e)}<br>模拟成交价 ¥ ${fmt(e.price)}<br>费用 ¥ ${fmt(e.fee??0)}<br>网页截至已发布版本；非真实交易`}}));
  signalSeries.push(...fillSeries);
  const option={animation:false,grid:{left:68,right:35,top:20,bottom:30},tooltip:{...tooltip,hideDelay:150,extraCssText:tooltip.extraCssText+';max-width:460px;white-space:normal;line-height:1.7',valueFormatter:v=>v==null?'未发生':`¥ ${fmt(v)}`},xAxis:{...axis,type:'category',data:times,boundaryGap:false,axisLabel:{...axis.axisLabel,interval:(i,v)=>v.endsWith(':00')||v.endsWith(':30'),hideOverlap:true}},yAxis:{...axis,scale:true,axisLabel:{...axis.axisLabel,formatter:v=>fmt(v)}},series:[{id:'minutes',name:'分钟最新价',type:'line',showSymbol:false,connectNulls:false,itemStyle:{color:'#147f9d'},lineStyle:{width:1.7},areaStyle:{color:'#1a92b310'},data:times.map(t=>prices.get(t)??null),markLine:{silent:true,symbol:'none',label:{formatter:'昨收',position:'insideEndTop'},lineStyle:{type:'dashed',color:'#acb7c5',width:1},data:[{yAxis:q.previous}]}},...signalSeries]};
  stableChart('live',option,JSON.stringify([q.date,q.previous,points,signalSeries]));
@@ -234,7 +235,7 @@ function renderLive(market,cached){
 }
 function renderArchivedDay(){
  const entry=sessionArchive.sessions[archiveDay],m=entry.market,q=m.quote,points=m.minutes.points,dates=availableReplayDates(),i=dates.indexOf(archiveDay),fills=executionFills(entry.execution,archiveDay);
- const fillSeries=fills.map(e=>({name:'模拟'+(e.side==='buy'?'买入':'卖出'),type:'scatter',symbol:'triangle',symbolRotate:e.side==='sell'?180:0,symbolSize:17,z:20,itemStyle:{color:e.side==='buy'?'#e25562':'#168d75'},label:{show:true,formatter:e.side==='buy'?'买':'卖',position:'top'},data:[[e.fill_time.slice(11,16),e.price]],tooltip:{formatter:()=>`${e.fill_time.slice(11,19)} · ${fillResultText(e)}<br>模拟价 ¥ ${fmt(e.price)} · 非真实交易`}}));
+ const fillSeries=fills.map(e=>({name:'模拟'+(e.side==='buy'?'买入':'卖出'),type:'scatter',symbol:'triangle',symbolRotate:e.side==='sell'?180:0,symbolSize:17,z:20,itemStyle:{color:e.side==='buy'?'#e25562':'#168d75'},label:{show:true,formatter:e.side==='buy'?'买':'卖',position:'top'},data:[[e.fill_time.slice(11,16),e.price]],tooltip:{formatter:()=>`${e.fill_time.slice(11,19)} · ${fillResultText(e)}<br>${explanationHTML(e)}<br>模拟价 ¥ ${fmt(e.price)}<br>${explanationHTML(e)}<br>非真实交易`}}));
  $('history-observations').hidden=true;$('export').disabled=true;$('replay-footnote').hidden=true;$('day-live-status').hidden=false;
  $('day').value=archiveDay;$('day').max=dates.at(-1);$('day-title').textContent=archiveDay+' · 行情留存';$('prev').disabled=i<=0;$('next').disabled=i===dates.length-1;$('next-trade').disabled=true;
  $('day-live-status').textContent=`${entry.reason} 报价源时钟 ${q.date} ${q.time}，分钟截至 ${points.at(-1)?.time??'缺失'}；留存行情不会随最新交易日切换而消失。`;
@@ -247,8 +248,8 @@ function renderArchivedDay(){
  if(entry.execution?.accountEstablished){
   $('trade-heading-label').textContent='历史已核验模拟成交 ';$('trade-count').textContent=`${fills.length} 笔 · 原始成交凭据`;
   htmlIfChanged('trade-columns','<tr><th>成交时间</th><th>方向</th><th>模拟价</th><th>数量（股）</th><th colspan="5">成交结果</th></tr>');
-  htmlIfChanged('trades',fills.map(e=>`<tr><td>${e.fill_time.slice(11,19)}</td><td>${e.side==='buy'?'模拟买入':'模拟卖出'}</td><td>¥ ${fmt(e.price)}</td><td>${fmt(e.quantity,0)}</td><td colspan="5">${fillResultText(e)}</td></tr>`).join('')||'<tr><td colspan="9">账户已建立，无已核验模拟成交；不据此推定完整执行覆盖。</td></tr>');
-  htmlIfChanged('daily-trades',fills.map(e=>`<tr><td>${e.fill_time.slice(11,19)}</td><td>${e.side==='buy'?'模拟买入':'模拟卖出'}</td><td>¥ ${fmt(e.price)}</td><td>${fmt(e.quantity,0)}</td><td>${e.positionResult?.beforeWeightPct?.toFixed(2)??'—'}%</td><td>${e.positionResult?.afterWeightPct?.toFixed(2)??'—'}%</td></tr>`).join('')||'<tr><td colspan="6">当日无已核验模拟成交。</td></tr>');
+  htmlIfChanged('trades',fills.map(e=>`<tr><td>${e.fill_time.slice(11,19)}</td><td>${e.side==='buy'?'模拟买入':'模拟卖出'}</td><td>¥ ${fmt(e.price)}</td><td>${fmt(e.quantity,0)}</td><td colspan="5">${fillResultText(e)}${explanationDetails(e)}</td></tr>`).join('')||'<tr><td colspan="9">账户已建立，无已核验模拟成交；不据此推定完整执行覆盖。</td></tr>');
+  htmlIfChanged('daily-trades',fills.map(e=>`<tr><td>${e.fill_time.slice(11,19)}</td><td>${e.side==='buy'?'模拟买入':'模拟卖出'}</td><td>¥ ${fmt(e.price)}</td><td>${fmt(e.quantity,0)}</td><td>${e.positionResult?.beforeWeightPct?.toFixed(2)??'—'}%</td><td>${e.positionResult?.afterWeightPct?.toFixed(2)??'—'}%${explanationDetails(e)}</td></tr>`).join('')||'<tr><td colspan="6">当日无已核验模拟成交。</td></tr>');
  }
 
 }
@@ -272,16 +273,16 @@ function renderLiveDay(){
  $('day-live-status').textContent=`报价截至 ${q.date} ${q.time}；成交截至 ${executionSnapshot?.publishedAt??'待发布'}。非真实交易。`;
  $('intraday').setAttribute('aria-label','当日分时与已发布模拟成交');
  htmlIfChanged('trade-columns','<tr><th>成交时间</th><th>方向</th><th>模拟成交价</th><th>数量（股）</th><th colspan="5">状态</th></tr>');
- htmlIfChanged('trades',fills.map(e=>`<tr><td>${e.fill_time.slice(11,19)}</td><td>${e.side==='buy'?'模拟买入':'模拟卖出'}</td><td>¥ ${fmt(e.price)}</td><td>${fmt(e.quantity,0)}</td><td colspan="5">${fillResultText(e)} · 非真实交易</td></tr>`).join('')||'<tr><td colspan="9">截至已发布版本无当日已核验模拟成交。</td></tr>');
+ htmlIfChanged('trades',fills.map(e=>`<tr><td>${e.fill_time.slice(11,19)}</td><td>${e.side==='buy'?'模拟买入':'模拟卖出'}</td><td>¥ ${fmt(e.price)}</td><td>${fmt(e.quantity,0)}</td><td colspan="5">${fillResultText(e)} · 非真实交易${explanationDetails(e)}</td></tr>`).join('')||'<tr><td colspan="9">截至已发布版本无当日已核验模拟成交。</td></tr>');
  htmlIfChanged('day-summary',`<span>最新价<b>¥ ${fmt(q.price)}</b></span><span>模拟成交<b>${fills.length} 笔</b></span><span>账户来源<b>桌面连续账户</b></span>`);
  }
- $('daily-trade-date').textContent=q.date+' · 已发布模拟成交';htmlIfChanged('daily-trades',executionFills(snapshotForDate(q.date),q.date).map(e=>`<tr><td>${e.fill_time.slice(11,19)}</td><td>${e.side==='buy'?'模拟买入':'模拟卖出'}</td><td>¥ ${fmt(e.price)}</td><td>${fmt(e.quantity,0)}</td><td>${e.positionResult?.beforeWeightPct?.toFixed(2)??"—"}%</td><td>${e.positionResult?.afterWeightPct?.toFixed(2)??"—"}%</td></tr>`).join('')||'<tr><td colspan="6">截至已发布资料，无当日已核验模拟成交。</td></tr>');
+ $('daily-trade-date').textContent=q.date+' · 已发布模拟成交';htmlIfChanged('daily-trades',executionFills(snapshotForDate(q.date),q.date).map(e=>`<tr><td>${e.fill_time.slice(11,19)}</td><td>${e.side==='buy'?'模拟买入':'模拟卖出'}</td><td>¥ ${fmt(e.price)}</td><td>${fmt(e.quantity,0)}</td><td>${e.positionResult?.beforeWeightPct?.toFixed(2)??"—"}%</td><td>${e.positionResult?.afterWeightPct?.toFixed(2)??"—"}%${explanationDetails(e)}</td></tr>`).join('')||'<tr><td colspan="6">截至已发布资料，无当日已核验模拟成交。</td></tr>');
 }
 async function refreshExecutionSnapshot(){
  try{const r=await fetch(`./execution-snapshot.json?v=${Math.floor(Date.now()/60000)}`,{cache:'no-store',signal:AbortSignal.timeout(8000)});if(!r.ok)throw Error('摘要未发布');const v=await r.json();executionSnapshot=v;
  $('execution-snapshot-status').textContent=`${v.date} · ${v.message} · 资料时间 ${new Date(v.publishedAt).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false})}（非当前运行保证）`;
  $('execution-snapshot-fills').style.whiteSpace='pre-line';
- $('execution-snapshot-fills').textContent=(v.fills??[]).map(x=>`${x.fill_time.slice(11,19)} · ${fillResultText(x)} · 模拟价 ¥ ${fmt(x.price)}`).join('\n\n')||'截至资料时间，无已核验模拟成交记录。';
+ $('execution-snapshot-fills').textContent=(v.fills??[]).map(x=>`${x.fill_time.slice(11,19)} · ${fillResultText(x)} · 模拟价 ¥ ${fmt(x.price)}\n${explanationText(x)}`).join('\n\n')||'截至资料时间，无已核验模拟成交记录。';
  if(liveMarket&&data&&results.L)renderLive(liveMarket,liveCached);
  }catch(e){$('execution-snapshot-status').textContent='模拟账户发布摘要暂不可读；请以 App 实际状态为准。';}
 }
