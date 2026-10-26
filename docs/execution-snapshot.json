@@ -1,120 +1,19 @@
 {
   "schemaVersion": 1,
-  "date": "2026-10-23",
-  "publishedAt": "2026-10-23T07:07:45.303Z",
+  "date": "2026-10-26",
+  "publishedAt": "2026-10-26T01:20:03.871Z",
   "category": "模拟成交",
   "accountEstablished": true,
-  "message": "10/23 模拟账户已日结（盘后补结） · 5笔已核验模拟成交",
-  "fills": [
-    {
-      "event_id": "2026-10-23:desktop-fill:6b6e274c791b:6",
-      "side": "buy",
-      "quantity": 11700,
-      "price": 100.84,
-      "fill_time": "2026-10-23T10:00:03+08:00",
-      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
-      "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
-      "fee": 129.78108,
-      "positionResult": {
-        "basis": "fill-price-after-fees-v1",
-        "markPrice": 100.84,
-        "beforeShares": 89300,
-        "afterShares": 101000,
-        "shareChangePct": 13.101903695408733,
-        "beforeWeightPct": 73.61899424135153,
-        "afterWeightPct": 83.26536741715256,
-        "changePoints": 9.646373175801026
-      }
-    },
-    {
-      "event_id": "2026-10-23:desktop-fill:6b6e274c791b:7",
-      "side": "buy",
-      "quantity": 9900,
-      "price": 101.17,
-      "fill_time": "2026-10-23T10:05:03+08:00",
-      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
-      "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
-      "fee": 110.17413000000002,
-      "positionResult": {
-        "basis": "fill-price-after-fees-v1",
-        "markPrice": 101.17,
-        "beforeShares": 101000,
-        "afterShares": 110900,
-        "shareChangePct": 9.801980198019802,
-        "beforeWeightPct": 83.31084317041004,
-        "afterWeightPct": 91.47777724036412,
-        "changePoints": 8.16693406995408
-      }
-    },
-    {
-      "event_id": "2026-10-23:desktop-fill:6b6e274c791b:8",
-      "side": "buy",
-      "quantity": 8600,
-      "price": 100.81,
-      "fill_time": "2026-10-23T10:10:03+08:00",
-      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
-      "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
-      "fee": 95.36626000000001,
-      "positionResult": {
-        "basis": "fill-price-after-fees-v1",
-        "markPrice": 100.81,
-        "beforeShares": 110900,
-        "afterShares": 119500,
-        "shareChangePct": 7.75473399458972,
-        "beforeWeightPct": 91.44994582964117,
-        "afterWeightPct": 98.54241458349593,
-        "changePoints": 7.092468753854764
-      }
-    },
-    {
-      "event_id": "2026-10-23:desktop-fill:6b6e274c791b:9",
-      "side": "buy",
-      "quantity": 11000,
-      "price": 100.08,
-      "fill_time": "2026-10-23T10:15:03+08:00",
-      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
-      "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
-      "fee": 121.0968,
-      "positionResult": {
-        "basis": "fill-price-after-fees-v1",
-        "markPrice": 100.08,
-        "beforeShares": 119500,
-        "afterShares": 130500,
-        "shareChangePct": 9.205020920502092,
-        "beforeWeightPct": 98.53193879777974,
-        "afterWeightPct": 107.60289791806106,
-        "changePoints": 9.07095912028132
-      }
-    },
-    {
-      "event_id": "2026-10-23:desktop-fill:6b6e274c791b:10",
-      "side": "buy",
-      "quantity": 17900,
-      "price": 99.71,
-      "fill_time": "2026-10-23T10:20:03+08:00",
-      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
-      "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
-      "fee": 196.32899000000003,
-      "positionResult": {
-        "basis": "fill-price-after-fees-v1",
-        "markPrice": 99.71,
-        "beforeShares": 130500,
-        "afterShares": 148400,
-        "shareChangePct": 13.71647509578544,
-        "beforeWeightPct": 107.63326399427531,
-        "afterWeightPct": 122.39874158066806,
-        "changePoints": 14.76547758639275
-      }
-    }
-  ],
+  "message": "10/26 盘前账户已建立\n等待09:30新行情；09:32验收执行",
+  "fills": [],
   "rejectedEvidence": 0,
   "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
   "account": {
     "shares": 148400,
-    "available": 89300,
-    "cash": -2708261.9537738375,
-    "asOf": "2026-10-23T07:07:45.303Z",
-    "sourceSession": "2026-10-23",
-    "todayInterestPosted": true
+    "available": 148400,
+    "cash": -2709152.3412654893,
+    "asOf": "2026-10-26T01:20:03.871Z",
+    "sourceSession": "2026-10-26",
+    "todayInterestPosted": false
   }
 }

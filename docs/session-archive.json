@@ -1483,7 +1483,7 @@
         "date": "2026-10-09",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/09 未建立实时账户\n10/23 基线已准备，待盘前复核",
+        "message": "10/09 未建立实时账户\n10/26 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -2972,7 +2972,7 @@
         "date": "2026-10-12",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/12 未建立实时账户\n10/23 基线已准备，待盘前复核",
+        "message": "10/12 未建立实时账户\n10/26 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -4461,7 +4461,7 @@
         "date": "2026-10-16",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/16 未建立实时账户\n10/23 基线已准备，待盘前复核",
+        "message": "10/16 未建立实时账户\n10/26 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -9043,7 +9043,7 @@
         "date": "2026-10-15",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/15 未建立实时账户\n10/23 基线已准备，待盘前复核",
+        "message": "10/15 未建立实时账户\n10/26 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -16876,5 +16876,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-10-23T07:07:45.394Z"
+  "updatedAt": "2026-10-26T01:20:03.995Z"
 }
