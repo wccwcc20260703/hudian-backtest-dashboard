@@ -20264,20 +20264,20 @@
         "date": "2026-10-27",
         "category": "模拟成交",
         "accountEstablished": true,
-        "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
+        "message": "10/27 模拟账户已日结（盘后补结） · 0笔已核验模拟成交",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
         "account": {
           "shares": 182300,
           "available": 182300,
-          "cash": -6122674.978475781,
+          "cash": -6123681.445595531,
           "sourceSession": "2026-10-27",
-          "todayInterestPosted": false
+          "todayInterestPosted": true
         }
       }
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-10-27T07:05:14.664Z"
+  "updatedAt": "2026-10-27T07:09:04.543Z"
 }
