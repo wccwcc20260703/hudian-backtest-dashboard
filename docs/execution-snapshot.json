@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "date": "2026-10-29",
-  "publishedAt": "2026-10-29T01:16:24.231Z",
+  "publishedAt": "2026-10-29T01:17:14.328Z",
   "category": "模拟成交",
   "accountEstablished": true,
   "message": "10/29 盘前账户已建立\n等待09:30新行情；09:32验收执行",
@@ -12,7 +12,7 @@
     "shares": 184800,
     "available": 184800,
     "cash": -6384159.257948341,
-    "asOf": "2026-10-29T01:16:24.231Z",
+    "asOf": "2026-10-29T01:17:14.328Z",
     "sourceSession": "2026-10-29",
     "todayInterestPosted": false
   }
