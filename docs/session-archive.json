@@ -1483,7 +1483,7 @@
         "date": "2026-10-09",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/09 未建立实时账户\n10/28 基线已准备，待盘前复核",
+        "message": "10/09 未建立实时账户\n10/29 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -2972,7 +2972,7 @@
         "date": "2026-10-12",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/12 未建立实时账户\n10/28 基线已准备，待盘前复核",
+        "message": "10/12 未建立实时账户\n10/29 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -4461,7 +4461,7 @@
         "date": "2026-10-16",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/16 未建立实时账户\n10/28 基线已准备，待盘前复核",
+        "message": "10/16 未建立实时账户\n10/29 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -9113,7 +9113,7 @@
         "date": "2026-10-15",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/15 未建立实时账户\n10/28 基线已准备，待盘前复核",
+        "message": "10/15 未建立实时账户\n10/29 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -20281,7 +20281,7 @@
       "market": {
         "quote": {
           "date": "2026-10-28",
-          "time": "15:06:00",
+          "time": "16:14:54",
           "price": 104.57,
           "previous": 99.2,
           "open": 102,
@@ -21750,9 +21750,9 @@
         }
       },
       "status": "market_only",
-      "sourceSHA256": "1f4b25e619fa3cd57ca470d3cbbf19a2cfc194f77cc779974d5c27cc738a8687:a69494d9edc95fb79c29d251f1df978690e074a7d863def3e205de9135bd4a02",
-      "sourceReceivedAt": "2026-10-28T15:06:06.750605+08:00",
-      "archivedAt": "2026-10-28T07:06:08.538Z",
+      "sourceSHA256": "c1900a5b9ad53985569f24d17f9ed0d4dcdb2254399d26639e7a202c8be1c24b",
+      "sourceReceivedAt": "2026-10-28T16:54:34.278Z",
+      "archivedAt": "2026-10-29T01:16:24.300Z",
       "report": "briefings/2026-10-28/post.html",
       "reason": "当日账户已建立，1笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -21810,5 +21810,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-10-28T07:06:08.589Z"
+  "updatedAt": "2026-10-29T01:16:24.386Z"
 }
