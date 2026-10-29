@@ -21807,8 +21807,189 @@
           "todayInterestPosted": true
         }
       }
+    },
+    "2026-10-29": {
+      "market": {
+        "quote": {
+          "date": "2026-10-29",
+          "time": "09:45:00",
+          "price": 98.71,
+          "previous": 104.57,
+          "open": 103.32,
+          "high": 103.32,
+          "low": 98.63,
+          "volume": 11389600,
+          "amount": 1145540000,
+          "source": "腾讯行情"
+        },
+        "minutes": {
+          "date": "2026-10-29",
+          "points": [
+            {
+              "time": "09:30",
+              "price": 103.32,
+              "volume": 355400,
+              "amount": 36719928
+            },
+            {
+              "time": "09:31",
+              "price": 102.07,
+              "volume": 1465800,
+              "amount": 150795997.83
+            },
+            {
+              "time": "09:32",
+              "price": 101.18,
+              "volume": 2320400,
+              "amount": 237729675.83
+            },
+            {
+              "time": "09:33",
+              "price": 101.41,
+              "volume": 3015000,
+              "amount": 308191142.83
+            },
+            {
+              "time": "09:34",
+              "price": 100.59,
+              "volume": 3963500,
+              "amount": 404107708.93
+            },
+            {
+              "time": "09:35",
+              "price": 100.42,
+              "volume": 4664600,
+              "amount": 474558154.93
+            },
+            {
+              "time": "09:36",
+              "price": 100.89,
+              "volume": 5016900,
+              "amount": 510017543.16
+            },
+            {
+              "time": "09:37",
+              "price": 100.48,
+              "volume": 5491700,
+              "amount": 557868863.27
+            },
+            {
+              "time": "09:38",
+              "price": 100.73,
+              "volume": 5838300,
+              "amount": 592690409.02
+            },
+            {
+              "time": "09:39",
+              "price": 100.2,
+              "volume": 6490700,
+              "amount": 658191212.85
+            },
+            {
+              "time": "09:40",
+              "price": 100.18,
+              "volume": 7759800,
+              "amount": 785128142.23
+            },
+            {
+              "time": "09:41",
+              "price": 100,
+              "volume": 8192900,
+              "amount": 828425357.03
+            },
+            {
+              "time": "09:42",
+              "price": 99.66,
+              "volume": 8812200,
+              "amount": 890192028.49
+            },
+            {
+              "time": "09:43",
+              "price": 99.22,
+              "volume": 9835700,
+              "amount": 991728368.47
+            },
+            {
+              "time": "09:44",
+              "price": 99.16,
+              "volume": 10386600,
+              "amount": 1046379155.66
+            },
+            {
+              "time": "09:45",
+              "price": 98.71,
+              "volume": 11302600,
+              "amount": 1136951069.44
+            },
+            {
+              "time": "09:46",
+              "price": 98.71,
+              "volume": 11389600,
+              "amount": 1145540051
+            }
+          ]
+        }
+      },
+      "status": "market_only",
+      "sourceSHA256": "02fe1d28319c67e1f92f71e5c01596003d43c52a6ddd0094a7c4774cfc329cd3",
+      "sourceReceivedAt": "2026-10-29T01:45:03.627Z",
+      "archivedAt": "2026-10-29T01:45:04.008Z",
+      "report": "briefings/2026-10-29/post.html",
+      "reason": "当日账户已建立，1笔有原始凭据的模拟成交；历史记录，非实时提醒。",
+      "execution": {
+        "schemaVersion": 1,
+        "date": "2026-10-29",
+        "category": "模拟成交",
+        "accountEstablished": true,
+        "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
+        "fills": [
+          {
+            "event_id": "2026-10-29:desktop-fill:c82d23073212:3",
+            "side": "sell",
+            "quantity": 35200,
+            "price": 98.66,
+            "fill_time": "2026-10-29T09:45:00+08:00",
+            "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+            "reason": "D策略目标仓位调整至0%；实时快照加滑点的模拟成交，不是真实交易",
+            "fee": 2118.42752,
+            "positionResult": {
+              "basis": "fill-price-after-fees-v1",
+              "markPrice": 98.66,
+              "beforeShares": 184800,
+              "afterShares": 149600,
+              "shareChangePct": 19.047619047619047,
+              "beforeWeightPct": 153.8829066649517,
+              "afterWeightPct": 124.59415392008621,
+              "changePoints": -29.288752744865466
+            },
+            "explanation": {
+              "version": "fill-explanation-v1",
+              "basis": "frozen-plan-and-original-fill-proof",
+              "lines": [
+                "指标截至 2026-10-28：RSI(2)=68.71；正式披露净利润同比=107.26%（公告日期 2026-10-28）。",
+                "触发 RSI>60 或净利润同比≤0；D基础目标 0.00%，既有融资映射后冻结目标 0.00%。",
+                "09:45 为冻结计划首次检查；窗口截止 10:05。",
+                "买卖条件：当时报价 ¥98.71，成交前净资产 ¥11,857,448.74，仓位 153.84%；执行目标 0.00%，差距 153.84 个百分点 > 容差 3.50；因此卖出降低仓位。",
+                "数量依据：目标 0 股，差额 184,800 股；前五分钟已观测 3,528,400 股，1%整手上限 35,200 股；T+1可卖老仓 184,800 股；实际卖 35,200 股。",
+                "价格约束：参考昨收 ¥104.57，模型涨跌停界限 ¥94.11—115.03；报价加负向 5.00 基点滑点并按分取整，模拟价 ¥98.66；费用 ¥2,118.43。",
+                "卖出使用已有可卖股份；剩余可卖 149,600 股。",
+                "行情源时间 2026-10-29 09:45:00；凭据接收时间 2026-10-29T01:45:03.633Z。解释依据原始成交凭据，不用收盘后走势判断当时买卖正确与否；非真实交易。"
+              ]
+            }
+          }
+        ],
+        "rejectedEvidence": 0,
+        "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
+        "account": {
+          "shares": 149600,
+          "available": 149600,
+          "cash": -2913445.6854683408,
+          "sourceSession": "2026-10-29",
+          "todayInterestPosted": false
+        }
+      }
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-10-29T01:16:24.386Z"
+  "updatedAt": "2026-10-29T01:45:04.087Z"
 }
