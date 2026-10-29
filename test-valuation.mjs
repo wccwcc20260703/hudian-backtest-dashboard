@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {valuationAt} from './docs/valuation.js';
+const d=JSON.parse(readFileSync('./docs/valuation-history.json'));
+for(const [date,price,pe] of d.points)assert.ok(Math.abs(valuationAt(d,date,price).pe-pe)<.000051);
+const pre=valuationAt(d,'2026-10-27',100),post=valuationAt(d,'2026-10-28',100);
+assert.equal(pre.report.period,'2026-06-30');assert.equal(post.report.period,'2026-09-30');
+assert.ok(Math.abs(valuationAt(d,'2026-10-29',110).pe/post.pe-1.1)<1e-10);
+assert.equal(valuationAt(d,'2010-01-01',100),null);assert.equal(valuationAt(d,'2026-10-29',NaN),null);
+console.log('Valuation: every historical point, report transition, live price scaling and missing inputs passed.');

@@ -1,3 +1,5 @@
+import {startValuation} from './valuation.js?v=1';
+const valuationPanel=startValuation();
 import {explanationText,explanationHTML,explanationDetails} from './fill-explanation-view.js?v=1';
 import {fillResultText} from './fill-result.js?v=27d3a8c7509e';
 import {executionPosition,executionFills} from './execution-view.js?v=a1eaa4fe72d8';
@@ -189,6 +191,7 @@ function renderPosition(){
  $('position-notes').textContent=[positionFeedError,...(state.assumptions??[]),...(state.limitations??[])].filter(Boolean).join(' ');
 }
 function renderLive(market,cached){
+ valuationPanel.quote(market.quote,cached);
  liveMarket=market;liveCached=cached;renderPosition();void refreshOpportunityContext();const q=market.quote,minute=market.minutes,change=q.price/q.previous-1;
  $('live-date').textContent=q.date;
  $('live-values').innerHTML=[['最新价',`¥ ${fmt(q.price)}`,change>=0?'buy':'sell'],['涨跌幅',pct(change),change>=0?'buy':'sell'],['今日开盘',`¥ ${fmt(q.open)}`,''],['最高 / 最低',`${fmt(q.high)} / ${fmt(q.low)}`,''],['昨日收盘',`¥ ${fmt(q.previous)}`,'']].map(([label,value,color])=>`<div><span>${label}</span><b class="${color}">${value}</b></div>`).join('');
