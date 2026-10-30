@@ -23479,7 +23479,7 @@
       "market": {
         "quote": {
           "date": "2026-10-30",
-          "time": "15:00:01",
+          "time": "15:01:21",
           "price": 87.34,
           "previous": 94.11,
           "open": 88.83,
@@ -24940,17 +24940,17 @@
             },
             {
               "time": "15:00",
-              "price": 87.41,
-              "volume": 63357300,
-              "amount": 5632202007
+              "price": 87.34,
+              "volume": 64044200,
+              "amount": 5692196290
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "afc66ba6f0908dce7dbc7674e960fd2a88bb08b705499ba166f04a3cfe93e824",
-      "sourceReceivedAt": "2026-10-30T07:00:03.338Z",
-      "archivedAt": "2026-10-30T07:00:03.659Z",
+      "sourceSHA256": "2cb88b986a396318a3cee87341c9bbba538d595e5b6600bcd2fdf03972fda390",
+      "sourceReceivedAt": "2026-10-30T07:01:28.338Z",
+      "archivedAt": "2026-10-30T07:05:06.787Z",
       "report": "briefings/2026-10-30/post.html",
       "reason": "当日账户已建立，5笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -25144,5 +25144,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-10-30T07:00:03.740Z"
+  "updatedAt": "2026-10-30T07:05:06.864Z"
 }
