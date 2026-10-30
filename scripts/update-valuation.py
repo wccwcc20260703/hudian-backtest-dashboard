@@ -67,7 +67,10 @@ def main():
  p=argparse.ArgumentParser();p.add_argument('--if-due',action='store_true');p.add_argument('--fixture-dir');p.add_argument('--state-dir');a=p.parse_args();now=dt.datetime.now(CN)
  prior=json.loads(OUT.read_text()) if OUT.exists() else {}
  session=now.date().isoformat()+('PM' if now.hour>=15 else 'AM')
- if a.if_due and prior.get('checkedSession')==session:print('valuation unchanged: already checked '+session);return
+ if a.if_due and 15*60<=now.hour*60+now.minute<15*60+5:print('valuation deferred until15:05');return
+ previousCheck=dt.datetime.fromisoformat(prior['updatedAt']).astimezone(CN) if prior.get('updatedAt') else None
+ prematurePM=bool(previousCheck and prior.get('checkedSession')==session and now.hour>=15 and previousCheck.hour*60+previousCheck.minute<15*60+5)
+ if a.if_due and prior.get('checkedSession')==session and not prematurePM:print('valuation unchanged: already checked '+session);return
  state=Path(a.state_dir) if a.state_dir else None
  if state:
   state.mkdir(parents=True,exist_ok=True);attemptFile=state/(session+'.json')
