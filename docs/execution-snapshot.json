@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "date": "2026-10-30",
-  "publishedAt": "2026-10-30T02:20:04.362Z",
+  "publishedAt": "2026-10-30T07:00:03.541Z",
   "category": "模拟成交",
   "accountEstablished": true,
-  "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
+  "message": "10/30 模拟账户已日结 · 5笔已核验模拟成交",
   "fills": [
     {
       "event_id": "2026-10-30:desktop-fill:2540c8171b93:6",
@@ -182,9 +182,9 @@
   "account": {
     "shares": 136800,
     "available": 39300,
-    "cash": -931244.2439352644,
-    "asOf": "2026-10-30T02:20:04.362Z",
+    "cash": -931397.3251808428,
+    "asOf": "2026-10-30T07:00:03.541Z",
     "sourceSession": "2026-10-30",
-    "todayInterestPosted": false
+    "todayInterestPosted": true
   }
 }
