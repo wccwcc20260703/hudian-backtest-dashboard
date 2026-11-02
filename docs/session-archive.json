@@ -25146,14 +25146,14 @@
       "market": {
         "quote": {
           "date": "2026-11-02",
-          "time": "15:00:01",
-          "price": 85.8,
+          "time": "15:08:45",
+          "price": 86.05,
           "previous": 87.34,
           "open": 89,
           "high": 89.3,
           "low": 84.03,
-          "volume": 63082300,
-          "amount": 5424650000,
+          "volume": 63861400,
+          "amount": 5491700000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -26607,17 +26607,17 @@
             },
             {
               "time": "15:00",
-              "price": 85.8,
-              "volume": 63082300,
-              "amount": 5424653969
+              "price": 86.05,
+              "volume": 63861400,
+              "amount": 5491695179.73
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "cab26f2fee84b7e17d905cd0ce8c7e46b96991b81aa6b3a425a0846283c73028",
-      "sourceReceivedAt": "2026-11-02T07:00:03.026Z",
-      "archivedAt": "2026-11-02T07:00:03.322Z",
+      "sourceSHA256": "cac53214b421744d02ee03c9d17c75af7c384c24471792b6033558769aa53135",
+      "sourceReceivedAt": "2026-11-02T07:09:02.937Z",
+      "archivedAt": "2026-11-02T07:14:21.649Z",
       "report": "briefings/2026-11-02/post.html",
       "reason": "当日账户已建立，4笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -26777,5 +26777,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-02T07:00:03.412Z"
+  "updatedAt": "2026-11-02T07:14:21.753Z"
 }
