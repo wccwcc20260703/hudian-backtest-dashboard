@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
   "date": "2026-11-04",
-  "publishedAt": "2026-11-04T01:17:14.306Z",
+  "publishedAt": "2026-11-04T07:01:04.712Z",
   "category": "模拟成交",
   "accountEstablished": true,
-  "message": "11/04 盘前账户已建立\n等待09:30新行情；09:32验收执行",
+  "message": "11/04 模拟账户已日结 · 0笔已核验模拟成交",
   "fills": [],
   "rejectedEvidence": 0,
   "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
   "account": {
     "shares": 189500,
     "available": 189500,
-    "cash": -5413331.263156648,
-    "asOf": "2026-11-04T01:17:14.306Z",
+    "cash": -5414221.125830043,
+    "asOf": "2026-11-04T07:01:04.712Z",
     "sourceSession": "2026-11-04",
-    "todayInterestPosted": false
+    "todayInterestPosted": true
   }
 }
