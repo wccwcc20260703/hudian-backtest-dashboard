@@ -1,18 +1,27 @@
 {
   "schemaVersion": 1,
   "date": "2026-11-06",
-  "publishedAt": "2026-11-06T01:16:08.620Z",
+  "publishedAt": "2026-11-06T03:56:57.614Z",
   "category": "模拟成交",
   "accountEstablished": true,
-  "message": "11/06 盘前账户已建立\n等待09:30新行情；09:32验收执行",
+  "message": "账户执行验收未通过：有效执行记录未推进（最后有效边界 -1；跳过记录不算执行）；冻结计划首次检查已错过，不补造历史成交或延长窗口",
   "fills": [],
   "rejectedEvidence": 0,
   "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
+  "acceptance": {
+    "passed": false,
+    "scope": "execution_progress",
+    "lastExecutedBar": -1,
+    "failures": [
+      "有效执行记录未推进（最后有效边界 -1；跳过记录不算执行）",
+      "冻结计划首次检查已错过，不补造历史成交或延长窗口"
+    ]
+  },
   "account": {
     "shares": 61100,
     "available": 61100,
     "cash": 5017850.873917766,
-    "asOf": "2026-11-06T01:16:08.620Z",
+    "asOf": "2026-11-06T03:56:57.614Z",
     "sourceSession": "2026-11-06",
     "todayInterestPosted": false
   }
