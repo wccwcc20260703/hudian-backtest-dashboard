@@ -32866,7 +32866,7 @@
       "market": {
         "quote": {
           "date": "2026-11-09",
-          "time": "15:00:01",
+          "time": "15:03:54",
           "price": 77.1,
           "previous": 73.21,
           "open": 74.49,
@@ -34335,9 +34335,9 @@
         }
       },
       "status": "market_only",
-      "sourceSHA256": "c72bb840bfaa192a3ecbdefbc5dad4ff2dd9d2248f1d5acf7d6e8c25ebe0be6b",
-      "sourceReceivedAt": "2026-11-09T07:01:02.098Z",
-      "archivedAt": "2026-11-09T07:01:02.435Z",
+      "sourceSHA256": "43d253afeb7e94ac73f316bf5d32ba961b2ec4608815cf9256fdc80258a2e96f:ddac1fea9a116a77ccc2c0e5bce07c576f8c311fbae81b9f49f13e6486d7d9fc",
+      "sourceReceivedAt": "2026-11-09T15:04:31.757802+08:00",
+      "archivedAt": "2026-11-09T07:05:03.272Z",
       "report": "briefings/2026-11-09/post.html",
       "reason": "当日账户已建立，4笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -34345,7 +34345,7 @@
         "date": "2026-11-09",
         "category": "模拟成交",
         "accountEstablished": true,
-        "message": "账户执行验收未通过：当日模拟账户尚未完成日结",
+        "message": "11/09 模拟账户已日结 · 4笔已核验模拟成交",
         "fills": [
           {
             "event_id": "2026-11-09:desktop-fill:6f29e1ea17a0:6",
@@ -34487,12 +34487,10 @@
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
         "acceptance": {
-          "passed": false,
+          "passed": true,
           "scope": "close_audit",
           "lastExecutedBar": 47,
-          "failures": [
-            "当日模拟账户尚未完成日结"
-          ]
+          "failures": []
         },
         "account": {
           "shares": 190000,
@@ -34505,5 +34503,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-09T07:01:02.554Z"
+  "updatedAt": "2026-11-09T07:05:03.350Z"
 }
