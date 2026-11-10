@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "date": "2026-11-10",
-  "publishedAt": "2026-11-10T07:05:03.783Z",
+  "publishedAt": "2026-11-10T10:11:31.634Z",
   "category": "模拟成交",
   "accountEstablished": true,
   "message": "账户执行验收未通过：行情连接与熔断：熔断：minutes；有效执行记录未推进（最后有效边界 4；跳过记录不算执行）；当日模拟账户尚未完成日结；收盘前账户执行检查存在缺口（最后边界 4），不能视为全天执行恢复",
@@ -91,9 +91,9 @@
   "account": {
     "shares": 118300,
     "available": 118300,
-    "cash": 908990.3010616587,
-    "asOf": "2026-11-10T07:05:03.783Z",
+    "cash": 908171.6620168672,
+    "asOf": "2026-11-10T10:11:31.634Z",
     "sourceSession": "2026-11-10",
-    "todayInterestPosted": false
+    "todayInterestPosted": true
   }
 }
