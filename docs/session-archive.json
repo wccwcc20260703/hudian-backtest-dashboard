@@ -1483,7 +1483,7 @@
         "date": "2026-10-09",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/09 未建立实时账户\n11/10 基线已准备，待盘前复核",
+        "message": "10/09 未建立实时账户\n11/11 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -2972,7 +2972,7 @@
         "date": "2026-10-12",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/12 未建立实时账户\n11/10 基线已准备，待盘前复核",
+        "message": "10/12 未建立实时账户\n11/11 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -4461,7 +4461,7 @@
         "date": "2026-10-16",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/16 未建立实时账户\n11/10 基线已准备，待盘前复核",
+        "message": "10/16 未建立实时账户\n11/11 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -9113,7 +9113,7 @@
         "date": "2026-10-15",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/15 未建立实时账户\n11/10 基线已准备，待盘前复核",
+        "message": "10/15 未建立实时账户\n11/11 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -35978,7 +35978,7 @@
         "date": "2026-11-10",
         "category": "模拟成交",
         "accountEstablished": true,
-        "message": "账户执行验收未通过：有效执行记录未推进（最后有效边界 4；跳过记录不算执行）；收盘前账户执行检查存在缺口（最后边界 4），不能视为全天执行恢复",
+        "message": "11/10 模拟账户已日结（盘后补结） · 2笔已核验模拟成交",
         "fills": [
           {
             "event_id": "2026-11-10:desktop-fill:ed71296b3c79:3",
@@ -36051,15 +36051,6 @@
         ],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
-        "acceptance": {
-          "passed": false,
-          "scope": "close_audit",
-          "lastExecutedBar": 4,
-          "failures": [
-            "有效执行记录未推进（最后有效边界 4；跳过记录不算执行）",
-            "收盘前账户执行检查存在缺口（最后边界 4），不能视为全天执行恢复"
-          ]
-        },
         "account": {
           "shares": 118300,
           "available": 118300,
@@ -36071,5 +36062,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-10T10:14:49.593Z"
+  "updatedAt": "2026-11-11T01:15:03.927Z"
 }
