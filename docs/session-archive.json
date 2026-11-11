@@ -36064,14 +36064,14 @@
       "market": {
         "quote": {
           "date": "2026-11-11",
-          "time": "09:50:00",
-          "price": 85.96,
+          "time": "09:55:03",
+          "price": 85.5,
           "previous": 81.3,
           "open": 81.3,
-          "high": 86,
+          "high": 86.2,
           "low": 81.07,
-          "volume": 21861100,
-          "amount": 1835290000,
+          "volume": 25707400,
+          "amount": 2165270000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -36205,19 +36205,49 @@
             },
             {
               "time": "09:51",
-              "price": 85.91,
-              "volume": 21861100,
-              "amount": 1835286257
+              "price": 86.09,
+              "volume": 22971700,
+              "amount": 1930788621.21
+            },
+            {
+              "time": "09:52",
+              "price": 85.51,
+              "volume": 23748900,
+              "amount": 1997492935.03
+            },
+            {
+              "time": "09:53",
+              "price": 85.76,
+              "volume": 24296500,
+              "amount": 2044372544.45
+            },
+            {
+              "time": "09:54",
+              "price": 85.77,
+              "volume": 24880100,
+              "amount": 2094498703.02
+            },
+            {
+              "time": "09:55",
+              "price": 85.5,
+              "volume": 25623000,
+              "amount": 2158060579.58
+            },
+            {
+              "time": "09:56",
+              "price": 85.5,
+              "volume": 25641000,
+              "amount": 2159597901
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "ff153596eb82ab03ef1c383655483f8ad4cd5f0b48631928c6cfe18eebdc9d73",
-      "sourceReceivedAt": "2026-11-11T01:50:05.671Z",
-      "archivedAt": "2026-11-11T01:50:06.023Z",
+      "sourceSHA256": "0192020eed2f7322d1a04cd3a8410176a18a09df25202a994934b57b1666358e",
+      "sourceReceivedAt": "2026-11-11T01:55:05.710Z",
+      "archivedAt": "2026-11-11T01:55:06.037Z",
       "report": "briefings/2026-11-11/post.html",
-      "reason": "当日账户已建立，2笔有原始凭据的模拟成交；历史记录，非实时提醒。",
+      "reason": "当日账户已建立，3笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
         "schemaVersion": 1,
         "date": "2026-11-11",
@@ -36292,6 +36322,40 @@
                 "行情源时间 2026-11-11 09:50:00；凭据接收时间 2026-11-11T01:50:05.675Z。解释依据原始成交凭据，不用收盘后走势判断当时买卖正确与否；非真实交易。"
               ]
             }
+          },
+          {
+            "event_id": "2026-11-11:desktop-fill:e603ee4a5aa3:5",
+            "side": "sell",
+            "quantity": 17600,
+            "price": 85.45,
+            "fill_time": "2026-11-11T09:55:03+08:00",
+            "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+            "reason": "D策略目标仓位调整至0%；实时快照加滑点的模拟成交，不是真实交易",
+            "fee": 917.3912,
+            "positionResult": {
+              "basis": "fill-price-after-fees-v1",
+              "markPrice": 85.45,
+              "beforeShares": 17600,
+              "afterShares": 0,
+              "shareChangePct": 100,
+              "beforeWeightPct": 13.681401045443033,
+              "afterWeightPct": 0,
+              "changePoints": -13.681401045443033
+            },
+            "explanation": {
+              "version": "fill-explanation-v1",
+              "basis": "frozen-plan-and-original-fill-proof",
+              "lines": [
+                "指标截至 2026-11-10：RSI(2)=69.38；正式披露净利润同比=107.26%（公告日期 2026-10-28）。",
+                "触发 RSI>60 或净利润同比≤0；D基础目标 0.00%，既有融资映射后冻结目标 0.00%。",
+                "09:55 为原目标未完成后的分批检查；窗口截止 10:05。",
+                "买卖条件：当时报价 ¥85.50，成交前净资产 ¥10,993,321.45，仓位 13.69%；执行目标 0.00%，差距 13.69 个百分点 > 容差 3.50；因此卖出降低仓位。",
+                "数量依据：目标 0 股，差额 17,600 股；前五分钟已观测 3,761,900 股，1%整手上限 37,600 股；T+1可卖老仓 17,600 股；实际卖 17,600 股。",
+                "价格约束：参考昨收 ¥81.30，模型涨跌停界限 ¥73.17—89.43；报价加负向 5.00 基点滑点并按分取整，模拟价 ¥85.45；费用 ¥917.39。",
+                "卖出使用已有可卖股份；剩余可卖 0 股。",
+                "行情源时间 2026-11-11 09:55:03；凭据接收时间 2026-11-11T01:55:05.715Z。解释依据原始成交凭据，不用收盘后走势判断当时买卖正确与否；非真实交易。"
+              ]
+            }
           }
         ],
         "rejectedEvidence": 0,
@@ -36299,13 +36363,13 @@
         "acceptance": {
           "passed": true,
           "scope": "execution_progress",
-          "lastExecutedBar": 3,
+          "lastExecutedBar": 4,
           "failures": []
         },
         "account": {
-          "shares": 17600,
-          "available": 17600,
-          "cash": 9488521.453946866,
+          "shares": 0,
+          "available": 0,
+          "cash": 10991524.062746866,
           "sourceSession": "2026-11-11",
           "todayInterestPosted": false
         }
@@ -36313,5 +36377,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-11T01:50:06.177Z"
+  "updatedAt": "2026-11-11T01:55:06.178Z"
 }
