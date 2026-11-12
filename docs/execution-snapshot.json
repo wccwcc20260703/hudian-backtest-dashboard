@@ -1,26 +1,24 @@
 {
   "schemaVersion": 1,
   "date": "2026-11-12",
-  "publishedAt": "2026-11-12T07:01:03.801Z",
+  "publishedAt": "2026-11-12T07:05:04.661Z",
   "category": "模拟成交",
   "accountEstablished": true,
-  "message": "账户执行验收未通过：当日模拟账户尚未完成日结",
+  "message": "11/12 模拟账户已日结 · 0笔已核验模拟成交",
   "fills": [],
   "rejectedEvidence": 0,
   "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
   "acceptance": {
-    "passed": false,
+    "passed": true,
     "scope": "close_audit",
     "lastExecutedBar": 47,
-    "failures": [
-      "当日模拟账户尚未完成日结"
-    ]
+    "failures": []
   },
   "account": {
     "shares": 0,
     "available": 0,
     "cash": 10991524.062746866,
-    "asOf": "2026-11-12T07:01:03.801Z",
+    "asOf": "2026-11-12T07:05:04.661Z",
     "sourceSession": "2026-11-12",
     "todayInterestPosted": true
   }
