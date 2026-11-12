@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "date": "2026-11-12",
-  "publishedAt": "2026-11-12T07:05:04.661Z",
+  "publishedAt": "2026-11-12T07:06:24.916Z",
   "category": "模拟成交",
   "accountEstablished": true,
   "message": "11/12 模拟账户已日结 · 0笔已核验模拟成交",
@@ -18,7 +18,7 @@
     "shares": 0,
     "available": 0,
     "cash": 10991524.062746866,
-    "asOf": "2026-11-12T07:05:04.661Z",
+    "asOf": "2026-11-12T07:06:24.916Z",
     "sourceSession": "2026-11-12",
     "todayInterestPosted": true
   }
