@@ -39146,12 +39146,6 @@
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
-        "acceptance": {
-          "passed": true,
-          "scope": "close_audit",
-          "lastExecutedBar": 47,
-          "failures": []
-        },
         "account": {
           "shares": 0,
           "available": 0,
@@ -39163,5 +39157,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-12T07:05:04.919Z"
+  "updatedAt": "2026-11-13T11:10:40.693Z"
 }
