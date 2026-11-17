@@ -40650,8 +40650,115 @@
           "todayInterestPosted": true
         }
       }
+    },
+    "2026-11-17": {
+      "market": {
+        "quote": {
+          "date": "2026-11-17",
+          "time": "09:37:06",
+          "price": 74.07,
+          "previous": 73.98,
+          "open": 73.98,
+          "high": 74.41,
+          "low": 72.98,
+          "volume": 10083100,
+          "amount": 744400000,
+          "source": "腾讯行情"
+        },
+        "minutes": {
+          "date": "2026-11-17",
+          "points": [
+            {
+              "time": "09:30",
+              "price": 73.98,
+              "volume": 667000,
+              "amount": 49344660
+            },
+            {
+              "time": "09:31",
+              "price": 73.31,
+              "volume": 3025400,
+              "amount": 222584685.73
+            },
+            {
+              "time": "09:32",
+              "price": 74.19,
+              "volume": 4507100,
+              "amount": 332137946.01
+            },
+            {
+              "time": "09:33",
+              "price": 73.71,
+              "volume": 5794000,
+              "amount": 427492355.1
+            },
+            {
+              "time": "09:34",
+              "price": 73.65,
+              "volume": 6905600,
+              "amount": 509246185.32
+            },
+            {
+              "time": "09:35",
+              "price": 74.1,
+              "volume": 7832500,
+              "amount": 577831698.17
+            },
+            {
+              "time": "09:36",
+              "price": 73.66,
+              "volume": 9104200,
+              "amount": 672018423.97
+            },
+            {
+              "time": "09:37",
+              "price": 73.91,
+              "volume": 9962400,
+              "amount": 735472135.92
+            },
+            {
+              "time": "09:38",
+              "price": 74.12,
+              "volume": 10110900,
+              "amount": 746457301
+            }
+          ]
+        }
+      },
+      "status": "market_only",
+      "sourceSHA256": "842650b3a5a2b0189a270f7a347a7ab686c24da352960fa1e372f9330bda88e4",
+      "sourceReceivedAt": "2026-11-17T01:37:12.657Z",
+      "archivedAt": "2026-11-17T01:37:17.709Z",
+      "report": "briefings/2026-11-17/post.html",
+      "reason": "当日账户已建立，0笔有原始凭据的模拟成交；历史记录，非实时提醒。",
+      "execution": {
+        "schemaVersion": 1,
+        "date": "2026-11-17",
+        "category": "模拟成交",
+        "accountEstablished": true,
+        "message": "账户执行验收未通过：个股报价、分钟量额与源时钟：报价20秒、分钟90秒及实际接收时效；旧盘前/午休数据不能冒充当前；有效执行记录未推进（最后有效边界 -1；跳过记录不算执行）",
+        "fills": [],
+        "rejectedEvidence": 0,
+        "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
+        "acceptance": {
+          "passed": false,
+          "scope": "execution_progress",
+          "lastExecutedBar": -1,
+          "failures": [
+            "个股报价、分钟量额与源时钟：报价20秒、分钟90秒及实际接收时效；旧盘前/午休数据不能冒充当前",
+            "有效执行记录未推进（最后有效边界 -1；跳过记录不算执行）"
+          ]
+        },
+        "account": {
+          "shares": 0,
+          "available": 0,
+          "cash": 10991524.062746866,
+          "sourceSession": "2026-11-17",
+          "todayInterestPosted": false
+        }
+      }
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-17T01:15:32.533Z"
+  "updatedAt": "2026-11-17T01:37:17.861Z"
 }
