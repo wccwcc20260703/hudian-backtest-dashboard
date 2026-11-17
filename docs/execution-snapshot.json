@@ -1,26 +1,29 @@
 {
   "schemaVersion": 1,
   "date": "2026-11-17",
-  "publishedAt": "2026-11-17T02:16:36.987Z",
+  "publishedAt": "2026-11-17T07:07:04.298Z",
   "category": "模拟成交",
   "accountEstablished": true,
-  "message": "账户执行验收未通过：冻结计划首次检查已错过，不补造历史成交或延长窗口",
+  "message": "账户执行验收未通过：有效执行记录未推进（最后有效边界 23；跳过记录不算执行）；冻结计划首次检查已错过，不补造历史成交或延长窗口；当日模拟账户尚未完成日结；收盘前账户执行检查存在缺口（最后边界 46），不能视为全天执行恢复",
   "fills": [],
   "rejectedEvidence": 0,
   "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
   "acceptance": {
     "passed": false,
-    "scope": "execution_progress",
-    "lastExecutedBar": 9,
+    "scope": "close_audit",
+    "lastExecutedBar": 23,
     "failures": [
-      "冻结计划首次检查已错过，不补造历史成交或延长窗口"
+      "有效执行记录未推进（最后有效边界 23；跳过记录不算执行）",
+      "冻结计划首次检查已错过，不补造历史成交或延长窗口",
+      "当日模拟账户尚未完成日结",
+      "收盘前账户执行检查存在缺口（最后边界 46），不能视为全天执行恢复"
     ]
   },
   "account": {
     "shares": 0,
     "available": 0,
     "cash": 10991524.062746866,
-    "asOf": "2026-11-17T02:16:36.987Z",
+    "asOf": "2026-11-17T07:07:04.298Z",
     "sourceSession": "2026-11-17",
     "todayInterestPosted": false
   }
