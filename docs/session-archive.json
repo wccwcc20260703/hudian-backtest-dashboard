@@ -40655,14 +40655,14 @@
       "market": {
         "quote": {
           "date": "2026-11-17",
-          "time": "10:15:45",
-          "price": 75.28,
+          "time": "10:16:30",
+          "price": 75.34,
           "previous": 73.98,
           "open": 73.98,
           "high": 76.43,
           "low": 72.98,
-          "volume": 31941900,
-          "amount": 2374820000,
+          "volume": 32169600,
+          "amount": 2391960000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -40946,17 +40946,23 @@
             },
             {
               "time": "10:16",
-              "price": 75.28,
-              "volume": 31905300,
-              "amount": 2372060444
+              "price": 75.35,
+              "volume": 32003100,
+              "amount": 2379428452.29
+            },
+            {
+              "time": "10:17",
+              "price": 75.34,
+              "volume": 32169600,
+              "amount": 2391960664
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "6696d955ae4bfcbb3f3a34a3b9f6e9f5af84ff2171bb35f2be42adbc2a340ab5",
-      "sourceReceivedAt": "2026-11-17T02:15:48.061Z",
-      "archivedAt": "2026-11-17T02:15:48.879Z",
+      "sourceSHA256": "b704c98a1afe3dde4d3348528180ac47a5a614a41a38b45710ea90d4d64f0c58",
+      "sourceReceivedAt": "2026-11-17T02:16:33.040Z",
+      "archivedAt": "2026-11-17T02:16:37.065Z",
       "report": "briefings/2026-11-17/post.html",
       "reason": "当日账户已建立，0笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -40964,16 +40970,15 @@
         "date": "2026-11-17",
         "category": "模拟成交",
         "accountEstablished": true,
-        "message": "账户执行验收未通过：有效执行记录未推进（最后有效边界 -1；跳过记录不算执行）；冻结计划首次检查已错过，不补造历史成交或延长窗口",
+        "message": "账户执行验收未通过：冻结计划首次检查已错过，不补造历史成交或延长窗口",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
         "acceptance": {
           "passed": false,
           "scope": "execution_progress",
-          "lastExecutedBar": -1,
+          "lastExecutedBar": 9,
           "failures": [
-            "有效执行记录未推进（最后有效边界 -1；跳过记录不算执行）",
             "冻结计划首次检查已错过，不补造历史成交或延长窗口"
           ]
         },
@@ -40988,5 +40993,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-17T02:15:49.048Z"
+  "updatedAt": "2026-11-17T02:16:37.209Z"
 }
