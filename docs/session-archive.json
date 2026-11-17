@@ -40655,14 +40655,14 @@
       "market": {
         "quote": {
           "date": "2026-11-17",
-          "time": "10:10:21",
-          "price": 75.92,
+          "time": "10:15:45",
+          "price": 75.28,
           "previous": 73.98,
           "open": 73.98,
-          "high": 76.1,
+          "high": 76.43,
           "low": 72.98,
-          "volume": 29224000,
-          "amount": 2168770000,
+          "volume": 31941900,
+          "amount": 2374820000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -40916,17 +40916,47 @@
             },
             {
               "time": "10:11",
-              "price": 75.92,
-              "volume": 29224000,
-              "amount": 2168768012
+              "price": 76.33,
+              "volume": 29520700,
+              "amount": 2191343706.45
+            },
+            {
+              "time": "10:12",
+              "price": 75.84,
+              "volume": 30702600,
+              "amount": 2281292065.98
+            },
+            {
+              "time": "10:13",
+              "price": 75.63,
+              "volume": 31119700,
+              "amount": 2312869289.9
+            },
+            {
+              "time": "10:14",
+              "price": 75.38,
+              "volume": 31394900,
+              "amount": 2333634054.39
+            },
+            {
+              "time": "10:15",
+              "price": 75.22,
+              "volume": 31660500,
+              "amount": 2353637811.79
+            },
+            {
+              "time": "10:16",
+              "price": 75.28,
+              "volume": 31905300,
+              "amount": 2372060444
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "f5656ff6b1d55a3241123b8fad3a2043ceecd289b583cc5d0c3eb458881173c3",
-      "sourceReceivedAt": "2026-11-17T02:10:22.992Z",
-      "archivedAt": "2026-11-17T02:10:24.634Z",
+      "sourceSHA256": "6696d955ae4bfcbb3f3a34a3b9f6e9f5af84ff2171bb35f2be42adbc2a340ab5",
+      "sourceReceivedAt": "2026-11-17T02:15:48.061Z",
+      "archivedAt": "2026-11-17T02:15:48.879Z",
       "report": "briefings/2026-11-17/post.html",
       "reason": "当日账户已建立，0笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -40958,5 +40988,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-17T02:10:24.773Z"
+  "updatedAt": "2026-11-17T02:15:49.048Z"
 }
