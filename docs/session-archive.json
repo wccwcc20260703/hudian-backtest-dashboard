@@ -1483,7 +1483,7 @@
         "date": "2026-10-09",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/09 未建立实时账户\n11/16 基线已准备，待盘前复核",
+        "message": "10/09 未建立实时账户\n11/17 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -2972,7 +2972,7 @@
         "date": "2026-10-12",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/12 未建立实时账户\n11/16 基线已准备，待盘前复核",
+        "message": "10/12 未建立实时账户\n11/17 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -4461,7 +4461,7 @@
         "date": "2026-10-16",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/16 未建立实时账户\n11/16 基线已准备，待盘前复核",
+        "message": "10/16 未建立实时账户\n11/17 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -9113,7 +9113,7 @@
         "date": "2026-10-15",
         "category": "模拟成交",
         "accountEstablished": false,
-        "message": "10/15 未建立实时账户\n11/16 基线已准备，待盘前复核",
+        "message": "10/15 未建立实时账户\n11/17 基线已准备，待盘前复核",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。"
@@ -39159,7 +39159,7 @@
       "market": {
         "quote": {
           "date": "2026-11-16",
-          "time": "15:00:01",
+          "time": "16:14:36",
           "price": 73.98,
           "previous": 82.2,
           "open": 79.8,
@@ -40622,15 +40622,15 @@
               "time": "15:00",
               "price": 73.98,
               "volume": 83912200,
-              "amount": 6444396567
+              "amount": 6444400407.3
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "c67c9bec8049eff1c30f48bebd1a92714b321d0b3e97aa34c0bbb1c9d8a0c048",
-      "sourceReceivedAt": "2026-11-16T07:01:01.246Z",
-      "archivedAt": "2026-11-16T07:01:01.702Z",
+      "sourceSHA256": "147fd96bdf158b6253a37e0eb8f43f2d9c0dab588a986aa03b16857eb41b4d57",
+      "sourceReceivedAt": "2026-11-16T15:05:15.058Z",
+      "archivedAt": "2026-11-17T01:15:32.335Z",
       "report": "briefings/2026-11-16/post.html",
       "reason": "当日账户已建立，0笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -40638,18 +40638,10 @@
         "date": "2026-11-16",
         "category": "模拟成交",
         "accountEstablished": true,
-        "message": "账户执行验收未通过：冻结计划首次检查已错过，不补造历史成交或延长窗口",
+        "message": "11/16 模拟账户已日结 · 0笔已核验模拟成交",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
-        "acceptance": {
-          "passed": false,
-          "scope": "close_audit",
-          "lastExecutedBar": 47,
-          "failures": [
-            "冻结计划首次检查已错过，不补造历史成交或延长窗口"
-          ]
-        },
         "account": {
           "shares": 0,
           "available": 0,
@@ -40661,5 +40653,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-16T07:05:03.020Z"
+  "updatedAt": "2026-11-17T01:15:32.533Z"
 }
