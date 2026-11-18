@@ -42151,7 +42151,7 @@
       "market": {
         "quote": {
           "date": "2026-11-18",
-          "time": "15:00:01",
+          "time": "15:01:03",
           "price": 80.19,
           "previous": 72.9,
           "open": 76.3,
@@ -43620,9 +43620,9 @@
         }
       },
       "status": "market_only",
-      "sourceSHA256": "8dd91e627a9c949b942f9e77e07cc5926b8adcadec8e020e3e0ad289995bbbfd",
-      "sourceReceivedAt": "2026-11-18T07:01:03.436Z",
-      "archivedAt": "2026-11-18T07:01:03.767Z",
+      "sourceSHA256": "e1615ca54df1a0a2596daf7190f2db77b4ab98cad3ece75b424bb63bf48dcf42",
+      "sourceReceivedAt": "2026-11-18T07:01:28.436Z",
+      "archivedAt": "2026-11-18T07:05:04.744Z",
       "report": "briefings/2026-11-18/post.html",
       "reason": "当日账户已建立，5笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -43630,7 +43630,7 @@
         "date": "2026-11-18",
         "category": "模拟成交",
         "accountEstablished": true,
-        "message": "账户执行验收未通过：当日模拟账户尚未完成日结",
+        "message": "11/18 模拟账户已日结 · 5笔已核验模拟成交",
         "fills": [
           {
             "event_id": "2026-11-18:desktop-fill:811156d08f3a:6",
@@ -43806,12 +43806,10 @@
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
         "acceptance": {
-          "passed": false,
+          "passed": true,
           "scope": "close_audit",
           "lastExecutedBar": 47,
-          "failures": [
-            "当日模拟账户尚未完成日结"
-          ]
+          "failures": []
         },
         "account": {
           "shares": 135800,
@@ -43824,5 +43822,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-18T07:01:03.910Z"
+  "updatedAt": "2026-11-18T07:05:04.900Z"
 }
