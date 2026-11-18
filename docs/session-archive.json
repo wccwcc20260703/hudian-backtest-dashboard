@@ -42151,14 +42151,14 @@
       "market": {
         "quote": {
           "date": "2026-11-18",
-          "time": "10:05:00",
-          "price": 76.27,
+          "time": "10:06:00",
+          "price": 76.54,
           "previous": 72.9,
           "open": 76.3,
           "high": 77.5,
           "low": 75.89,
-          "volume": 35732900,
-          "amount": 2739190000,
+          "volume": 36095500,
+          "amount": 2766890000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -42376,23 +42376,29 @@
             },
             {
               "time": "10:05",
-              "price": 76.3,
-              "volume": 35604600,
-              "amount": 2729407243.42
+              "price": 76.26,
+              "volume": 35724800,
+              "amount": 2738573167.38
             },
             {
               "time": "10:06",
-              "price": 76.27,
-              "volume": 35732900,
-              "amount": 2739188337
+              "price": 76.48,
+              "volume": 36018300,
+              "amount": 2760985443.3
+            },
+            {
+              "time": "10:07",
+              "price": 76.54,
+              "volume": 36095500,
+              "amount": 2766887796
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "81966c19b8ff6e979d55bd53d87211a98dabfc25a80fa233b029288e175b5386",
-      "sourceReceivedAt": "2026-11-18T02:05:03.156Z",
-      "archivedAt": "2026-11-18T02:05:03.512Z",
+      "sourceSHA256": "38bf607b17b9f05d7390e08a8f96a46cf036f725eed7e599cc99d8dac11bab5b",
+      "sourceReceivedAt": "2026-11-18T02:06:03.150Z",
+      "archivedAt": "2026-11-18T02:06:04.862Z",
       "report": "briefings/2026-11-18/post.html",
       "reason": "当日账户已建立，2笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -42476,7 +42482,7 @@
         "acceptance": {
           "passed": true,
           "scope": "execution_progress",
-          "lastExecutedBar": 6,
+          "lastExecutedBar": 7,
           "failures": []
         },
         "account": {
@@ -42490,5 +42496,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-18T02:05:03.652Z"
+  "updatedAt": "2026-11-18T02:06:04.994Z"
 }
