@@ -42151,14 +42151,14 @@
       "market": {
         "quote": {
           "date": "2026-11-18",
-          "time": "10:10:00",
-          "price": 76.36,
+          "time": "10:11:00",
+          "price": 76.69,
           "previous": 72.9,
           "open": 76.3,
           "high": 77.5,
           "low": 75.89,
-          "volume": 37053000,
-          "amount": 2839840000,
+          "volume": 37364800,
+          "amount": 2863690000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -42406,17 +42406,29 @@
             },
             {
               "time": "10:10",
-              "price": 76.36,
+              "price": 76.33,
               "volume": 37051200,
-              "amount": 2839707352
+              "amount": 2839709804.91
+            },
+            {
+              "time": "10:11",
+              "price": 76.45,
+              "volume": 37199300,
+              "amount": 2851023104.88
+            },
+            {
+              "time": "10:12",
+              "price": 76.69,
+              "volume": 37364800,
+              "amount": 2863685630
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "0c6ff2bfa6d2a96eb6339cac7e23c09def02f5e92ff4ebb7ecc816eb972fb32b",
-      "sourceReceivedAt": "2026-11-18T02:10:03.228Z",
-      "archivedAt": "2026-11-18T02:10:03.557Z",
+      "sourceSHA256": "561e11494fb679b63990220db327e9fced14037d97add4e630560502c5c3c3e7",
+      "sourceReceivedAt": "2026-11-18T02:11:03.278Z",
+      "archivedAt": "2026-11-18T02:11:04.358Z",
       "report": "briefings/2026-11-18/post.html",
       "reason": "当日账户已建立，3笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -42534,7 +42546,7 @@
         "acceptance": {
           "passed": true,
           "scope": "execution_progress",
-          "lastExecutedBar": 7,
+          "lastExecutedBar": 8,
           "failures": []
         },
         "account": {
@@ -42548,5 +42560,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-18T02:10:03.699Z"
+  "updatedAt": "2026-11-18T02:11:04.494Z"
 }
