@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "date": "2026-11-19",
-  "publishedAt": "2026-11-19T01:45:02.212Z",
+  "publishedAt": "2026-11-19T01:50:02.307Z",
   "category": "模拟成交",
   "accountEstablished": true,
   "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
@@ -39,6 +39,40 @@
           "行情源时间 2026-11-19 09:45:00；凭据接收时间 2026-11-19T01:45:01.998Z。解释依据原始成交凭据，不用收盘后走势判断当时买卖正确与否；非真实交易。"
         ]
       }
+    },
+    {
+      "event_id": "2026-11-19:desktop-fill:5f0bb31d1524:4",
+      "side": "sell",
+      "quantity": 52800,
+      "price": 80.22,
+      "fill_time": "2026-11-19T09:50:00+08:00",
+      "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+      "reason": "D策略目标仓位调整至0%；实时快照加滑点的模拟成交，不是真实交易",
+      "fee": 2583.7257600000003,
+      "positionResult": {
+        "basis": "fill-price-after-fees-v1",
+        "markPrice": 80.22,
+        "beforeShares": 104800,
+        "afterShares": 52000,
+        "shareChangePct": 50.38167938931297,
+        "beforeWeightPct": 73.71436189988792,
+        "afterWeightPct": 36.58411637423556,
+        "changePoints": -37.13024552565235
+      },
+      "explanation": {
+        "version": "fill-explanation-v1",
+        "basis": "frozen-plan-and-original-fill-proof",
+        "lines": [
+          "指标截至 2026-11-18：RSI(2)=67.25；正式披露净利润同比=107.26%（公告日期 2026-10-28）。",
+          "触发 RSI>60 或净利润同比≤0；D基础目标 0.00%，既有融资映射后冻结目标 0.00%。",
+          "09:50 为原目标未完成后的分批检查；窗口截止 10:05。",
+          "买卖条件：当时报价 ¥80.27，成交前净资产 ¥11,410,149.14，仓位 73.73%；执行目标 0.00%，差距 73.73 个百分点 > 容差 3.50；因此卖出降低仓位。",
+          "数量依据：目标 0 股，差额 104,800 股；前五分钟已观测 5,289,900 股，1%整手上限 52,800 股；T+1可卖老仓 104,800 股；实际卖 52,800 股。",
+          "价格约束：参考昨收 ¥80.19，模型涨跌停界限 ¥72.17—88.21；报价加负向 5.00 基点滑点并按分取整，模拟价 ¥80.22；费用 ¥2,583.73。",
+          "卖出使用已有可卖股份；剩余可卖 52,000 股。",
+          "行情源时间 2026-11-19 09:50:00；凭据接收时间 2026-11-19T01:50:02.062Z。解释依据原始成交凭据，不用收盘后走势判断当时买卖正确与否；非真实交易。"
+        ]
+      }
     }
   ],
   "rejectedEvidence": 0,
@@ -46,14 +80,14 @@
   "acceptance": {
     "passed": true,
     "scope": "execution_progress",
-    "lastExecutedBar": 2,
+    "lastExecutedBar": 3,
     "failures": []
   },
   "account": {
-    "shares": 104800,
-    "available": 104800,
-    "cash": 2997853.142966865,
-    "asOf": "2026-11-19T01:45:02.212Z",
+    "shares": 52000,
+    "available": 52000,
+    "cash": 7230885.417206865,
+    "asOf": "2026-11-19T01:50:02.307Z",
     "sourceSession": "2026-11-19",
     "todayInterestPosted": false
   }
