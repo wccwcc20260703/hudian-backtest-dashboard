@@ -43813,8 +43813,189 @@
           "todayInterestPosted": true
         }
       }
+    },
+    "2026-11-19": {
+      "market": {
+        "quote": {
+          "date": "2026-11-19",
+          "time": "09:45:00",
+          "price": 78.62,
+          "previous": 80.19,
+          "open": 77.21,
+          "high": 79.2,
+          "low": 77,
+          "volume": 18474000,
+          "amount": 1441680000,
+          "source": "腾讯行情"
+        },
+        "minutes": {
+          "date": "2026-11-19",
+          "points": [
+            {
+              "time": "09:30",
+              "price": 77.21,
+              "volume": 1014100,
+              "amount": 78298661
+            },
+            {
+              "time": "09:31",
+              "price": 77.52,
+              "volume": 4319300,
+              "amount": 333795446.26
+            },
+            {
+              "time": "09:32",
+              "price": 77.91,
+              "volume": 5645100,
+              "amount": 436708036.65
+            },
+            {
+              "time": "09:33",
+              "price": 77.88,
+              "volume": 6796200,
+              "amount": 526378096.47
+            },
+            {
+              "time": "09:34",
+              "price": 77.6,
+              "volume": 7841700,
+              "amount": 607509313.43
+            },
+            {
+              "time": "09:35",
+              "price": 77.88,
+              "volume": 9006900,
+              "amount": 697992146.38
+            },
+            {
+              "time": "09:36",
+              "price": 78.69,
+              "volume": 10683500,
+              "amount": 829124197.27
+            },
+            {
+              "time": "09:37",
+              "price": 78.43,
+              "volume": 12203500,
+              "amount": 949024429.67
+            },
+            {
+              "time": "09:38",
+              "price": 78.73,
+              "volume": 13157100,
+              "amount": 1023803837.51
+            },
+            {
+              "time": "09:39",
+              "price": 78.85,
+              "volume": 14183700,
+              "amount": 1104724711.36
+            },
+            {
+              "time": "09:40",
+              "price": 78.59,
+              "volume": 15303300,
+              "amount": 1192865539.75
+            },
+            {
+              "time": "09:41",
+              "price": 78.49,
+              "volume": 16021300,
+              "amount": 1249098765.4
+            },
+            {
+              "time": "09:42",
+              "price": 78.8,
+              "volume": 16460000,
+              "amount": 1283498238.87
+            },
+            {
+              "time": "09:43",
+              "price": 78.79,
+              "volume": 17059500,
+              "amount": 1330736871.99
+            },
+            {
+              "time": "09:44",
+              "price": 78.26,
+              "volume": 17957800,
+              "amount": 1401179838.79
+            },
+            {
+              "time": "09:45",
+              "price": 78.65,
+              "volume": 18468200,
+              "amount": 1441225906
+            }
+          ]
+        }
+      },
+      "status": "market_only",
+      "sourceSHA256": "e3d3c18a22757449a752ca7432f7c6a1b77d0e946d4187d5dc62ed78b9331988",
+      "sourceReceivedAt": "2026-11-19T01:45:01.992Z",
+      "archivedAt": "2026-11-19T01:45:02.340Z",
+      "report": "briefings/2026-11-19/post.html",
+      "reason": "当日账户已建立，1笔有原始凭据的模拟成交；历史记录，非实时提醒。",
+      "execution": {
+        "schemaVersion": 1,
+        "date": "2026-11-19",
+        "category": "模拟成交",
+        "accountEstablished": true,
+        "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
+        "fills": [
+          {
+            "event_id": "2026-11-19:desktop-fill:5f0bb31d1524:3",
+            "side": "sell",
+            "quantity": 31000,
+            "price": 78.58,
+            "fill_time": "2026-11-19T09:45:00+08:00",
+            "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+            "reason": "D策略目标仓位调整至0%；实时快照加滑点的模拟成交，不是真实交易",
+            "fee": 1485.9478000000001,
+            "positionResult": {
+              "basis": "fill-price-after-fees-v1",
+              "markPrice": 78.58,
+              "beforeShares": 135800,
+              "afterShares": 104800,
+              "shareChangePct": 22.827687776141385,
+              "beforeWeightPct": 94.98546501515615,
+              "afterWeightPct": 73.31217635255612,
+              "changePoints": -21.673288662600022
+            },
+            "explanation": {
+              "version": "fill-explanation-v1",
+              "basis": "frozen-plan-and-original-fill-proof",
+              "lines": [
+                "指标截至 2026-11-18：RSI(2)=67.25；正式披露净利润同比=107.26%（公告日期 2026-10-28）。",
+                "触发 RSI>60 或净利润同比≤0；D基础目标 0.00%，既有融资映射后冻结目标 0.00%。",
+                "09:45 为冻结计划首次检查；窗口截止 10:05。",
+                "买卖条件：当时报价 ¥78.62，成交前净资产 ¥11,239,955.09，仓位 94.99%；执行目标 0.00%，差距 94.99 个百分点 > 容差 3.50；因此卖出降低仓位。",
+                "数量依据：目标 0 股，差额 135,800 股；前五分钟已观测 3,100,800 股，1%整手上限 31,000 股；T+1可卖老仓 135,800 股；实际卖 31,000 股。",
+                "价格约束：参考昨收 ¥80.19，模型涨跌停界限 ¥72.17—88.21；报价加负向 5.00 基点滑点并按分取整，模拟价 ¥78.58；费用 ¥1,485.95。",
+                "卖出使用已有可卖股份；剩余可卖 104,800 股。",
+                "行情源时间 2026-11-19 09:45:00；凭据接收时间 2026-11-19T01:45:01.998Z。解释依据原始成交凭据，不用收盘后走势判断当时买卖正确与否；非真实交易。"
+              ]
+            }
+          }
+        ],
+        "rejectedEvidence": 0,
+        "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
+        "acceptance": {
+          "passed": true,
+          "scope": "execution_progress",
+          "lastExecutedBar": 2,
+          "failures": []
+        },
+        "account": {
+          "shares": 104800,
+          "available": 104800,
+          "cash": 2997853.142966865,
+          "sourceSession": "2026-11-19",
+          "todayInterestPosted": false
+        }
+      }
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-19T01:15:03.796Z"
+  "updatedAt": "2026-11-19T01:45:02.525Z"
 }
