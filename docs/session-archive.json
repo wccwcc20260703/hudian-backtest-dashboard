@@ -46947,14 +46947,14 @@
       "market": {
         "quote": {
           "date": "2026-11-23",
-          "time": "10:00:03",
+          "time": "10:01:03",
           "price": 79.61,
           "previous": 80.32,
           "open": 80,
           "high": 82.44,
           "low": 78.84,
-          "volume": 28215800,
-          "amount": 2275480000,
+          "volume": 28537700,
+          "amount": 2301120000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -47148,17 +47148,23 @@
             },
             {
               "time": "10:01",
+              "price": 79.59,
+              "volume": 28495000,
+              "amount": 2297718029.62
+            },
+            {
+              "time": "10:02",
               "price": 79.61,
-              "volume": 28215800,
-              "amount": 2275480109
+              "volume": 28537700,
+              "amount": 2301115637
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "466412aac03c1384d2d69037aac6213f4c1cb5b29ecb73c8541ba2017fd7d80d",
-      "sourceReceivedAt": "2026-11-23T02:00:06.540Z",
-      "archivedAt": "2026-11-23T02:00:06.910Z",
+      "sourceSHA256": "d6786531b102daf2abd4e7b9b479daf6e5798569dd14623b1d1a2db811458f9b",
+      "sourceReceivedAt": "2026-11-23T02:01:06.494Z",
+      "archivedAt": "2026-11-23T02:01:08.260Z",
       "report": "briefings/2026-11-23/post.html",
       "reason": "当日账户已建立，1笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -47208,7 +47214,7 @@
         "acceptance": {
           "passed": true,
           "scope": "execution_progress",
-          "lastExecutedBar": 5,
+          "lastExecutedBar": 6,
           "failures": []
         },
         "account": {
@@ -47222,5 +47228,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-23T02:00:07.068Z"
+  "updatedAt": "2026-11-23T02:01:08.405Z"
 }
