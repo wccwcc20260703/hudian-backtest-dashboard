@@ -46942,8 +46942,285 @@
           "todayInterestPosted": true
         }
       }
+    },
+    "2026-11-23": {
+      "market": {
+        "quote": {
+          "date": "2026-11-23",
+          "time": "10:00:03",
+          "price": 79.61,
+          "previous": 80.32,
+          "open": 80,
+          "high": 82.44,
+          "low": 78.84,
+          "volume": 28215800,
+          "amount": 2275480000,
+          "source": "腾讯行情"
+        },
+        "minutes": {
+          "date": "2026-11-23",
+          "points": [
+            {
+              "time": "09:30",
+              "price": 80,
+              "volume": 970700,
+              "amount": 77656000
+            },
+            {
+              "time": "09:31",
+              "price": 80.83,
+              "volume": 3425300,
+              "amount": 274448294.52
+            },
+            {
+              "time": "09:32",
+              "price": 79.54,
+              "volume": 5304400,
+              "amount": 425389678.13
+            },
+            {
+              "time": "09:33",
+              "price": 79.77,
+              "volume": 6691700,
+              "amount": 536396505.89
+            },
+            {
+              "time": "09:34",
+              "price": 80.52,
+              "volume": 7558600,
+              "amount": 605922269.1
+            },
+            {
+              "time": "09:35",
+              "price": 80.48,
+              "volume": 8496400,
+              "amount": 681559159.43
+            },
+            {
+              "time": "09:36",
+              "price": 79.85,
+              "volume": 9323800,
+              "amount": 747979808.65
+            },
+            {
+              "time": "09:37",
+              "price": 79.89,
+              "volume": 10126300,
+              "amount": 812189070.93
+            },
+            {
+              "time": "09:38",
+              "price": 79.86,
+              "volume": 10947900,
+              "amount": 877861251.05
+            },
+            {
+              "time": "09:39",
+              "price": 80.58,
+              "volume": 11426900,
+              "amount": 916341215.32
+            },
+            {
+              "time": "09:40",
+              "price": 81.14,
+              "volume": 13240100,
+              "amount": 1063344134.51
+            },
+            {
+              "time": "09:41",
+              "price": 81.23,
+              "volume": 13979600,
+              "amount": 1123046139.47
+            },
+            {
+              "time": "09:42",
+              "price": 81.5,
+              "volume": 14882300,
+              "amount": 1196440194
+            },
+            {
+              "time": "09:43",
+              "price": 82.34,
+              "volume": 16150200,
+              "amount": 1300321378.72
+            },
+            {
+              "time": "09:44",
+              "price": 82.17,
+              "volume": 17590600,
+              "amount": 1418717595.07
+            },
+            {
+              "time": "09:45",
+              "price": 81.75,
+              "volume": 18593400,
+              "amount": 1501009457.95
+            },
+            {
+              "time": "09:46",
+              "price": 81.43,
+              "volume": 19396200,
+              "amount": 1566468578.57
+            },
+            {
+              "time": "09:47",
+              "price": 81.48,
+              "volume": 20319100,
+              "amount": 1641592345.39
+            },
+            {
+              "time": "09:48",
+              "price": 81.2,
+              "volume": 20906700,
+              "amount": 1689308676.91
+            },
+            {
+              "time": "09:49",
+              "price": 81.31,
+              "volume": 21457100,
+              "amount": 1733997129.5
+            },
+            {
+              "time": "09:50",
+              "price": 80.95,
+              "volume": 22022600,
+              "amount": 1779862249.19
+            },
+            {
+              "time": "09:51",
+              "price": 80.99,
+              "volume": 22635200,
+              "amount": 1829478486
+            },
+            {
+              "time": "09:52",
+              "price": 80.42,
+              "volume": 23262300,
+              "amount": 1880126670.74
+            },
+            {
+              "time": "09:53",
+              "price": 80.39,
+              "volume": 23947800,
+              "amount": 1935273862.18
+            },
+            {
+              "time": "09:54",
+              "price": 80.19,
+              "volume": 24508700,
+              "amount": 1980408885.5
+            },
+            {
+              "time": "09:55",
+              "price": 80.19,
+              "volume": 25140400,
+              "amount": 2030987842.91
+            },
+            {
+              "time": "09:56",
+              "price": 79.93,
+              "volume": 25591200,
+              "amount": 2067042811.32
+            },
+            {
+              "time": "09:57",
+              "price": 79.15,
+              "volume": 26329900,
+              "amount": 2125823070.28
+            },
+            {
+              "time": "09:58",
+              "price": 79.43,
+              "volume": 27372400,
+              "amount": 2208336507.67
+            },
+            {
+              "time": "09:59",
+              "price": 79.87,
+              "volume": 27805000,
+              "amount": 2242705278.15
+            },
+            {
+              "time": "10:00",
+              "price": 79.74,
+              "volume": 28159200,
+              "amount": 2270973494.14
+            },
+            {
+              "time": "10:01",
+              "price": 79.61,
+              "volume": 28215800,
+              "amount": 2275480109
+            }
+          ]
+        }
+      },
+      "status": "market_only",
+      "sourceSHA256": "466412aac03c1384d2d69037aac6213f4c1cb5b29ecb73c8541ba2017fd7d80d",
+      "sourceReceivedAt": "2026-11-23T02:00:06.540Z",
+      "archivedAt": "2026-11-23T02:00:06.910Z",
+      "report": "briefings/2026-11-23/post.html",
+      "reason": "当日账户已建立，1笔有原始凭据的模拟成交；历史记录，非实时提醒。",
+      "execution": {
+        "schemaVersion": 1,
+        "date": "2026-11-23",
+        "category": "模拟成交",
+        "accountEstablished": true,
+        "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
+        "fills": [
+          {
+            "event_id": "2026-11-23:desktop-fill:a01c3cad9998:6",
+            "side": "buy",
+            "quantity": 29900,
+            "price": 79.65,
+            "fill_time": "2026-11-23T10:00:03+08:00",
+            "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+            "reason": "D策略目标仓位调整至50%；实时快照加滑点的模拟成交，不是真实交易",
+            "fee": 261.96885000000003,
+            "positionResult": {
+              "basis": "fill-price-after-fees-v1",
+              "markPrice": 79.65,
+              "beforeShares": 0,
+              "afterShares": 29900,
+              "shareChangePct": null,
+              "beforeWeightPct": 0,
+              "afterWeightPct": 20.855352350178304,
+              "changePoints": 20.855352350178304
+            },
+            "explanation": {
+              "version": "fill-explanation-v1",
+              "basis": "frozen-plan-and-original-fill-proof",
+              "lines": [
+                "指标截至 2026-11-20：RSI(2)=58.14；正式披露净利润同比=107.26%（公告日期 2026-10-28）。",
+                "触发 未满足全仓或清仓条件，采用中间档；D基础目标 50.00%，既有融资映射后冻结目标 50.00%。",
+                "10:00 为冻结计划首次检查；窗口截止 10:20。",
+                "买卖条件：当时报价 ¥79.61，成交前净资产 ¥11,419,560.77，仓位 0.00%；执行目标 50.00%，差距 50.00 个百分点 > 容差 3.50；因此买入补足仓位。",
+                "数量依据：目标 71,700 股，差额 71,700 股；前五分钟已观测 2,993,800 股，1%整手上限 29,900 股；资金／借款可买上限 143,300 股；实际买 29,900 股。",
+                "价格约束：参考昨收 ¥80.32，模型涨跌停界限 ¥72.29—88.35；报价加正向 5.00 基点滑点并按分取整，模拟价 ¥79.65；费用 ¥261.97。",
+                "买后借款 ¥0.00／成交价净资产 ¥11,419,298.80=0.00%；上限50%。新买股当日不可卖。",
+                "行情源时间 2026-11-23 10:00:03；凭据接收时间 2026-11-23T02:00:06.543Z。解释依据原始成交凭据，不用收盘后走势判断当时买卖正确与否；非真实交易。"
+              ]
+            }
+          }
+        ],
+        "rejectedEvidence": 0,
+        "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
+        "acceptance": {
+          "passed": true,
+          "scope": "execution_progress",
+          "lastExecutedBar": 5,
+          "failures": []
+        },
+        "account": {
+          "shares": 29900,
+          "available": 0,
+          "cash": 9037763.796836864,
+          "sourceSession": "2026-11-23",
+          "todayInterestPosted": false
+        }
+      }
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-23T01:20:02.082Z"
+  "updatedAt": "2026-11-23T02:00:07.068Z"
 }
