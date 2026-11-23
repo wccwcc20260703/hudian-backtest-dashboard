@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "date": "2026-11-23",
-  "publishedAt": "2026-11-23T02:10:06.863Z",
+  "publishedAt": "2026-11-23T07:01:01.295Z",
   "category": "模拟成交",
   "accountEstablished": true,
-  "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
+  "message": "11/23 模拟账户已日结 · 3笔已核验模拟成交",
   "fills": [
     {
       "event_id": "2026-11-23:desktop-fill:a01c3cad9998:6",
@@ -113,16 +113,16 @@
   "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
   "acceptance": {
     "passed": true,
-    "scope": "execution_progress",
-    "lastExecutedBar": 7,
+    "scope": "close_audit",
+    "lastExecutedBar": 47,
     "failures": []
   },
   "account": {
     "shares": 67200,
     "available": 0,
     "cash": 6076832.130176865,
-    "asOf": "2026-11-23T02:10:06.863Z",
+    "asOf": "2026-11-23T07:01:01.295Z",
     "sourceSession": "2026-11-23",
-    "todayInterestPosted": false
+    "todayInterestPosted": true
   }
 }
