@@ -46947,7 +46947,7 @@
       "market": {
         "quote": {
           "date": "2026-11-23",
-          "time": "15:00:01",
+          "time": "15:01:12",
           "price": 82.7,
           "previous": 80.32,
           "open": 80,
@@ -48416,9 +48416,9 @@
         }
       },
       "status": "market_only",
-      "sourceSHA256": "c6a9159d0504cffc9eb00b41143bd014be7efa50491a818a316529c31ff15e5e",
-      "sourceReceivedAt": "2026-11-23T07:01:00.919Z",
-      "archivedAt": "2026-11-23T07:01:01.455Z",
+      "sourceSHA256": "bcf02bbb5d54e495c1a45ab6dfb7c1379ec1c701a8131810d7f9b898fc6224fd",
+      "sourceReceivedAt": "2026-11-23T07:01:30.878Z",
+      "archivedAt": "2026-11-23T07:05:02.432Z",
       "report": "briefings/2026-11-23/post.html",
       "reason": "当日账户已建立，3笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -48550,5 +48550,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-23T07:01:01.632Z"
+  "updatedAt": "2026-11-23T07:05:02.715Z"
 }
