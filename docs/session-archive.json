@@ -46947,14 +46947,14 @@
       "market": {
         "quote": {
           "date": "2026-11-23",
-          "time": "10:05:03",
-          "price": 79.27,
+          "time": "10:06:03",
+          "price": 78.94,
           "previous": 80.32,
           "open": 80,
           "high": 82.44,
           "low": 78.84,
-          "volume": 29841000,
-          "amount": 2404510000,
+          "volume": 30725700,
+          "amount": 2474380000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -47173,22 +47173,28 @@
             {
               "time": "10:05",
               "price": 79.3,
-              "volume": 29810800,
-              "amount": 2402108252.19
+              "volume": 29819700,
+              "amount": 2402814116.2
             },
             {
               "time": "10:06",
-              "price": 79.27,
-              "volume": 29841000,
-              "amount": 2404505439
+              "price": 78.94,
+              "volume": 30612600,
+              "amount": 2465446060.31
+            },
+            {
+              "time": "10:07",
+              "price": 78.94,
+              "volume": 30725700,
+              "amount": 2474375612
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "e515f2b32b7ecd651a210f4a9f8c28b45e736a32362946adcfdc7beab0c12c6b",
-      "sourceReceivedAt": "2026-11-23T02:05:06.559Z",
-      "archivedAt": "2026-11-23T02:05:07.169Z",
+      "sourceSHA256": "ebe01f55c912b8e2ea769abd0e0aa95b7a0266c97d1e0b5b926aa37fec72b586",
+      "sourceReceivedAt": "2026-11-23T02:06:06.560Z",
+      "archivedAt": "2026-11-23T02:06:08.566Z",
       "report": "briefings/2026-11-23/post.html",
       "reason": "当日账户已建立，2笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -47272,7 +47278,7 @@
         "acceptance": {
           "passed": true,
           "scope": "execution_progress",
-          "lastExecutedBar": 6,
+          "lastExecutedBar": 7,
           "failures": []
         },
         "account": {
@@ -47286,5 +47292,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-23T02:05:07.367Z"
+  "updatedAt": "2026-11-23T02:06:08.715Z"
 }
