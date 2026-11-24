@@ -48541,8 +48541,195 @@
           "todayInterestPosted": true
         }
       }
+    },
+    "2026-11-24": {
+      "market": {
+        "quote": {
+          "date": "2026-11-24",
+          "time": "09:45:00",
+          "price": 87.78,
+          "previous": 82.7,
+          "open": 90.66,
+          "high": 90.7,
+          "low": 87.33,
+          "volume": 40775500,
+          "amount": 3645650000,
+          "source": "腾讯行情"
+        },
+        "minutes": {
+          "date": "2026-11-24",
+          "points": [
+            {
+              "time": "09:30",
+              "price": 90.66,
+              "volume": 3527100,
+              "amount": 319766886
+            },
+            {
+              "time": "09:31",
+              "price": 89.31,
+              "volume": 9151900,
+              "amount": 823536963.47
+            },
+            {
+              "time": "09:32",
+              "price": 89.01,
+              "volume": 13945000,
+              "amount": 1251015437.72
+            },
+            {
+              "time": "09:33",
+              "price": 88.72,
+              "volume": 17008900,
+              "amount": 1522767309.9
+            },
+            {
+              "time": "09:34",
+              "price": 89,
+              "volume": 20711900,
+              "amount": 1852333673.7
+            },
+            {
+              "time": "09:35",
+              "price": 89.88,
+              "volume": 22651500,
+              "amount": 2025548450.91
+            },
+            {
+              "time": "09:36",
+              "price": 90.03,
+              "volume": 25803600,
+              "amount": 2309138241.19
+            },
+            {
+              "time": "09:37",
+              "price": 90.05,
+              "volume": 28284900,
+              "amount": 2532291156.54
+            },
+            {
+              "time": "09:38",
+              "price": 90.08,
+              "volume": 30291300,
+              "amount": 2713309129.3
+            },
+            {
+              "time": "09:39",
+              "price": 89.9,
+              "volume": 31555100,
+              "amount": 2826976096.14
+            },
+            {
+              "time": "09:40",
+              "price": 90.4,
+              "volume": 33343800,
+              "amount": 2988491812.46
+            },
+            {
+              "time": "09:41",
+              "price": 89.68,
+              "volume": 34564000,
+              "amount": 3098371001.43
+            },
+            {
+              "time": "09:42",
+              "price": 88.8,
+              "volume": 35369600,
+              "amount": 3170240510.71
+            },
+            {
+              "time": "09:43",
+              "price": 88.04,
+              "volume": 36743700,
+              "amount": 3291595672.3
+            },
+            {
+              "time": "09:44",
+              "price": 87.77,
+              "volume": 38592500,
+              "amount": 3454454877.73
+            },
+            {
+              "time": "09:45",
+              "price": 87.51,
+              "volume": 40074700,
+              "amount": 3584238342.72
+            },
+            {
+              "time": "09:46",
+              "price": 87.78,
+              "volume": 40775500,
+              "amount": 3645650975
+            }
+          ]
+        }
+      },
+      "status": "market_only",
+      "sourceSHA256": "0818792a2315c0ed0fac1b072dafbded9cd09ab3849179b42c109225c512de3e",
+      "sourceReceivedAt": "2026-11-24T01:45:03.990Z",
+      "archivedAt": "2026-11-24T01:45:04.353Z",
+      "report": "briefings/2026-11-24/post.html",
+      "reason": "当日账户已建立，1笔有原始凭据的模拟成交；历史记录，非实时提醒。",
+      "execution": {
+        "schemaVersion": 1,
+        "date": "2026-11-24",
+        "category": "模拟成交",
+        "accountEstablished": true,
+        "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
+        "fills": [
+          {
+            "event_id": "2026-11-24:desktop-fill:0b9969141a95:3",
+            "side": "sell",
+            "quantity": 67200,
+            "price": 87.73,
+            "fill_time": "2026-11-24T09:45:00+08:00",
+            "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+            "reason": "D策略目标仓位调整至0%；实时快照加滑点的模拟成交，不是真实交易",
+            "fee": 3596.22816,
+            "positionResult": {
+              "basis": "fill-price-after-fees-v1",
+              "markPrice": 87.73,
+              "beforeShares": 67200,
+              "afterShares": 0,
+              "shareChangePct": 100,
+              "beforeWeightPct": 49.242516851395784,
+              "afterWeightPct": 0,
+              "changePoints": -49.242516851395784
+            },
+            "explanation": {
+              "version": "fill-explanation-v1",
+              "basis": "frozen-plan-and-original-fill-proof",
+              "lines": [
+                "指标截至 2026-11-23：RSI(2)=80.57；正式披露净利润同比=107.26%（公告日期 2026-10-28）。",
+                "触发 RSI>60 或净利润同比≤0；D基础目标 0.00%，既有融资映射后冻结目标 0.00%。",
+                "09:45 为冻结计划首次检查；窗口截止 10:05。",
+                "买卖条件：当时报价 ¥87.78，成交前净资产 ¥11,975,648.13，仓位 49.26%；执行目标 0.00%，差距 49.26 个百分点 > 容差 3.50；因此卖出降低仓位。",
+                "数量依据：目标 0 股，差额 67,200 股；前五分钟已观测 7,238,100 股，1%整手上限 72,300 股；T+1可卖老仓 67,200 股；实际卖 67,200 股。",
+                "价格约束：参考昨收 ¥82.70，模型涨跌停界限 ¥74.43—90.97；报价加负向 5.00 基点滑点并按分取整，模拟价 ¥87.73；费用 ¥3,596.23。",
+                "卖出使用已有可卖股份；剩余可卖 0 股。",
+                "行情源时间 2026-11-24 09:45:00；凭据接收时间 2026-11-24T01:45:03.994Z。解释依据原始成交凭据，不用收盘后走势判断当时买卖正确与否；非真实交易。"
+              ]
+            }
+          }
+        ],
+        "rejectedEvidence": 0,
+        "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
+        "acceptance": {
+          "passed": true,
+          "scope": "execution_progress",
+          "lastExecutedBar": 2,
+          "failures": []
+        },
+        "account": {
+          "shares": 0,
+          "available": 0,
+          "cash": 11968691.902016863,
+          "sourceSession": "2026-11-24",
+          "todayInterestPosted": false
+        }
+      }
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-24T01:15:04.628Z"
+  "updatedAt": "2026-11-24T01:45:04.574Z"
 }
