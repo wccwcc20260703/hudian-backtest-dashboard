@@ -50077,14 +50077,14 @@
       "market": {
         "quote": {
           "date": "2026-11-25",
-          "time": "10:51:54",
-          "price": 82.9,
+          "time": "10:55:39",
+          "price": 83.05,
           "previous": 84.13,
           "open": 80.97,
           "high": 84.89,
           "low": 80.45,
-          "volume": 30888700,
-          "amount": 2557590000,
+          "volume": 31325400,
+          "amount": 2593850000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -50584,17 +50584,41 @@
             },
             {
               "time": "10:52",
+              "price": 82.89,
+              "volume": 30890900,
+              "amount": 2557776469.59
+            },
+            {
+              "time": "10:53",
               "price": 82.9,
-              "volume": 30888700,
-              "amount": 2557591610
+              "volume": 31006600,
+              "amount": 2567367980.6
+            },
+            {
+              "time": "10:54",
+              "price": 82.87,
+              "volume": 31089600,
+              "amount": 2574252671.61
+            },
+            {
+              "time": "10:55",
+              "price": 83.28,
+              "volume": 31270600,
+              "amount": 2589290405.66
+            },
+            {
+              "time": "10:56",
+              "price": 83.05,
+              "volume": 31325400,
+              "amount": 2593845029
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "554e82ab8aee701637156ad11b134713e96080574d88ed590cd36d03b381cd78",
-      "sourceReceivedAt": "2026-11-25T02:51:57.668Z",
-      "archivedAt": "2026-11-25T02:51:59.494Z",
+      "sourceSHA256": "2e00541717897afa1711168487d920e267e5ddb6e352e93f71ec9eaad0fbab9a",
+      "sourceReceivedAt": "2026-11-25T02:55:42.698Z",
+      "archivedAt": "2026-11-25T02:55:46.313Z",
       "report": "briefings/2026-11-25/post.html",
       "reason": "当日账户已建立，0笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -50628,5 +50652,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-25T02:51:59.646Z"
+  "updatedAt": "2026-11-25T02:55:46.476Z"
 }
