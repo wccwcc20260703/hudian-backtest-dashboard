@@ -50077,7 +50077,7 @@
       "market": {
         "quote": {
           "date": "2026-11-25",
-          "time": "15:00:01",
+          "time": "15:01:06",
           "price": 79.49,
           "previous": 84.13,
           "open": 80.97,
@@ -51546,9 +51546,9 @@
         }
       },
       "status": "market_only",
-      "sourceSHA256": "90680474d929781a095abfc6dd20053827bc1337c112fac205020970a6977ce8",
-      "sourceReceivedAt": "2026-11-25T07:01:02.589Z",
-      "archivedAt": "2026-11-25T07:01:02.905Z",
+      "sourceSHA256": "2c9d21c3212fc04168f52d008b3114e49f5bf5840ae6d6def634839e19d05dfa",
+      "sourceReceivedAt": "2026-11-25T07:01:27.577Z",
+      "archivedAt": "2026-11-25T07:05:03.303Z",
       "report": "briefings/2026-11-25/post.html",
       "reason": "当日账户已建立，0笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
@@ -51556,7 +51556,7 @@
         "date": "2026-11-25",
         "category": "模拟成交",
         "accountEstablished": true,
-        "message": "账户执行验收未通过：冻结计划首次检查已错过，不补造历史成交或延长窗口；当日模拟账户尚未完成日结",
+        "message": "账户执行验收未通过：冻结计划首次检查已错过，不补造历史成交或延长窗口",
         "fills": [],
         "rejectedEvidence": 0,
         "limitations": "已发布的桌面模型摘要，非网页实时执行；以资料时间为准。日内高低点不会生成这里的成交。",
@@ -51565,8 +51565,7 @@
           "scope": "close_audit",
           "lastExecutedBar": 47,
           "failures": [
-            "冻结计划首次检查已错过，不补造历史成交或延长窗口",
-            "当日模拟账户尚未完成日结"
+            "冻结计划首次检查已错过，不补造历史成交或延长窗口"
           ]
         },
         "account": {
@@ -51580,5 +51579,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-25T07:01:03.107Z"
+  "updatedAt": "2026-11-25T07:05:03.490Z"
 }
