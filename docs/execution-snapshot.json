@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "date": "2026-11-26",
-  "publishedAt": "2026-11-26T02:05:04.710Z",
+  "publishedAt": "2026-11-26T02:06:05.161Z",
   "category": "模拟成交",
   "accountEstablished": true,
   "message": "模拟执行已启用 · 实时快照成交口径，无真实交易",
@@ -80,14 +80,14 @@
   "acceptance": {
     "passed": true,
     "scope": "execution_progress",
-    "lastExecutedBar": 6,
+    "lastExecutedBar": 7,
     "failures": []
   },
   "account": {
     "shares": 26500,
     "available": 0,
     "cash": 9809433.409706865,
-    "asOf": "2026-11-26T02:05:04.710Z",
+    "asOf": "2026-11-26T02:06:05.161Z",
     "sourceSession": "2026-11-26",
     "todayInterestPosted": false
   }
