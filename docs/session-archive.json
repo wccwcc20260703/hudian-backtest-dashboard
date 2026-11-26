@@ -51573,14 +51573,14 @@
       "market": {
         "quote": {
           "date": "2026-11-26",
-          "time": "10:00:03",
-          "price": 81.28,
+          "time": "10:05:00",
+          "price": 81.6,
           "previous": 79.49,
           "open": 81.82,
           "high": 82.71,
           "low": 80,
-          "volume": 19208700,
-          "amount": 1563310000,
+          "volume": 20398800,
+          "amount": 1660120000,
           "source": "腾讯行情"
         },
         "minutes": {
@@ -51769,24 +51769,54 @@
             {
               "time": "10:00",
               "price": 81.39,
-              "volume": 19153700,
-              "amount": 1558834800.62
+              "volume": 19166400,
+              "amount": 1559868402.62
             },
             {
               "time": "10:01",
-              "price": 81.28,
-              "volume": 19199500,
-              "amount": 1562559215
+              "price": 81.11,
+              "volume": 19510200,
+              "amount": 1587749635.6
+            },
+            {
+              "time": "10:02",
+              "price": 81.43,
+              "volume": 19808500,
+              "amount": 1611996122.6
+            },
+            {
+              "time": "10:03",
+              "price": 81.61,
+              "volume": 20026800,
+              "amount": 1629782429.6
+            },
+            {
+              "time": "10:04",
+              "price": 81.53,
+              "volume": 20179100,
+              "amount": 1642221579.61
+            },
+            {
+              "time": "10:05",
+              "price": 81.52,
+              "volume": 20396500,
+              "amount": 1659936533.61
+            },
+            {
+              "time": "10:06",
+              "price": 81.6,
+              "volume": 20398800,
+              "amount": 1660123961
             }
           ]
         }
       },
       "status": "market_only",
-      "sourceSHA256": "e9d75051b79f162f17781bfb7b92cd6f75244ead82df1f7cf8dcfa03378aea5f",
-      "sourceReceivedAt": "2026-11-26T02:00:04.397Z",
-      "archivedAt": "2026-11-26T02:00:04.724Z",
+      "sourceSHA256": "7d33af1f822ea613976d8e096edfba428519d1b07160a9971ebfd86486d7c885",
+      "sourceReceivedAt": "2026-11-26T02:05:04.487Z",
+      "archivedAt": "2026-11-26T02:05:04.848Z",
       "report": "briefings/2026-11-26/post.html",
-      "reason": "当日账户已建立，1笔有原始凭据的模拟成交；历史记录，非实时提醒。",
+      "reason": "当日账户已建立，2笔有原始凭据的模拟成交；历史记录，非实时提醒。",
       "execution": {
         "schemaVersion": 1,
         "date": "2026-11-26",
@@ -51827,6 +51857,40 @@
                 "行情源时间 2026-11-26 10:00:03；凭据接收时间 2026-11-26T02:00:04.401Z。解释依据原始成交凭据，不用收盘后走势判断当时买卖正确与否；非真实交易。"
               ]
             }
+          },
+          {
+            "event_id": "2026-11-26:desktop-fill:e2203e9bf338:7",
+            "side": "buy",
+            "quantity": 11800,
+            "price": 81.65,
+            "fill_time": "2026-11-26T10:05:00+08:00",
+            "rule_version": "D_all_full_1.5_buy_cap_only/quote-open-v1",
+            "reason": "D策略目标仓位调整至150%；实时快照加滑点的模拟成交，不是真实交易",
+            "fee": 105.98170000000002,
+            "positionResult": {
+              "basis": "fill-price-after-fees-v1",
+              "markPrice": 81.65,
+              "beforeShares": 14700,
+              "afterShares": 26500,
+              "shareChangePct": 80.27210884353741,
+              "beforeWeightPct": 10.024459168056252,
+              "afterWeightPct": 18.071463902505688,
+              "changePoints": 8.047004734449438
+            },
+            "explanation": {
+              "version": "fill-explanation-v1",
+              "basis": "frozen-plan-and-original-fill-proof",
+              "lines": [
+                "指标截至 2026-11-25：RSI(2)=24.90；正式披露净利润同比=107.26%（公告日期 2026-10-28）。",
+                "触发 RSI<35 且净利润同比>0；D基础目标 100.00%，既有融资映射后冻结目标 150.00%。",
+                "10:05 为原目标未完成后的分批检查；窗口截止 10:20。",
+                "买卖条件：当时报价 ¥81.60，成交前净资产 ¥11,972,529.39，仓位 10.02%；执行目标 150.00%，差距 139.98 个百分点 > 容差 0.40；因此买入补足仓位。",
+                "数量依据：目标 220,000 股，差额 205,300 股；前五分钟已观测 1,187,800 股，1%整手上限 11,800 股；资金／借款可买上限 205,100 股；实际买 11,800 股。",
+                "价格约束：参考昨收 ¥79.49，模型涨跌停界限 ¥71.54—87.44；报价加正向 5.00 基点滑点并按分取整，模拟价 ¥81.65；费用 ¥105.98。",
+                "买后借款 ¥0.00／成交价净资产 ¥11,973,158.41=0.00%；上限50%。新买股当日不可卖。",
+                "行情源时间 2026-11-26 10:05:00；凭据接收时间 2026-11-26T02:05:04.492Z。解释依据原始成交凭据，不用收盘后走势判断当时买卖正确与否；非真实交易。"
+              ]
+            }
           }
         ],
         "rejectedEvidence": 0,
@@ -51834,13 +51898,13 @@
         "acceptance": {
           "passed": true,
           "scope": "execution_progress",
-          "lastExecutedBar": 5,
+          "lastExecutedBar": 6,
           "failures": []
         },
         "account": {
-          "shares": 14700,
+          "shares": 26500,
           "available": 0,
-          "cash": 10773009.391406864,
+          "cash": 9809433.409706865,
           "sourceSession": "2026-11-26",
           "todayInterestPosted": false
         }
@@ -51848,5 +51912,5 @@
     }
   },
   "acceptedThrough": "2026-10-08",
-  "updatedAt": "2026-11-26T02:00:04.916Z"
+  "updatedAt": "2026-11-26T02:05:05.061Z"
 }
